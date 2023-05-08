@@ -1,0 +1,202 @@
+
+#dashboard-div{
+    /* border: 1px solid black; */
+    height: 100vh;
+    display: flex;
+    font-size: small;
+    /* background-color:burlywood; */
+}
+
+.dashboard-sub-div{
+    /* height: 100%; */
+    /* border: 1px solid red; */
+}
+
+#dashboard-left-sub-div{
+    min-width: 200px;   
+    padding: 5px;
+}
+
+#dashboard-right-sub-div{
+    min-width: 1166px;
+    /* background-color: lightgray; */
+    /* margin: 5px; */
+    display: flex;
+    padding: 5px 5px;
+    /* border: 1px solid black; */
+}
+
+#dashboard-left-sub-container-div{
+    /* display: flex; */
+    height:100%;
+    /* border: 1px solid black; */
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px 0px gray;
+
+    background-color:white;
+}
+
+/* .dashboard-left-row-div{
+    border: 1px solid black;
+    width: 100%;
+    background-color: black;
+    text-align: center;
+    border: 1px solid black;
+} */
+
+#dashboard-profile-section{
+    height: 250px;
+    padding: 5px 0px;
+    /* background-color:#0a4a40; */
+    background-color:#6fb895;
+    /* background-color:cadetblue; */
+    /* border: 1px solid black; */
+}
+
+#logo{
+    background-color:#0a4a40;
+    padding: 5px;
+    color: white;
+    font-weight: bolder;
+    text-align: center;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+#dashboard-menu-section{
+    /* background-color:#E37814;  */
+    height:360px; 
+    /* min-height:360px; */
+    /* display: flex;
+    flex-direction: column;
+    justify-content: space-between;  */
+}
+
+#dashboard-menu-top-div{
+    /* background-color:gray; */
+    /* /* flex: 1;    */
+    height: 85%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    /* border: 1px solid white; */
+    padding: 10%;
+}
+
+#dashboard-menu-bottom-div{
+    /* border: 1px solid black; */
+    text-align: center;
+    padding: 10px;
+
+    /* visibility: hidden; */
+    /* display: none; */
+}
+
+#profile-pic-section{
+    width: 100%;
+    height: 40%;
+    display: flex;
+    justify-content: center;
+    /* padding-bottom: 10px; */
+    /* background-color: lightblue; */
+    /* border: 1px solid black; */
+    align-items: center;
+}
+
+#profile-pic{
+    background-color:white;
+    width: 52%;
+    height: 100%;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 85px;
+}
+
+#profile-info-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    /* margin-left: 10px; */
+    /* background-color:lightgray; */
+    /* width: 90%; */
+    padding: 10px 0px;
+    height: 60%;
+    /* border: 1px solid black; */
+}
+
+#user-rating-tag{
+    display: flex;
+    background-color: black;
+    color: white;
+    width: 30%;
+    /* padding: 3px 0px; */
+    border-radius: 8px;
+    justify-content: space-evenly;
+    /* border: 1px solid red; */
+}
+
+#user-name{
+    font-size: medium;
+    /* margin-bottom: 8px; */
+    /* border: 1px solid black; */
+}
+
+.star{
+    color: yellow;
+}
+
+.dashboard-menu-options{
+        background-color:rgb(192, 190, 190);
+        width: 150px;
+        height: 40px;
+        border-radius: 5px;
+        /* border: 1px solid black; */
+        /* margin-top: 10px; */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+}
+
+.dashboard-menu-options:hover{
+    background-color:gray;
+}
+
+.btn-class{
+    color: black;
+    /* background-color: orange; */
+    /* box-shadow: 0px 2px 2px 1px black; */
+    border-radius: 5px;
+    /* font-weight:bold; */
+    width: 70px;
+    /* height: 50px; */
+}
+
+.btn-class:hover{
+    background-color: #E37814;
+    color: white;
+}
+
+#profile-edit-btn{
+    /* margin-top: 12px; */
+    border: 1px solid black;
+}
+
+#log-out-btn{
+    /* height: 40px; */
+    border: 1px solid black;
+}
+
+#dashboard-details-container-div{
+    width: 100%;
+    /* border: 1px solid black; */
+    /* display: flex; */
+    /* background-color: lightblue; */
+    box-shadow: 0px 2px 5px 0px gray;
+    border-radius: 5px;
+    /* padding: 10px; */
+}

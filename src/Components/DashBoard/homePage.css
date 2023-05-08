@@ -1,0 +1,69 @@
+#home-page-root-div{
+    display: flex;
+    /* background-color: paleturquoise; */
+    /* justify-content: space-between; */
+    height: 100%;
+}
+
+#home-page-details-div{
+    width: 78.5%;
+    margin-right: 5px;
+    /* background-color: gray; */
+}
+
+.sub-container-div{
+    box-shadow: 0px 2px 5px 0px gray;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+.heading-div{
+    font-weight: bold;
+    /* background-color: aqua; */
+    padding: 5px 10px;
+    margin-bottom: 10px;
+}
+
+#welcome-greeting-div{
+    /* background-color: pink; */
+    display: flex;
+    flex-direction: column;
+    /* background-color: lightblue; */
+    width: fit-content;
+    padding: 20px 30px;
+}
+
+#welcome-greeting-div > #user-name{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* background-color: blueviolet; */
+    font-size:25px;
+    /* width: max-content; */
+
+    /* font-weight:lighter; */
+}
+
+#waving-hand{
+    margin-left: 10px;
+    color:rgb(226, 155, 24);
+    transform: rotateY(200deg);
+}
+
+#account-notification-div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 250px;
+}
+
+#notification-listing-div{
+    width: 100%;
+    padding: 10px;
+    /* background-color: lightblue; */
+}
+
+.notification{
+    padding: 5px 0px;
+    border-bottom: 1px solid lightgray;
+}

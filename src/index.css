@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400&family=Poppins:wght@300;400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  font-family: 'Nunito', sans-serif;
+  /* font-family: 'Poppins', sans-serif; */
+}
+
+#search-box{
+  display: flex;
+  justify-content: center;
+  width: 40vw;
+  border: 1px solid black;
+  /* box-shadow: 2px 2px yellow; */
+}
+
+#input-box{
+  outline: none;
+}
+
+#search-btn{
+  background-color: black;
+  color:white;
+  width: 50px;
+  height: 40px;
+}
+
+#search-btn:hover{
+  background-color: #ff531a;
+  color:black;
+}
+
