@@ -1,4 +1,4 @@
-import AllRoutes from "./Components/AllRoutes";
+import AllRoutes from "./AllRoutes";
 import NavComponent from "./Components/Nav/NavComponent";
 import Footer from "./Components/Footer/Footer";
 
@@ -9,7 +9,7 @@ function App() {
       <div className="App">
         <NavComponent />
         <AllRoutes />
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </>
   );

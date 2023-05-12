@@ -1,0 +1,16 @@
+ <input
+          type="text"
+          name="subject"
+          className="p-2 border-0 w-1/2"
+          id="input-box"
+          placeholder="Search by Subject"
+          onChange={formik.handleChange}
+          value={formik.values.subject}
+        />
+        {/* <Link to="/searchPage"> */}
+        <button
+          className="flex justify-center items-center rounded-r"
+          id="search-btn"
+        >
+          <GoSearch />
+        </button>

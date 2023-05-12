@@ -1,4 +1,5 @@
 import {atom} from 'recoil'
+import { useEffect } from 'react';
 export const successState = atom({
     key: 'successState', // unique ID (with respect to other atoms/selectors)
     default: "", // default value (aka initial value)
@@ -9,19 +10,26 @@ export const authTokenAtom = atom({
   default: localStorage.getItem("authToken"),
 });
 
-export const formDataAtom = atom({
-  key:"formDataAtom",
+const user = JSON.parse(localStorage.getItem("user"));
+
+export const userDataAtom = atom({
+  key:"userData",
   default:{
-      email:"",
-      role:"",
-      subjects:[],
-      title: "",
-      aboutYou: "",
-      aboutClass: "",
-      city: "",
-      mode:[],
-      language: "",
-      rate: "",
-      phone: "",
+      email: user && user.email || "",
+      role:user && user.role || "",
+      subjects:user && user.tutorForm.subjects || [],
+      title:user && user.tutorForm.title || "",
+      aboutYou:user && user.tutorForm.aboutYou || "",
+      aboutClass:user && user.tutorForm.aboutClass || "",
+      city:user && user.tutorForm.city|| "",
+      mode:user && user.tutorForm.mode || [],
+      language:user && user.tutorForm.language || [],
+      rate:user && user.tutorForm.rate || "",
+      phone:user && user.tutorForm.phone || "",
+      profilePic:user && user.profilePic || "",
+      identity:user && user.tutorForm.identity || "",
+      lastEducationalCertificate:user && user.tutorForm.lastEducationalCertificate || "",
+      isProfileVerified:"",
+
     }
 })

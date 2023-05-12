@@ -1,9 +1,11 @@
 import * as Yup from 'yup'
+const SUPPORTED_FORMATS =["image/jpg","image/jpeg","image/png","image/avif"];
 
 export const RegisterSchema=Yup.object({
     email:Yup.string().email("Please enter a valid mail").required("Email is required"),
     password:Yup.string().min(6).required("Password is required"),
     confirmPassword:Yup.string().required().oneOf([Yup.ref("password"),null],"Password must match"),
+    role:Yup.string().required()
 })
 
 export const LoginSchema=Yup.object({
@@ -53,3 +55,48 @@ export const classDetailsSchema=Yup.object({
     phone:Yup.string().required("Required Field!").matches(phoneRegExp,"Phone number is not valid"),
 })
 
+
+export const DocumentUploadSchema=Yup.object({
+    profilePic:Yup
+    .mixed()
+    .nullable()
+    .required("Profile pic is required")
+    .test(
+        "FILE SIZE",
+        "Uploaded file is too big.",
+        (value)=>!value || (value && value.size <=5000*5000)
+    )
+    .test(
+        "FILE_FORMAT",
+        "Uploaded file has unsupported format.",
+        (value)=>!value || (value && SUPPORTED_FORMATS.includes(value?.type))
+    ),
+    identity:Yup
+    .mixed()
+    .nullable()
+    // .required("Identity proof is required")
+    .test(
+        "FILE SIZE",
+        "Uploaded file is too big.",
+        (value)=>!value || (value && value.size <=5000*5000)
+    )
+    .test(
+        "FILE_FORMAT",
+        "Uploaded file has unsupported format.",
+        (value)=>!value || (value && SUPPORTED_FORMATS.includes(value?.type))
+    ),
+    lastEducationalCertificate:Yup
+    .mixed()
+    .nullable()
+    // .required("Education Details are required")
+    .test(
+        "FILE SIZE",
+        "Uploaded file is too big.",
+        (value)=>!value || (value && value.size <=5000*5000)
+    )
+    .test(
+        "FILE_FORMAT",
+        "Uploaded file has unsupported format.",
+        (value)=>!value || (value && SUPPORTED_FORMATS.includes(value?.type))
+    )
+})

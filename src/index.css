@@ -16,14 +16,34 @@
 
 #search-box{
   display: flex;
-  justify-content: center;
-  width: 40vw;
   border: 1px solid black;
-  /* box-shadow: 2px 2px yellow; */
+}
+
+#searchSubject{
+  width: 100%;
+}
+
+@media (max-width:800px){
+  #search-box{
+    flex-direction: column;
+    border: none;
+    align-items: center;
+    justify-content: space-between;
+    height: 13vh;
+    border-radius: 0px;
+  }
+  #searchSelect{
+    width: 100%;
+    border-radius:0;
+    /* border-radius: 0px; */
+  }
+
+  
 }
 
 #input-box{
   outline: none;
+  min-width: 250px;
 }
 
 #search-btn{

@@ -5,10 +5,11 @@ import AboutClass from "./AboutClass";
 import AboutYou from "./AboutYou";
 import ClassDetails from "./ClassDetails";
 import PreviewForm from "./PreviewForm";
+import DocumentUpload from "./DocumentUpload";
 import { useFormik } from "formik";
 import axios from 'axios'
 import { useRecoilState } from "recoil";
-import { formDataAtom, authTokenAtom } from "../../Atom";
+import { userDataAtom, authTokenAtom } from "../../Atom";
 import { Stepper, StepLabel, Step } from "@mui/material";
 import {
   subjectSchema,
@@ -16,6 +17,8 @@ import {
   aboutClassSchema,
   aboutYouSchema,
   classDetailsSchema,
+  DocumentUploadSchema
+
 } from "../../schemas/formValidation";
 
 const FormTitle = [
@@ -24,13 +27,14 @@ const FormTitle = [
   "About the class",
   "About you",
   "Class Details",
+  "Documents Upload",
   "Preview Form",
 ];
 
-const steps = [1, 2, 3, 4, 5, 6];
+const steps = [1, 2, 3, 4, 5, 6,7];
 
 function TutorRegistrationForm() {
-  const [tutorFormData, setTutorFormData] = useRecoilState(formDataAtom);
+  const [tutorFormData, setTutorFormData] = useRecoilState(userDataAtom);
   const [authToken, setAuthToken] = useRecoilState(authTokenAtom);
   const [activeStep, setActiveStep] = useState(0);
   const handleNext = () => {
@@ -60,11 +64,17 @@ function TutorRegistrationForm() {
         formikClassDetailsInfo.handleSubmit();
         break;
       case 5:
+        formikDocumentsInfo.handleSubmit();
+        break;
+      case 6:
         handleFormSubmit();
     }
   };
 
+  console.log("tutrformdata",tutorFormData);
+
   const handleFormSubmit = async () => {
+    console.log("inside handleFormSubmit");
     try {
       let response = await axios({
         url: "http://localhost:3000/auth/tutorRegister",
@@ -72,18 +82,19 @@ function TutorRegistrationForm() {
         data: tutorFormData,
         headers: {
           "content-type": "application/json",
+          'content-type': 'multipart/form-data',
           "Authorization": `Bearer ${authToken}`,
         },
       });
+      console.log("inside try")
       if (response.status === 201) {
         console.log("message", response.data.message,response.data.savedUser);
-        setTutorFormData((prevData)=>({...prevData,role:"tutor"}));
         // console.log("respose by login",response);
         // enqueueSnackbar(response.data.message, { variant: "success" });
         // navigate("/login")
       }
     } catch (err) {
-      console.log("error", err);
+      console.log("form submit error", err);
       // enqueueSnackbar(err.response.data.error, { variant: "error" });
     }
   };
@@ -101,6 +112,9 @@ function TutorRegistrationForm() {
         language: formikClassDetailsInfo.values.language,
         rate: formikClassDetailsInfo.values.rate,
         phone: formikClassDetailsInfo.values.phone,
+        profilePic:formikDocumentsInfo.values.profilePic,
+        identity:formikDocumentsInfo.values.identity,
+        lastEducationalCertificate:formikDocumentsInfo.values.lastEducationalCertificate
       };
     });
     handleNext();
@@ -159,9 +173,24 @@ function TutorRegistrationForm() {
     },
     validationSchema: classDetailsSchema,
     onSubmit: (values) => {
-      handlePreview();
+      handleNext();
     },
   });
+
+  const formikDocumentsInfo = useFormik({
+    initialValues:{
+      profilePic:"",
+      identity:"",
+      lastEducationalCertificate:""
+    },
+    validationSchema: DocumentUploadSchema,
+    onSubmit:(values)=>{
+      console.log("values wow",values);
+      handlePreview();
+    }
+  })
+
+  console.log("formikDocumentsInfo.values.profilePic",formikDocumentsInfo.values.profilePic);
 
   //...................FORMIK..................
 
@@ -171,7 +200,8 @@ function TutorRegistrationForm() {
     2: <AboutClass title={FormTitle[2]} formik={formikAboutClassInfo} />,
     3: <AboutYou title={FormTitle[3]} formik={formikAboutYouInfo} />,
     4: <ClassDetails title={FormTitle[4]} formik={formikClassDetailsInfo} />,
-    5: <PreviewForm title={FormTitle[5]} fromData={tutorFormData} />,
+    5:<DocumentUpload title={FormTitle[5]} formik={formikDocumentsInfo}/>,
+    6: <PreviewForm title={FormTitle[6]} fromData={tutorFormData} />,
   };
 
   const stepperStyle = {
