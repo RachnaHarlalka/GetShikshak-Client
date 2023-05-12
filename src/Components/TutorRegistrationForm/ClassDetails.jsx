@@ -69,7 +69,7 @@ function ClassDetails(props) {
           </div>
         </div>
         <div className="right md:w-2/3 mr-8">
-          <div className="chooseSubject">
+          <div className="">
             <div className="text-3xl font-bold mb-5">{props.title}</div>
             <Select
               className="my-5"

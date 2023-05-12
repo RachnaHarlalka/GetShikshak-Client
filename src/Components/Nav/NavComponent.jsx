@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { authTokenAtom, formDataAtom } from "../../Atom";
+import { authTokenAtom, userDataAtom } from "../../Atom";
 import { useRecoilState } from "recoil";
 import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
@@ -8,15 +8,16 @@ import { useState } from "react";
 import "./style.css";
 function NavComponent() {
   const [showHamburger, setShowHamburger] = useState(false);
-
+  let currentUser = JSON.parse(localStorage.getItem("user"));
   const [authToken, setAuthToken] = useRecoilState(authTokenAtom);
-  const [formData, setFormData] = useRecoilState(formDataAtom);
+  const [userData, setUserData] = useRecoilState(userDataAtom);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const navigate = useNavigate();
 
   function removeToken() {
     console.log("Inside logout");
     setAuthToken("");
+    setUserData("");
     localStorage.clear();
     enqueueSnackbar("Logout Successfull !", { variant: "success" });
     navigate("/login");
@@ -29,6 +30,7 @@ function NavComponent() {
 
     console.log("clicked" + showHamburger);
   }
+  console.log("userdata in nav",currentUser)
 
   return (
     <>
@@ -37,6 +39,9 @@ function NavComponent() {
           <img className="logoImg" src="" alt="" />
           <span className="logoName tracking-wider">
             <Link to="/">GETSHIKSHAK</Link>
+            <span className="mx-2">role : {currentUser && currentUser.role}</span>
+            <span className="mx-2">email : {currentUser && currentUser.email}</span>
+
           </span>
         </div>
 
@@ -48,9 +53,9 @@ function NavComponent() {
             <li>
               <Link to="/dashboard">Find Tutor</Link>
             </li>
-            {authToken && formData.role !== "tutor" && (
+            {authToken && currentUser.role === "tutor" && (
               <li>
-                <Link to="/tutorCreation">Become a Tutor</Link>
+                <Link to="/tutorCreation">Complete Profile</Link>
               </li>
             )}
           </ul>
