@@ -1,0 +1,90 @@
+#profile-page-root-div{
+    display: flex;
+    /* background-color: paleturquoise; */
+    /* justify-content: space-between; */
+    height: 100%;
+}
+
+#profile-page-details-div{
+    margin-right: 5px;
+    width: 100%;
+}
+
+.sub-container-div{
+    box-shadow: 0px 2px 5px 0px gray;
+    border-radius: 6px;
+    padding: 10px;
+    margin: 10px;
+}
+.row-div{
+    /* background-color:lightgray; */
+    display: flex;
+    /* margin: 0px; */
+}
+
+#first-row{
+    justify-content: space-around;
+}
+
+.content-div{
+    padding: 5px 10px;
+    display: flex;
+}
+
+.label-span{
+    /* font-size: medium; */
+    font-weight:bold;
+    color: gray;
+
+}
+
+.content-span{
+    padding-left: 0px;
+}
+
+.content-li{
+    /* background-color: darkseagreen; */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* border-bottom: 1px solid black; */
+    margin-bottom: 20px;
+    height: 50px;
+}
+
+.edit-button-div{
+    position: absolute;
+    top:0px;
+}
+
+/* .dashboard-input-box{
+
+} */
+/* 
+.flex-list{
+    display: flex;
+    flex-wrap: ;
+    justify-content: space-between;
+} */
+
+.content-col-div{
+    width: 200px;
+}
+
+.content-ul{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.qualification-row{
+    /* background-color: lightslategray; */
+    padding: 10px 10px;
+    width: 100%;
+}
+
+#document-div{
+    display: flex;
+    /* height: ; */
+}

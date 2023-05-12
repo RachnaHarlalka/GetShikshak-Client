@@ -2,7 +2,7 @@ import {Routes,Route} from 'react-router-dom';
 import Register from './Register/Register'
 import Login from "./Login/Login"
 import Landing from "./Landing/Landing"
-import DashBoard from "./DashBoard/DashBoard"
+import DashBoard from "./DashBoard/Dashboard"
 import SearchPage from "./SearchPage/SearchPage"
 import { RecoilRoot, useRecoilState } from "recoil";
 import { authTokenAtom } from "../Atom";
