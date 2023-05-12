@@ -1,12 +1,43 @@
-import { useState } from 'react';
-import './style.css'
+import { useState,useEffect } from 'react';
+import './style.css';
 import {FcManager} from 'react-icons/fc';
 import ProfileDetails from './ProfileDetails';
 import HomePage from './HomePage';
+import EditButton from './EditButton';
+import {AiOutlineHome,AiOutlineProfile} from 'react-icons/ai';
+import axios from 'axios';
+import {useRecoilState} from 'recoil';
+import {authTokenAtom} from '../../Atom'
 
 function DashBoard(){
+    console.log("DashBoard Rendered");
     
     const [pageId,setPageId]=useState(0);
+    const [authToken,setAuthToken] = useRecoilState(authTokenAtom);
+    // const [fetchedResponse,setResponse] = useState({})
+    const [fetchedResponse,setFetchedResponse] = useState([]);
+
+
+    const fetchData= async()=>{
+        let response = await axios(
+            {
+                url:"http://localhost:3000/dashboard/userdata",
+                method:"GET",
+                headers:{
+                    "Authorization": `Bearer ${authToken}`
+                }
+            }
+        )
+        //console.log(response);
+        setFetchedResponse(response.data);
+        //JSON.parse(JSON.stringify(
+        //console.log(fetchedResponse);
+    }
+
+    useEffect(()=>{
+        fetchData();
+    },[])
+
 
     function handleClick(id){
         console.log(id);
@@ -20,9 +51,9 @@ function DashBoard(){
 
     function renderPage(id) {
         switch(id) {
-            case 0: {console.log("clicked profile"); return <HomePage/>};
-            case 1: {console.log("clicked profile"); return <ProfileDetails/>};
-            case 2: {console.log("clicked Student"); return <StudentDetails/>};
+            case 0: return <HomePage fetchedData={fetchedResponse}/>;
+            case 1: return <ProfileDetails fetchedData={fetchedResponse}/>;
+            case 2: return <StudentDetails/>;
             default: console.log("Default");
         }
     }
@@ -39,35 +70,55 @@ function DashBoard(){
                     <div id='dashboard-profile-section'>
                         <div id='profile-pic-section'>
                             <div id='profile-pic'>
-                                <FcManager/>
+                                {/* <FcManager/> */}
+                                <img id="profile-image" alt="image" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cmFuZG9tJTIwcGVvcGxlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"/>
+                                <div id="edit-profile-button">
+                                    <EditButton bgcolor="lightgray"/>
+                                </div>
                             </div>
+                            
                         </div>
                         <div id='profile-info-section'>
                             <p id='user-name'>Tutor Name</p>
-                            <div id='user-rating-tag'><span className='star'>★</span> 4.5</div>
-                            <div>
-                                <button className='btn-class' id='profile-edit-btn'>Edit</button>
-                            </div>
+                            {/*  */}
                         </div>
                     </div>
 
                     <div id="dashboard-menu-section">
                         <div id='dashboard-menu-top-div'>
                             <button className='dashboard-menu-options' onClick={(e)=>{handleClick(e.target.id)}} id={0}>
-                                Home Section
+                                {/* <d className='menu-option-label-outer-div'>
+                                    <div className='menu-option-label-icon'>
+                                        <AiOutlineHome/>
+                                    </div> */}
+                                    Home
+                                    {/* {fetchedResponse || "Showed"} */}
                                 {/* <Link to="/">Profile Section</Link> */}
                             </button>
                             <button className='dashboard-menu-options' onClick={(e)=>{handleClick(e.target.id)}} id={1}>
-                                Profile Section
+                                {/* <div className='menu-option-label-outer-div'>
+                                    <div className='menu-option-label-icon'>
+                                        <AiOutlineProfile/>
+                                    </div> */}
+                                    Profile
                                 {/* <Link to="/">Profile Section</Link> */}
                             </button>
                             <button className='dashboard-menu-options' onClick={(e)=>{handleClick(e.target.id)}} id={2}>
+                                <div className='menu-option-label-icon'>
+
+                                </div>
                                 Students
                             </button>
                             <button className='dashboard-menu-options'>
+                                <div className='menu-option-label-icon'>
+
+                                </div>
                                 Classes
                             </button>
                             <button className='dashboard-menu-options'>
+                                <div className='menu-option-label-icon'>
+
+                                </div>
                                 Settings
                             </button>
                         </div>
