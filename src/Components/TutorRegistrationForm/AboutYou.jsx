@@ -1,22 +1,7 @@
 import { useState } from "react";
 import { useSnackbar } from "notistack";
 function AboutYou(props) {
-  const [singleFormData, setSingleFormData] = useState("");
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-
-  function handleChange(e) {
-    // console.log(e)
-    // var val = e.target.value;
-    // var words = val.match(/\S+/g).length;
-    // if(words<12){
-    //   enqueueSnackbar("Minimum 12 words required!",{variant:"error"});
-    //   return;
-    // }
-    // setSingleFormData(e.target.value);
-    // console.log("aboutYou",singleFormData)
-
-  }
-
+ 
   return (
     <>
        <div className="md:w-[90%] md:container md:mx-auto flex my-10 h-[60vh]">

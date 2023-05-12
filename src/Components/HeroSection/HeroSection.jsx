@@ -2,7 +2,9 @@ import SearchBox from '../SearchBox'
 import HeroPic from '../../assets/HeroPic.png'
 import './style.css'
 
+
 function HeroSection(){
+   
     return (
         <div id="hero-section">
             <div className='sub-div bg-primary-color' id="top-div">
