@@ -5,16 +5,17 @@ import Card from "./Card";
 import { productData, responsive } from "./data";
 
 export default function TutorCarousal({tutors}) {
-  // console.log("tutop",tutors[0].profilePic);
+  // console.log("tutop",tutors[0]);
   const AllTutors = tutors.map((tutor,index) => {
     return  (<>
     <Card
       key={index}
-      email={tutor.email}
+      name={tutor.name}
       subjects={tutor.tutorForm.subjects}
       url= {`http://localhost:3000/assets/${tutor.profilePic}`}
+      id={tutor._id}
       // price={item.price}
-      rate={tutor.rate}
+      rate={tutor.tutorForm.rate}
     />
     {console.log("profile",`http://localhost:3000/assets/${tutor.profilePic}`)}
     </>
