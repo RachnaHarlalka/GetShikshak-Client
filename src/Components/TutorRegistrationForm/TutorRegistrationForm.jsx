@@ -11,6 +11,7 @@ import axios from 'axios'
 import { useRecoilState } from "recoil";
 import { userDataAtom, authTokenAtom } from "../../Atom";
 import { Stepper, StepLabel, Step } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import {
   subjectSchema,
   titleSchema,
@@ -39,6 +40,7 @@ const steps = [1, 2, 3, 4, 5, 6,7];
 
 function TutorRegistrationForm() {
   const [tutorFormData, setTutorFormData] = useRecoilState(userDataAtom);
+  const navigate = useNavigate();
   // const [authToken, setAuthToken] = useRecoilState(authTokenAtom);
   // console.log("tokeninside",));
   const token = JSON.parse(sessionStorage.getItem("token"));
@@ -105,7 +107,7 @@ function TutorRegistrationForm() {
 
         // console.log("respose by login",response);
         // enqueueSnackbar(response.data.message, { variant: "success" });
-        // navigate("/login")
+        navigate("/dashboard")
       }
     } catch (err) {
       console.log("form submit error", err);

@@ -52,7 +52,7 @@ function NavComponent() {
               <a href="./#about-section">About Us</a>
             </li>
             <li>
-              <Link to="/dashboard">Find Tutor</Link>
+              <Link to="">Find Tutor</Link>
             </li>
             {authToken && currentUser && currentUser.role === "tutor" && currentUser.tutorForm.isProfileCompleted===false &&(
               <li>
