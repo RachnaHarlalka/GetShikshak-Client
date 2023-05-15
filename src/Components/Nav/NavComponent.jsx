@@ -29,8 +29,8 @@ function NavComponent() {
 
     console.log("clicked" + showHamburger);
   }
-  console.log("currentUser in nav",currentUser)
-  console.log("currentUser token",authToken);
+  // console.log("currentUser in nav",currentUser)
+  // console.log("currentUser token",authToken);
 
   function showDropDownMenu(){
     setShowDropDown((prev) => {
@@ -89,7 +89,7 @@ function NavComponent() {
         {authToken && (
           <div id='navbar-logedIn-profile-icon' onClick={showDropDownMenu}>
             <div id='navbar-profile-pic'>
-                {currentUser.email.toString()[0]}
+                {currentUser &&  currentUser.email.toString()[0]}
             </div>
           </div>
         )}   
@@ -102,7 +102,7 @@ function NavComponent() {
         >
           <ul className="profile-icon-dropDown-list">
             <li id='dropDown-menu-user-name'>
-              {currentUser.email}
+              {currentUser && currentUser.email}
             </li>
             <li>
               <Link to="/dashboard" onClick={showDropDownMenu}>Dashboard</Link>

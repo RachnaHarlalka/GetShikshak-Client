@@ -4,7 +4,7 @@ import axios from "axios";
 
 function UserProfile() {
     const [user,setUser]=useState(null);
-    const [showCard, setShowCard] = useState(false);
+    const [cardPosition, setCardPosition] = useState(false);
 
   const { id } = useParams();
   const fetchData = async () => {
@@ -22,7 +22,10 @@ function UserProfile() {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         const threshold = 100; // Adjust this threshold as needed
   
-        setShowCard(scrollTop > threshold);
+        if(scrollTop > threshold)
+          setCardPosition("fixed")
+        else 
+          setCardPosition("relative");
       };
   
       window.addEventListener('scroll', handleScroll);
@@ -38,7 +41,7 @@ function UserProfile() {
 
         <div className=" w-2/5">
           <div class="flex items-center h-screen  justify-center ">
-           {showCard &&  <div class="fixed">
+            <div class={`${cardPosition}`}>
               <div class="bg-white shadow-xl p-12 rounded-xl">
                 <div class="flex justify-center p-2">
                     <img src={`http://localhost:3000/assets/${user && user.profilePic}`} alt=""  className="rounded-full w-32"/>
@@ -83,7 +86,7 @@ function UserProfile() {
                   </div>
                 </div>
               </div>
-            </div>}
+            </div>
           </div>
         </div>
       </div>

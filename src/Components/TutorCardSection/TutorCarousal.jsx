@@ -10,7 +10,7 @@ export default function TutorCarousal({tutors}) {
     return  (<>
     <Card
       key={index}
-      email={tutor.email}
+      name={tutor.name}
       subjects={tutor.tutorForm.subjects}
       url= {`http://localhost:3000/assets/${tutor.profilePic}`}
       id={tutor._id}

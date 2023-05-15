@@ -22,7 +22,7 @@ export default function Card(props) {
     <div className="card bg-red-300" onClick={handleClick}>
       <img className="product--image" src={props.url} alt="product image" />
       <div className="flex justify-around my-2 border-b-[1px]">
-        <h2 className="text-black font-semibold">{props.email}</h2>
+        <h2 className="text-black font-semibold">{props.name}</h2>
       </div>
       <div className="skills-tag-div text-black">
       {props.subjects.map((s,index)=>{

@@ -107,7 +107,7 @@ function TutorRegistrationForm() {
 
         // console.log("respose by login",response);
         // enqueueSnackbar(response.data.message, { variant: "success" });
-        navigate("/dashboard")
+        navigate("/tutordashboard")
       }
     } catch (err) {
       console.log("form submit error", err);
