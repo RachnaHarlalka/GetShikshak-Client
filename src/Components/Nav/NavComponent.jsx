@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { authTokenAtom, userDataAtom } from "../../Atom";
-import { useRecoilState } from "recoil";
+// import { authTokenAtom, currentUserAtom } from "../../Atom";
+// import { useRecoilState } from "recoil";
 import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
 import { RxHamburgerMenu } from "react-icons/rx";
@@ -8,17 +8,16 @@ import { useState } from "react";
 import "./style.css";
 function NavComponent() {
   const [showHamburger, setShowHamburger] = useState(false);
-  let currentUser = JSON.parse(localStorage.getItem("user"));
-  const [authToken, setAuthToken] = useRecoilState(authTokenAtom);
-  const [userData, setUserData] = useRecoilState(userDataAtom);
+  let currentUser = JSON.parse(sessionStorage.getItem("user"));
+  let authToken=JSON.parse(sessionStorage.getItem("token"));
+  const [showDropDown , setShowDropDown] =useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const navigate = useNavigate();
 
+
   function removeToken() {
     console.log("Inside logout");
-    setAuthToken("");
-    setUserData("");
-    localStorage.clear();
+    sessionStorage.clear();
     enqueueSnackbar("Logout Successfull !", { variant: "success" });
     navigate("/login");
   }
@@ -30,7 +29,16 @@ function NavComponent() {
 
     console.log("clicked" + showHamburger);
   }
-  console.log("userdata in nav",currentUser)
+  // console.log("currentUser in nav",currentUser)
+  // console.log("currentUser token",authToken);
+
+  function showDropDownMenu(){
+    setShowDropDown((prev) => {
+      return !prev;
+    });
+  }
+
+  //console.log("userdata in nav",currentUser)
 
   return (
     <>
@@ -39,9 +47,7 @@ function NavComponent() {
           <img className="logoImg" src="" alt="" />
           <span className="logoName tracking-wider">
             <Link to="/">GETSHIKSHAK</Link>
-            <span className="mx-2">role : {currentUser && currentUser.role}</span>
-            <span className="mx-2">email : {currentUser && currentUser.email}</span>
-
+          
           </span>
         </div>
 
@@ -51,13 +57,16 @@ function NavComponent() {
               <a href="./#about-section">About Us</a>
             </li>
             <li>
-              <Link to="/dashboard">Find Tutor</Link>
+            <Link to="/studentdashboard">Student Dash</Link>
             </li>
-            {authToken && currentUser.role === "tutor" && (
+            <li>
+            <Link to="/tutordashboard">Tutor Dash</Link>
+            </li>
+            {authToken && currentUser && currentUser.role === "tutor" && currentUser.tutorForm.isProfileCompleted===false &&(
               <li>
                 <Link to="/tutorCreation">Complete Profile</Link>
               </li>
-            )}
+            )} 
           </ul>
         </div>
 
@@ -78,24 +87,33 @@ function NavComponent() {
         </div>)}
 
         {authToken && (
-          <div className=" w-[16rem]">
-            <ul className="flex flex-row justify-around">
-              <li>
-                <Link
-                  to="/register"
-                  className="font-semibold px-4 py-2 bg-white text-[#009193] rounded-md"
-                >
-                  My Profile
-                </Link>
-              </li>
-              <li>
-                <button className="font-bold" onClick={removeToken}>
+          <div id='navbar-logedIn-profile-icon' onClick={showDropDownMenu}>
+            <div id='navbar-profile-pic'>
+                {currentUser &&  currentUser.email.toString()[0]}
+            </div>
+          </div>
+        )}   
+
+        <div
+          id="navbar-profile-icon-dropDown"
+          style={
+            showDropDown ? { visibility: "visible" } : { visibility: "hidden" }
+          }
+        >
+          <ul className="profile-icon-dropDown-list">
+            <li id='dropDown-menu-user-name'>
+              {currentUser && currentUser.email}
+            </li>
+            <li>
+              <Link to="/dashboard" onClick={showDropDownMenu}>Dashboard</Link>
+            </li>
+            <li className="active-button" onClick={showDropDownMenu}>
+                <button  onClick={removeToken}>
                   Log Out
                 </button>
-              </li>
-            </ul>
-          </div>
-        )}
+            </li>
+          </ul>
+        </div>
 
         <div id="hamburger-icon">
           <RxHamburgerMenu onClick={handleClick} />
@@ -114,12 +132,20 @@ function NavComponent() {
             <li>
               <Link to="/dashboard">Find Tutor</Link>
             </li>
-            <li>Become a Tutor</li>
+            {authToken && currentUser && currentUser.role==="tutor" && currentUser.tutorForm.isProfileCompleted===false && (<li>Complete Profile</li>)}
           </ul>
+         {!authToken ? (
+           <ul className="hamburger-list" id="bottom-list">
+           <li>Login</li>
+           <li id="active-button">Sign Up</li>
+         </ul>
+         ):(
           <ul className="hamburger-list" id="bottom-list">
-            <li>Login</li>
-            <li id="active-button">Sign Up</li>
-          </ul>
+          <li>My Profile</li>
+          <li id="active-button">Logout</li>
+        </ul>
+        )}
+
         </div>
       </div>
     </>
