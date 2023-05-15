@@ -10,8 +10,7 @@ function NavComponent() {
   const [showHamburger, setShowHamburger] = useState(false);
   let currentUser = JSON.parse(sessionStorage.getItem("user"));
   let authToken=JSON.parse(sessionStorage.getItem("token"));
-  // const [authToken, setAuthToken] = useRecoilState(authTokenAtom);
-  // const [currentUser, setcurrentUser] = useRecoilState(currentUserAtom);
+  const [showDropDown , setShowDropDown] =useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const navigate = useNavigate();
 
@@ -33,6 +32,14 @@ function NavComponent() {
   console.log("currentUser in nav",currentUser)
   console.log("currentUser token",authToken);
 
+  function showDropDownMenu(){
+    setShowDropDown((prev) => {
+      return !prev;
+    });
+  }
+
+  //console.log("userdata in nav",currentUser)
+
   return (
     <>
       <div id="nav-bar">
@@ -40,9 +47,7 @@ function NavComponent() {
           <img className="logoImg" src="" alt="" />
           <span className="logoName tracking-wider">
             <Link to="/">GETSHIKSHAK</Link>
-            {/* <span className="mx-2">role : {currentUser && currentUser.role}</span> */}
-            {/* <span className="mx-2">email : {currentUser && currentUser.email}</span> */}
-
+          
           </span>
         </div>
 
@@ -52,7 +57,10 @@ function NavComponent() {
               <a href="./#about-section">About Us</a>
             </li>
             <li>
-              <Link to="">Find Tutor</Link>
+            <Link to="/studentdashboard">Student Dash</Link>
+            </li>
+            <li>
+            <Link to="/tutordashboard">Tutor Dash</Link>
             </li>
             {authToken && currentUser && currentUser.role === "tutor" && currentUser.tutorForm.isProfileCompleted===false &&(
               <li>
@@ -79,24 +87,33 @@ function NavComponent() {
         </div>)}
 
         {authToken && (
-          <div className=" w-[16rem]">
-            <ul className="flex flex-row justify-around">
-              <li>
-                <Link
-                  to="/register"
-                  className="font-semibold px-4 py-2 bg-white text-[#009193] rounded-md"
-                >
-                  My Profile
-                </Link>
-              </li>
-              <li>
-                <button className="font-bold" onClick={removeToken}>
+          <div id='navbar-logedIn-profile-icon' onClick={showDropDownMenu}>
+            <div id='navbar-profile-pic'>
+                {currentUser.email.toString()[0]}
+            </div>
+          </div>
+        )}   
+
+        <div
+          id="navbar-profile-icon-dropDown"
+          style={
+            showDropDown ? { visibility: "visible" } : { visibility: "hidden" }
+          }
+        >
+          <ul className="profile-icon-dropDown-list">
+            <li id='dropDown-menu-user-name'>
+              {currentUser.email}
+            </li>
+            <li>
+              <Link to="/dashboard" onClick={showDropDownMenu}>Dashboard</Link>
+            </li>
+            <li className="active-button" onClick={showDropDownMenu}>
+                <button  onClick={removeToken}>
                   Log Out
                 </button>
-              </li>
-            </ul>
-          </div>
-        )}
+            </li>
+          </ul>
+        </div>
 
         <div id="hamburger-icon">
           <RxHamburgerMenu onClick={handleClick} />
