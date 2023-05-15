@@ -8,8 +8,9 @@ import {AiOutlineHome,AiOutlineProfile} from 'react-icons/ai';
 import axios from 'axios';
 import {useRecoilState} from 'recoil';
 import {authTokenAtom} from '../../Atom'
+import AccountSettings from './AccountSettings';
 
-function DashBoard(){
+function BasicDashboardLayout(){
     console.log("DashBoard Rendered");
     
     const [pageId,setPageId]=useState(0);
@@ -45,6 +46,7 @@ function DashBoard(){
             case "0": setPageId(0);break;
             case "1": setPageId(1);break;
             case "2": setPageId(2);break;
+            case "4": setPageId(4);break;
             default: console.log("Default of Handle Click");
         }
     }
@@ -54,6 +56,7 @@ function DashBoard(){
             case 0: return <HomePage fetchedData={fetchedResponse}/>;
             case 1: return <ProfileDetails fetchedData={fetchedResponse}/>;
             case 2: return <StudentDetails/>;
+            case 4: return <AccountSettings/>;
             default: console.log("Default");
         }
     }
@@ -104,21 +107,21 @@ function DashBoard(){
                                 {/* <Link to="/">Profile Section</Link> */}
                             </button>
                             <button className='dashboard-menu-options' onClick={(e)=>{handleClick(e.target.id)}} id={2}>
-                                <div className='menu-option-label-icon'>
+                                {/* <div className='menu-option-label-icon'>
 
-                                </div>
+                                </div> */}
                                 Students
                             </button>
                             <button className='dashboard-menu-options'>
-                                <div className='menu-option-label-icon'>
+                                {/* <div className='menu-option-label-icon'>
 
-                                </div>
+                                </div> */}
                                 Classes
                             </button>
-                            <button className='dashboard-menu-options'>
-                                <div className='menu-option-label-icon'>
+                            <button className='dashboard-menu-options' onClick={(e)=>{handleClick(e.target.id)}} id={4}>
+                                {/* <div className='menu-option-label-icon'>
 
-                                </div>
+                                </div> */}
                                 Settings
                             </button>
                         </div>
@@ -138,4 +141,4 @@ function DashBoard(){
     )
 }
 
-export default DashBoard;
+export default BasicDashboardLayout;

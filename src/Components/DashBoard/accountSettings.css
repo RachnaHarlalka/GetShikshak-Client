@@ -1,0 +1,78 @@
+#settings-page-root-div{
+    display: flex;
+    height:100%;
+}
+
+#settings-page-details-div{
+    width: 100%;
+}
+
+.sub-container-div{
+    box-shadow: 0px 2px 5px 0px gray;
+    border-radius: 6px;
+    padding: 10px;
+    margin: 10px;
+}
+.row-div{
+    /* background-color:lightgray; */
+    display: flex;
+    /* margin: 0px; */
+}
+
+.account-content-div{
+    padding: 5px 10px;
+    display: block;
+}
+
+#disable-account-div{
+    margin-bottom: 50px;
+}
+
+.left-align-heading{
+    text-align: start;
+}
+
+.button-div{
+    display: flex;
+    justify-content: center;
+    /* width: 100px; */
+    margin: 30px;
+    /* background-color:lightgray; */
+}
+
+.msg-div{
+    display: flex;
+    align-items: center;
+}
+
+.account-settings-button{
+    font-weight: bold;
+    width: 100px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: orange;
+}
+
+.account-settings-button:hover{
+    box-shadow: 0px 2px 5px 0px gray;
+}
+
+.account-settings-button:active{
+    box-shadow: none;
+}
+
+#current-status-of-account{
+    margin: 20px 0px;
+    padding: 20px;
+    background-color: rgb(240, 238, 238);
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+#status-heading{
+    margin-right: 10px
+}
+
+#current-status-span{
+    color: green;
+}
