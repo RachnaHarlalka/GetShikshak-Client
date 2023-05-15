@@ -12,8 +12,8 @@ function Landing(){
             url:"http://localhost:3000/user/gettutors",
             method:"GET"
         })
-        console.log("response.data.tutors",response.data.tutors)
-        setTutors(response.data.tutors);
+        console.log("response.data.tutors",response.data.filteredTutors)
+        setTutors(response.data.filteredTutors);
     }
 
     useEffect(()=>{

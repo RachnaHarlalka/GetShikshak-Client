@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { authTokenAtom, userDataAtom } from "../../Atom";
-import { useRecoilState } from "recoil";
+// import { authTokenAtom, currentUserAtom } from "../../Atom";
+// import { useRecoilState } from "recoil";
 import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
 import { RxHamburgerMenu } from "react-icons/rx";
@@ -8,17 +8,17 @@ import { useState } from "react";
 import "./style.css";
 function NavComponent() {
   const [showHamburger, setShowHamburger] = useState(false);
-  let currentUser = JSON.parse(localStorage.getItem("user"));
-  const [authToken, setAuthToken] = useRecoilState(authTokenAtom);
-  const [userData, setUserData] = useRecoilState(userDataAtom);
+  let currentUser = JSON.parse(sessionStorage.getItem("user"));
+  let authToken=JSON.parse(sessionStorage.getItem("token"));
+  // const [authToken, setAuthToken] = useRecoilState(authTokenAtom);
+  // const [currentUser, setcurrentUser] = useRecoilState(currentUserAtom);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const navigate = useNavigate();
 
+
   function removeToken() {
     console.log("Inside logout");
-    setAuthToken("");
-    setUserData("");
-    localStorage.clear();
+    sessionStorage.clear();
     enqueueSnackbar("Logout Successfull !", { variant: "success" });
     navigate("/login");
   }
@@ -30,7 +30,8 @@ function NavComponent() {
 
     console.log("clicked" + showHamburger);
   }
-  console.log("userdata in nav",currentUser)
+  console.log("currentUser in nav",currentUser)
+  console.log("currentUser token",authToken);
 
   return (
     <>
@@ -39,8 +40,8 @@ function NavComponent() {
           <img className="logoImg" src="" alt="" />
           <span className="logoName tracking-wider">
             <Link to="/">GETSHIKSHAK</Link>
-            <span className="mx-2">role : {currentUser && currentUser.role}</span>
-            <span className="mx-2">email : {currentUser && currentUser.email}</span>
+            {/* <span className="mx-2">role : {currentUser && currentUser.role}</span> */}
+            {/* <span className="mx-2">email : {currentUser && currentUser.email}</span> */}
 
           </span>
         </div>
@@ -53,11 +54,11 @@ function NavComponent() {
             <li>
               <Link to="/dashboard">Find Tutor</Link>
             </li>
-            {authToken && currentUser.role === "tutor" && (
+            {authToken && currentUser && currentUser.role === "tutor" && currentUser.tutorForm.isProfileCompleted===false &&(
               <li>
                 <Link to="/tutorCreation">Complete Profile</Link>
               </li>
-            )}
+            )} 
           </ul>
         </div>
 
@@ -114,12 +115,20 @@ function NavComponent() {
             <li>
               <Link to="/dashboard">Find Tutor</Link>
             </li>
-            <li>Become a Tutor</li>
+            {authToken && currentUser && currentUser.role==="tutor" && currentUser.tutorForm.isProfileCompleted===false && (<li>Complete Profile</li>)}
           </ul>
+         {!authToken ? (
+           <ul className="hamburger-list" id="bottom-list">
+           <li>Login</li>
+           <li id="active-button">Sign Up</li>
+         </ul>
+         ):(
           <ul className="hamburger-list" id="bottom-list">
-            <li>Login</li>
-            <li id="active-button">Sign Up</li>
-          </ul>
+          <li>My Profile</li>
+          <li id="active-button">Logout</li>
+        </ul>
+        )}
+
         </div>
       </div>
     </>

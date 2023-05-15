@@ -21,6 +21,10 @@ import {
 
 } from "../../schemas/formValidation";
 
+
+// const storedUser = sessionStorage.getItem("user");
+// console.log("storedUser",JSON.parse(storedUser));
+
 const FormTitle = [
   "Which Subjects do you Teach?",
   "Title of your ad",
@@ -35,7 +39,10 @@ const steps = [1, 2, 3, 4, 5, 6,7];
 
 function TutorRegistrationForm() {
   const [tutorFormData, setTutorFormData] = useRecoilState(userDataAtom);
-  const [authToken, setAuthToken] = useRecoilState(authTokenAtom);
+  // const [authToken, setAuthToken] = useRecoilState(authTokenAtom);
+  // console.log("tokeninside",));
+  const token = JSON.parse(sessionStorage.getItem("token"));
+
   const [activeStep, setActiveStep] = useState(0);
   const handleNext = () => {
     if (activeStep == steps.length - 1) {
@@ -71,10 +78,12 @@ function TutorRegistrationForm() {
     }
   };
 
-  console.log("tutrformdata",tutorFormData);
+  // console.log("tutrformdata",tutorFormData);
 
   const handleFormSubmit = async () => {
-    console.log("inside handleFormSubmit");
+    // console.log("inside handleFormSubmit");
+    console.log("token inside atom",token);
+
     try {
       let response = await axios({
         url: "http://localhost:3000/auth/tutorRegister",
@@ -83,12 +92,17 @@ function TutorRegistrationForm() {
         headers: {
           "content-type": "application/json",
           'content-type': 'multipart/form-data',
-          "Authorization": `Bearer ${authToken}`,
+          "Authorization": `Bearer ${token}`,
         },
       });
       console.log("inside try")
       if (response.status === 201) {
         console.log("message", response.data.message,response.data.savedUser);
+        const user=JSON.parse(sessionStorage.getItem("user"));
+        user.tutorForm.isProfileCompleted=true;
+        sessionStorage.setItem("user",JSON.stringify(user))
+        // storedData.method();
+
         // console.log("respose by login",response);
         // enqueueSnackbar(response.data.message, { variant: "success" });
         // navigate("/login")
@@ -114,7 +128,8 @@ function TutorRegistrationForm() {
         phone: formikClassDetailsInfo.values.phone,
         profilePic:formikDocumentsInfo.values.profilePic,
         identity:formikDocumentsInfo.values.identity,
-        lastEducationalCertificate:formikDocumentsInfo.values.lastEducationalCertificate
+        lastEducationalCertificate:formikDocumentsInfo.values.lastEducationalCertificate,
+        isProfileCompleted:true
       };
     });
     handleNext();
@@ -190,7 +205,7 @@ function TutorRegistrationForm() {
     }
   })
 
-  console.log("formikDocumentsInfo.values.profilePic",formikDocumentsInfo.values.profilePic);
+  // console.log("formikDocumentsInfo.values.profilePic",formikDocumentsInfo.values.profilePic);
 
   //...................FORMIK..................
 
