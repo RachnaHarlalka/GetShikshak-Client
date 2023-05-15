@@ -1,4 +1,4 @@
-    import './dashboardDetails.css'
+    import './style.css'
     import './profileDetails.css'
     import EditButton from './EditButton';
 
@@ -22,7 +22,7 @@
                                         <div className='content-col-div'>
                                             <li className='content-li'>
                                                     <span className='label-span'>Name</span>
-                                                    <input type="text" className='dashboard-input-box' id="name" placeholder="Tutor Name"/>
+                                                    <input type="text" className='dashboard-input-box' id="name" placeholder="Tutor Name" disabled/>
                                             </li>
                                             <li className='content-li'>
                                                     <span className='label-span'>Native Language</span>  
@@ -30,7 +30,7 @@
                                             </li>
                                             <li className='content-li'>
                                                     <span className='label-span'>Email</span> 
-                                                    <input type="text" className='dashboard-input-box' id="email" placeholder="Email"/>
+                                                    <input type="text" className='dashboard-input-box' id="email" placeholder="Email" disabled/>
                                             </li>
                                             <li className='content-li'>
                                                     <span className='label-span'>State</span>
@@ -73,45 +73,42 @@
 
                             </div>
                     </div>
-                    <div className='row-div' id="second-row">
+                    <div className='row-div' id='profile-section-second-row'>
                         <div className='sub-container-div' id="document-div">
                             <div className='div-heading'>
-                                    ID PROOF
-                                    <div className="edit-button-div">
-                                        <EditButton inputBoxId=""/>
-                                    </div>
+                                    DOCUMENTS
                             </div>
                             <div className='content-div'>
-                            <div className='sub-container-div'>
-                                <div className='div-heading'>
-                                    ID PROOF
-                                    <div className="edit-button-div">
-                                        <EditButton inputBoxId=""/>
+                                <div className='sub-container-div col-div' id='id-proof-div'>
+                                    <div className='div-heading'>
+                                        ID PROOF
+                                    </div>
+                                    <div className='content-div document-content-div'>
+                                        <div className='document-show-div'>
+                                            Document
+                                        </div>
+                                        <div className='document-show-div'>
+                                            Document
+                                        </div>
                                     </div>
                                 </div>
-                                <div className='content-div'>
-                                    <div className='qualification-row'>
-                                        Upload Documents Here
+                                <div className='sub-container-div col-div' id='qualification-proof-div'>
+                                    <div className='div-heading'>
+                                        Qualification Document
+                                        </div>
+                                        <div className='content-div document-content-div'>
+                                            <div className='document-show-div'>
+                                                Document
+                                            </div>
+                                            <div className='document-show-div'>
+                                                Document
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className='sub-container-div'>
-                                <div className='div-heading'>
-                                    Qualification Document
-                                    <div className="edit-button-div">
-                                        <EditButton inputBoxId=""/>
-                                    </div>
-                                    </div>
-                                    <div className='content-div'>
-                                        <div className='qualification-row'>
-                                            Upload Qualification Documents Here
-                                    </div>
-                                </div>
-                            </div>
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
         )
     }
