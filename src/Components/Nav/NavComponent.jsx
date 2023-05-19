@@ -14,6 +14,9 @@ function NavComponent() {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const navigate = useNavigate();
 
+  console.log("Having role ",currentUser?.role);
+  console.log("Auth value ",authToken);
+  console.log("isProfileComplete ",currentUser);
 
   function removeToken() {
     console.log("Inside logout");
@@ -47,7 +50,7 @@ function NavComponent() {
           <img className="logoImg" src="" alt="" />
           <span className="logoName tracking-wider">
             <Link to="/">GETSHIKSHAK</Link>
-          
+
           </span>
         </div>
 
@@ -66,7 +69,7 @@ function NavComponent() {
               <li>
                 <Link to="/tutorCreation">Complete Profile</Link>
               </li>
-            )} 
+            )}
           </ul>
         </div>
 
@@ -135,10 +138,10 @@ function NavComponent() {
             {authToken && currentUser && currentUser.role==="tutor" && currentUser.tutorForm.isProfileCompleted===false && (<li>Complete Profile</li>)}
           </ul>
          {!authToken ? (
-           <ul className="hamburger-list" id="bottom-list">
-           <li>Login</li>
+          <ul className="hamburger-list" id="bottom-list">
+            <li>Login</li>
            <li id="active-button">Sign Up</li>
-         </ul>
+          </ul>
          ):(
           <ul className="hamburger-list" id="bottom-list">
           <li>My Profile</li>

@@ -17,8 +17,10 @@ import UserProfile from '../src/UserProfile/UserProfile'
 function AllRoutes(){
     // const authToken =useRecoilValue(authTokenAtom);
     const authToken=JSON.parse(sessionStorage.getItem("token"));
+    const userData=JSON.parse(sessionStorage.getItem("user"));
 
-    const userData=useRecoilValue(userDataAtom);
+    console.log("The role is ",userData?.role);
+
     return(
         <Routes>
             {
@@ -35,7 +37,7 @@ function AllRoutes(){
             <Route path='/search' element={<SearchResult/>}/>
             <Route path='/user/:id' element={<UserProfile/>}></Route>
             {
-                userData.role!=="student" ?
+                userData?.role!=="student" ?
                 <Route path='/tutorCreation' element={<TutorRegistrationForm/>}/>
                 :
                 <Route path='/tutorCreation' element={<Landing/>}/>
