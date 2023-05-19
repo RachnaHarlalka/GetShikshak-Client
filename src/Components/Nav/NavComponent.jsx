@@ -20,6 +20,7 @@ function NavComponent() {
     sessionStorage.clear();
     enqueueSnackbar("Logout Successfull !", { variant: "success" });
     navigate("/login");
+    window.location.reload(); // Reload the window
   }
 
   function handleClick() {
@@ -89,7 +90,7 @@ function NavComponent() {
         {authToken && (
           <div id='navbar-logedIn-profile-icon' onClick={showDropDownMenu}>
             <div id='navbar-profile-pic'>
-                {currentUser &&  currentUser.email.toString()[0]}
+                {currentUser &&  currentUser.name.toString()[0].toUpperCase()}
             </div>
           </div>
         )}   

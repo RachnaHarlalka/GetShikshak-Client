@@ -1,0 +1,15 @@
+[
+    { "value": "Assam", "label": "Assam" },
+    { "value": "Delhi", "label": "Delhi" },
+    { "value": "Gujarat", "label": "Gujarat" },
+    {"value":"Mumbai","label":"Mumbai"},
+    {"value":"Kolkata","label":"Kolkata"},
+    {"value":"Jaipur","label":"Jaipur"},
+
+    {"value":"Pune","label":"Pune"},
+
+    {"value":"Chennai","label":"Chennai"},
+
+    {"value":"Ahmedabad","label":"Ahmedabad"}
+
+]

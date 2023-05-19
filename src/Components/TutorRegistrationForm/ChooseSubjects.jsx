@@ -38,7 +38,7 @@ function ChooseSubject(props) {
     props.formik.setFieldValue(
       "subjects",
       selectedValue.map((option) => {
-        return option.value, option.label;
+        return (option.value,option.label);
       })
     );
   }
