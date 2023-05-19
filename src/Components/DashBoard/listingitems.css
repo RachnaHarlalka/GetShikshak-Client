@@ -1,20 +1,24 @@
 #listing-items-root-div{
-    background-color: lightgray;
+    height: 100%;
+    /* background-color: lightgray; */
     padding: 10px;
 }
 
 #list-heading{
-    background-color: lightblue;
+    /* background-color: lightblue; */
     padding: 10px;
     font-weight: bold;
+    font-size: medium;
+    text-transform:uppercase;
 }
 
 #li-items{
     padding: 10px;
-    background-color: lightblue;
+    /* background-color: lightblue; */
 }
 
 #items-list{
-    background-color:rgb(223, 197, 172);
+    height: 93%;
+    /* background-color:rgb(223, 197, 172); */
     padding: 10px;
 }

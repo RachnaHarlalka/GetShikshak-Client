@@ -2,7 +2,7 @@
 function StudentDashboard(){
     return(
         <div>
-            
+            Student dashboard rendered
         </div>
     )
 }

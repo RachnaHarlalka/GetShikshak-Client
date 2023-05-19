@@ -6,13 +6,13 @@ function AccountSettings(){
     return(
         <div id="settings-page-root-div">
             <div id="settings-page-details-div">
-                <div className='row-div' id="first-row">
-                    <div className='sub-container-div w-1/2' id='personal-details-div'>
+    
+                    <div className='sub-container-div' id='personal-details-div'>
                         <div className='div-heading'>
                             ACCOUNT SETTINGS
                         </div>
                         <div className='account-content-div'>
-                            <div className='sub-container-div' id='disable-account-div'>
+                            <div className='sub-container-div' id='deactivate-account-div'>
                                 <div className='div-heading left-align-heading'>
                                     Deactivate Account
                                 </div>
@@ -45,7 +45,7 @@ function AccountSettings(){
                             </div>
                         </div>
                     </div>
-                </div>
+                
             </div>
         </div>
     )

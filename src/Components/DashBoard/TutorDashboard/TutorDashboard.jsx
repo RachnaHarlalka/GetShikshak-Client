@@ -15,7 +15,8 @@ function TutorDashboard(){
     console.log("DashBoard Rendered");
     
     const [pageId,setPageId]=useState(0);
-    const [authToken,setAuthToken] = useRecoilState(authTokenAtom);
+    // const [authToken,setAuthToken] = useRecoilState(authTokenAtom);
+    const authToken = JSON.parse(sessionStorage.getItem("token"))
     // const [fetchedResponse,setResponse] = useState({})
     const [fetchedResponse,setFetchedResponse] = useState([]);
 
@@ -30,7 +31,7 @@ function TutorDashboard(){
                 }
             }
         )
-        //console.log(response);
+        // console.log(response);
         setFetchedResponse(response.data);
         //JSON.parse(JSON.stringify(
         //console.log(fetchedResponse);
@@ -47,16 +48,206 @@ function TutorDashboard(){
             case "0": setPageId(0);break;
             case "1": setPageId(1);break;
             case "2": setPageId(2);break;
+            case "3": setPageId(3);break;
             case "4": setPageId(4);break;
             default: console.log("Default of Handle Click");
         }
     }
+    const newTutorData = {
+        name: "Parashar Bharali",
+        email: "parashar@gmail.com",
+        role: "tutor",
+        tutorForm:{
+            subjects: ["Sub1","Sub2","Sub3","Sub4","Sub5"],
+            mode:["online","offline","anywhere"],
+            language:["Lang1","Lang2","Lang3","Lang4","Lang5"],
+            aboutClass: "This is about my class",
+            aboutYou: "This is about me",
+            city: "Guwahati",
+            phone: "8721919197",
+            rate: "100"
+        }
+    }
+
+    const newStudentData =[
+        {
+            name: "S1",
+            gender: "Male",
+            class: "XII",
+            phone: "8721919497",
+            email: "s1@gmail.com",
+            isActive: "True",
+        },
+        {
+            name: "S1",
+            gender: "Male",
+            class: "XII",
+            phone: "8721919497",
+            email: "s1@gmail.com",
+            isActive: "False",
+        },
+        {
+            name: "S1",
+            gender: "Female",
+            class: "XII",
+            phone: "8721919497",
+            email: "s1@gmail.com",
+            isActive: "true",
+        },
+        {
+            name: "S1",
+            gender: "Male",
+            class: "XII",
+            phone: "8721919497",
+            email: "s1@gmail.com",
+            isActive: "true",
+        },
+        {
+            name: "S1",
+            gender: "Male",
+            class: "XII",
+            phone: "8721919497",
+            email: "s1@gmail.com",
+            isActive: "true",
+        },
+        {
+            name: "S1",
+            gender: "Male",
+            class: "XII",
+            phone: "8721919497",
+            email: "s1@gmail.com",
+            isActive: "true",
+        },
+        {
+            name: "S1",
+            gender: "Male",
+            class: "XII",
+            phone: "8721919497",
+            email: "s1@gmail.com",
+            isActive: "true",
+        },
+        {
+            name: "S1",
+            gender: "Male",
+            class: "XII",
+            phone: "8721919497",
+            email: "s1@gmail.com",
+            isActive: "true",
+        },
+        {
+            name: "S1",
+            gender: "Male",
+            class: "XII",
+            phone: "8721919497",
+            email: "s1@gmail.com",
+            isActive: "true",
+        },
+        {
+            name: "S1",
+            gender: "Male",
+            class: "XII",
+            phone: "8721919497",
+            email: "s1@gmail.com",
+            isActive: "true",
+        },
+        {
+            name: "S1",
+            gender: "Male",
+            class: "XII",
+            phone: "8721919497",
+            email: "s1@gmail.com",
+            isActive: "true",
+        },
+        {
+            name: "S1",
+            gender: "Male",
+            class: "XII",
+            phone: "8721919497",
+            email: "s1@gmail.com",
+            isActive: "true",
+        },
+        {
+            name: "S1",
+            gender: "Male",
+            class: "XII",
+            phone: "8721919497",
+            email: "s1@gmail.com",
+            isActive: "true",
+        },
+        {
+            name: "S1",
+            gender: "Male",
+            class: "XII",
+            phone: "8721919497",
+            email: "s1@gmail.com",
+            isActive: "true",
+        },
+        {
+            name: "S1",
+            gender: "Male",
+            class: "XII",
+            phone: "8721919497",
+            email: "s1@gmail.com",
+            isActive: "true",
+        },
+        {
+            name: "S1",
+            gender: "Male",
+            class: "XII",
+            phone: "8721919497",
+            email: "s1@gmail.com",
+            isActive: "true",
+        },
+        {
+            name: "S1",
+            gender: "Male",
+            class: "XII",
+            phone: "8721919497",
+            email: "s1@gmail.com",
+            isActive: "true",
+        },
+    ]
+
+    const newClassData = [
+        {
+            name:"Student-1",
+            subjects:["EVS","GK","Social Science"],
+            mode: "Online",
+        },
+        {
+            name:"Student-1",
+            subjects:["EVS","GK","Social Science"],
+            mode: "Online",
+        },
+        {
+            name:"Student-1",
+            subjects:["EVS","GK","Social Science"],
+            mode: "Online",
+        },
+        {
+            name:"Student-1",
+            subjects:["EVS","GK","Social Science"],
+            mode: "Online",
+        },
+        {
+            name:"Student-1",
+            subjects:["EVS","GK","Social Science"],
+            mode: "Online",
+        },
+        {
+            name:"Student-1",
+            subjects:["EVS","GK","Social Science"],
+            mode: "Online",
+        },
+    ]
 
     function renderPage(id) {
+        console.log("inside renderpage");   
         switch(id) {
-            case 0: return <HomePage fetchedData={fetchedResponse}/>;
+            case 0: return <HomePage fetchedData={newTutorData}/>;
             case 1: return <ProfileDetails fetchedData={fetchedResponse}/>;
-            case 2: return <ListingItems itemsArr={[1,2,3,4,5,6,7]} heading={"Students List"}/>;
+            case 2: return <ListingItems pageheading={"Students List"} receivedData={newStudentData}/>;
+            case 3: return <ListingItems pageheading={"Class List"} receivedData={newClassData}/>;
             case 4: return <AccountSettings/>;
             default: console.log("Default");
         }
@@ -83,7 +274,7 @@ function TutorDashboard(){
                             
                         </div>
                         <div id='profile-info-section'>
-                            <p id='user-name'>Tutor Name</p>
+                            {/* <p id='user-name'>{newTutorData.name}</p> */}
                             {/*  */}
                         </div>
                     </div>
@@ -113,7 +304,7 @@ function TutorDashboard(){
                                 </div> */}
                                 Students
                             </button>
-                            <button className='dashboard-menu-options'>
+                            <button className='dashboard-menu-options' onClick={(e)=>{handleClick(e.target.id)}} id={3}>
                                 {/* <div className='menu-option-label-icon'>
 
                                 </div> */}

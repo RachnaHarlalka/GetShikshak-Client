@@ -3,6 +3,7 @@ import { useState,useEffect } from "react";
 import { useSnackbar } from "notistack";
 import { customSelectStyles } from "../../styleClasses";
 import axios from "axios";
+import cityOptions from '../../../utils/cityOptions.json'
 
 function ClassDetails(props) {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -37,11 +38,7 @@ function ClassDetails(props) {
   //   { value: "Online", label: "Online" },
   // ];
 
-  const cityOptions = [
-    { value: "Assam", label: "Assam" },
-    { value: "Delhi", label: "Delhi" },
-    { value: "Gujarat", label: "Gujarat" },
-  ];
+  
 
   // const languageOptions = [
   //   { value: "English", label: "English" },

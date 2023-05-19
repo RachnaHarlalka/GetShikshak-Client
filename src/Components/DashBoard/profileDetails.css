@@ -11,7 +11,7 @@
 }
 
 .sub-container-div{
-    box-shadow: 0px 2px 5px 0px gray;
+    /* box-shadow: 0px 2px 5px 0px gray; */
     border-radius: 6px;
     padding: 10px;
     margin: 10px;

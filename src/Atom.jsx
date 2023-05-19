@@ -15,6 +15,7 @@ const user = JSON.parse(sessionStorage.getItem("user"));
 export const userDataAtom = atom({
   key: "userData",
   default: {
+    name:(user && user.name) || "",
     email: (user && user.email) || "",
     role: (user && user.role) || "",
     subjects: (user && user.tutorForm.subjects) || [],

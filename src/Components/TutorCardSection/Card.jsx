@@ -4,7 +4,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 
 export default function Card(props) {
-
+  console.log("props inside card",props.name,props.city)
   const navigate = useNavigate();
   const handleClick=()=>{
     try{
@@ -19,25 +19,19 @@ export default function Card(props) {
   }
 
   return (
-    <div className="card bg-red-300" onClick={handleClick}>
+    <div className="card bg-red-300 " onClick={handleClick}>
       <img className="product--image" src={props.url} alt="product image" />
-      <div className="flex justify-around my-2 border-b-[1px]">
+      <div className="flex justify-between my-2 px-2 border-b-[1px]">
         <h2 className="text-black font-semibold">{props.name}</h2>
+        <span className="text-gray-700 ">{props.city}</span>
       </div>
       <div className="skills-tag-div text-black">
       {props.subjects.map((s,index)=>{
         return(
-        <span  key={index}  className="skills-tag">{s}</span>
+        <span  key={index} className="skills-tag">{s}</span>
       )
       })}
       </div>
-      {/* <div className="skills-tag-div text-black">
-        <span className="skills-tag">JS</span>
-        <span class="skills-tag">DBMS</span>
-        <span class="skills-tag">Data Structure</span>
-        <span class="skills-tag">Web Development</span>
-        <span class="skills-tag">PHP</span>
-      </div> */}
       <p className="text-white text-sm">
         <button>
            <span>₹{props.rate}/hr</span>

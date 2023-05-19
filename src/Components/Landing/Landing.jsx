@@ -3,6 +3,7 @@ import About from "../About/About";
 import TutorCarousal from '../TutorCardSection/TutorCarousal'
 import { useEffect, useState } from "react";
 import axios from "axios";
+import NoResultPage from "../NoResultPage";
 
 function Landing(){
     const [tutors,setTutors]=useState([]);
@@ -25,7 +26,7 @@ function Landing(){
     return(
         <div>
             <HeroSection/>
-            {tutors && (<TutorCarousal tutors={tutors}/>)}
+            {tutors ? (<TutorCarousal tutors={tutors}/>):(<NoResultPage/>)}
             <About/>
 
             {/* <TutorCardSection/> */}
