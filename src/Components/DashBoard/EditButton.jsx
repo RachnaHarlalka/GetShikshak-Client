@@ -2,17 +2,22 @@
 import {IoMdCheckmarkCircle} from 'react-icons/io';
 import {RxCrossCircled} from 'react-icons/rx';
 import {BiEdit} from 'react-icons/bi';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import {useRecoilState} from 'recoil';
 import {authTokenAtom} from '../../Atom'
 import './style.css';
 
 function EditButton({inputBoxId,path,newData}){
-    console.log("DashBoard Rendered");
+    console.log("Edit Button Rendered");
 
-    const [showSave,setShowSave]=useState(false);
-    const [authToken,setAuthToken] = useRecoilState(authTokenAtom);
+    const [showSave,setShowSave]=useState();
+    // const [authToken,setAuthToken] = useRecoilState(authTokenAtom);
+    const authToken = JSON.parse(sessionStorage.getItem("token"));
+
+    useEffect(()=>{
+        setShowSave(false);
+    },[])
 
 
     const textbox = document.getElementById(inputBoxId);
@@ -82,7 +87,7 @@ function EditButton({inputBoxId,path,newData}){
             else{
                 textbox.disabled=true;
                 setShowSave(false);
-                textbox.style.border="none"; 
+                // textbox.style.border="none"; 
                 //console.log("updated value",data)
             }
         }

@@ -1,12 +1,28 @@
 import React from "react";
 import './card.css'
+import { useNavigate, useSearchParams } from "react-router-dom";
+
 
 export default function Card(props) {
+
+  const navigate = useNavigate();
+  const handleClick=()=>{
+    try{
+      let url='/user';
+      if(props.id) url+=`/${props.id}`;
+      console.log("url",url);
+      navigate(url);
+    }
+    catch(err){
+      console.log("error",err);
+    }
+  }
+
   return (
-    <div className="card bg-red-300">
+    <div className="card bg-red-300" onClick={handleClick}>
       <img className="product--image" src={props.url} alt="product image" />
       <div className="flex justify-around my-2 border-b-[1px]">
-        <h2 className="text-black font-semibold">{props.email}</h2>
+        <h2 className="text-black font-semibold">{props.name}</h2>
       </div>
       <div className="skills-tag-div text-black">
       {props.subjects.map((s,index)=>{

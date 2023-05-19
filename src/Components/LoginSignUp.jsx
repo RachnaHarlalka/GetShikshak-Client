@@ -7,11 +7,10 @@ import { useFormik, Field } from "formik";
 import { useNavigate } from "react-router-dom";
 import { RegisterSchema, LoginSchema } from "../schemas/formValidation";
 import { useSnackbar } from "notistack";
-import { useRecoilState } from "recoil";
-import { authTokenAtom, userDataAtom } from "../Atom";
 import axios from "axios";
 
 const RegisterValues = {
+  name: "",
   email: "",
   password: "",
   confirmPassword: "",
@@ -24,8 +23,6 @@ const LoginValues = {
 };
 
 function LoginSignUp(props) {
-  const [authToken, setAuthToken] = useRecoilState(authTokenAtom);
-  const [userData, setUserData] = useRecoilState(userDataAtom);
   let RegisterFormik, LoginFormik;
   const navigate = useNavigate();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -44,7 +41,6 @@ function LoginSignUp(props) {
             },
           });
           if (response.status === 201) {
-            console.log("message", response.data.message);
             enqueueSnackbar(response.data.message, { variant: "success" });
             navigate("/login");
           }
@@ -71,12 +67,13 @@ function LoginSignUp(props) {
           if (response.status === 201) {
             console.log("Login success");
             if (response.data.token) {
-              console.log("inside login",response.data.user);
-              let token = response.data.token;
-              let user =JSON.stringify(response.data.user);
-              localStorage.setItem("user",user);
-              localStorage.setItem("authToken", token);
-              setAuthToken(token);
+              let token = JSON.stringify(response.data.token);
+              const user = JSON.stringify(response.data.user);
+              sessionStorage.setItem("token", token);
+              sessionStorage.setItem("user",user);
+             
+              // console.log(sessionStorage.getItem("user"))
+              // sessionStorage.setItem("authToken", token)
             }
             console.log("Login successfull");
             enqueueSnackbar(response.data.message, { variant: "success" });
@@ -107,6 +104,28 @@ function LoginSignUp(props) {
         className="flex flex-col my-4"
         action=""
       >
+        {props.type === "register" && (
+          <>
+            <label className=" font-semibold" htmlFor="name">
+              Name
+            </label>
+            <InputBox
+              type="text"
+              placeholder="Your Name"
+              name="name"
+              value={
+                props.type === "register"
+                  ? RegisterFormik.values.name
+                  : LoginFormik.values.name
+              }
+              handleChange={
+                props.type === "register"
+                  ? RegisterFormik.handleChange
+                  : LoginFormik.handleChange
+              }
+            />
+          </>
+        )}
         <label className=" font-semibold" htmlFor="email">
           Email
         </label>
@@ -183,46 +202,43 @@ function LoginSignUp(props) {
             ) : null}
           </>
         )}
-    
-         {props.type==="register" ? (
-            <>
+
+        {props.type === "register" ? (
+          <>
             <div className="flex font-bold mt-2 mb-4 ">
-            <h1>Register as: </h1>
-          <div className="mx-2 ">
-            <label  className="flex">
-              <input
-                type="radio"
-                name="role"
-                value="tutor"
-                checked={RegisterFormik.values.role === "tutor"}
-                onChange={RegisterFormik.handleChange}
-                className="mx-2"
-              />
-              Tutor
-            </label>
-          </div>
-          <div className="mx-2">
-            <label className="flex">
-              <input
-                type="radio"
-                name="role"
-                value="student"
-                checked={RegisterFormik.values.role === "student"}
-                onChange={RegisterFormik.handleChange} 
-                className="mx-2"
-              />
-              Student
-            </label>
-          </div>
-        </div>
-        {RegisterFormik.errors.role &&
-            RegisterFormik.touched.role ? (
-              <p className="text-red-500 mb-2">
-                {RegisterFormik.errors.role}
-              </p>
+              <h1>Register as: </h1>
+              <div className="mx-2 ">
+                <label className="flex">
+                  <input
+                    type="radio"
+                    name="role"
+                    value="tutor"
+                    checked={RegisterFormik.values.role === "tutor"}
+                    onChange={RegisterFormik.handleChange}
+                    className="mx-2"
+                  />
+                  Tutor
+                </label>
+              </div>
+              <div className="mx-2">
+                <label className="flex">
+                  <input
+                    type="radio"
+                    name="role"
+                    value="student"
+                    checked={RegisterFormik.values.role === "student"}
+                    onChange={RegisterFormik.handleChange}
+                    className="mx-2"
+                  />
+                  Student
+                </label>
+              </div>
+            </div>
+            {RegisterFormik.errors.role && RegisterFormik.touched.role ? (
+              <p className="text-red-500 mb-2">{RegisterFormik.errors.role}</p>
             ) : null}
-            </>
-         ):null}
+          </>
+        ) : null}
         <ButtonComponent
           type="submit"
           icon={<MdOutlineEmail size="2rem" />}
