@@ -14,16 +14,17 @@ function NavComponent() {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const navigate = useNavigate();
 
-  console.log("Having role ",currentUser?.role);
-  console.log("Auth value ",authToken);
-  console.log("isProfileComplete ",currentUser);
+  // console.log("Having role ",currentUser?.role);
+  // console.log("Auth value ",authToken);
+  // console.log("isProfileComplete ",currentUser);
 
   function removeToken() {
     console.log("Inside logout");
     sessionStorage.clear();
     enqueueSnackbar("Logout Successfull !", { variant: "success" });
+        // window.location.reload(); // Reload the window
+
     navigate("/login");
-    window.location.reload(); // Reload the window
   }
 
   function handleClick() {
@@ -66,9 +67,9 @@ function NavComponent() {
             <li>
             <Link to="/tutordashboard">Tutor Dash</Link>
             </li>
-            {authToken && currentUser && currentUser.role === "tutor" && currentUser.tutorForm.isProfileCompleted===false &&(
+            {authToken && currentUser && currentUser.role === "tutor" && currentUser.isProfileCompleted===false &&(
               <li>
-                <Link to="/tutorCreation">Complete Profile</Link>
+                <Link to="/tutorcompleteprofile">Complete Profile</Link>
               </li>
             )}
           </ul>
@@ -112,7 +113,7 @@ function NavComponent() {
               <Link to="/dashboard" onClick={showDropDownMenu}>Dashboard</Link>
             </li>
             <li className="active-button" onClick={showDropDownMenu}>
-                <button  onClick={removeToken}>
+                <button onClick={removeToken}>
                   Log Out
                 </button>
             </li>
@@ -136,7 +137,7 @@ function NavComponent() {
             <li>
               <Link to="/dashboard">Find Tutor</Link>
             </li>
-            {authToken && currentUser && currentUser.role==="tutor" && currentUser.tutorForm.isProfileCompleted===false && (<li>Complete Profile</li>)}
+            {authToken && currentUser && currentUser.role==="tutor" && currentUser.isProfileCompleted===false && (<li>Complete Profile</li>)}
           </ul>
          {!authToken ? (
           <ul className="hamburger-list" id="bottom-list">

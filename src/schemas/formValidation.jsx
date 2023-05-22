@@ -13,9 +13,7 @@ export const LoginSchema=Yup.object({
     password:Yup.string().min(6).required("Password is required"),
 })
 
-// export const TutorRegisterSchema=Yup.object({
-//     subjects
-// })
+
 
 export const subjectSchema=Yup.object({
     subjects:Yup.array()

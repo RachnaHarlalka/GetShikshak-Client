@@ -13,15 +13,18 @@ import './listingitems.css';
 
 export default function ListingItems({pageheading,receivedData}) {
     console.log("List Rendered");
+    console.log("receivedData",receivedData);
+    console.log("page hedaer",pageheading);
 
     // const [currentData,setCurrentData] = useState();
 
     // setCurrentData(receivedData);
 
     const colHeading = Object.keys(receivedData[0]);
+    
 
     // console.log("List Rendered");
-    // console.log("Data Received",colHeading);
+    console.log("Data Received",colHeading);
 
     function generateColHeading(){
         const tableHeading = colHeading.map((item)=>{
