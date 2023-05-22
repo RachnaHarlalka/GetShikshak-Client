@@ -2,8 +2,6 @@ import { Routes, Route } from "react-router-dom";
 import Register from "./Components/Register/Register";
 import Login from "./Components/Login/Login";
 import Landing from "./Components/Landing/Landing";
-import { useRecoilValue } from "recoil";
-import TutorRegistrationForm from "./Components/TutorRegistrationForm/TutorRegistrationForm";
 import SearchResult from "./Components/SearchResult";
 import StudentDashboard from "./Components/DashBoard/StudentDashboard/StudentDashboard";
 import TutorDashboard from "./Components/DashBoard/TutorDashboard/TutorDashboard";
@@ -12,7 +10,8 @@ import ReserveClass from "./ReserveClass";
 import NoResultPage from "../src/Components/NoResultPage";
 import NotFound from "../src/Components/NotFound";
 import AdminDashboard from "./Components/DashBoard/AdminDashboard/AdminDashboard";
-// import TutorRegistrationForm from "../Components/TutorRegistrationForm/TutorRegistrationForm";
+import TutorCompleteProfile from "./Components/TutorCompleteProfile/TutorCompleteProfile";
+import StudentCompleteProfile from "./Components/StudentCompleteProfile";
 
 function AllRoutes() {
   // const authToken =useRecoilValue(authTokenAtom);
@@ -20,7 +19,7 @@ function AllRoutes() {
   const authToken = JSON.parse(sessionStorage.getItem("token"));
   const userData = JSON.parse(sessionStorage.getItem("user"));
 
-  console.log("authtoken wow", authToken);
+  console.log("authtoken wow", authToken,userData);
   return (
     <Routes>
       {authToken ? (
@@ -36,15 +35,15 @@ function AllRoutes() {
       <Route path="/search" element={<SearchResult />} />
       <Route path="/user/:id" element={<TutorProfile />} />
       {userData?.role === "student" ? (
-        <Route path="/reserveclass/:id" element={<ReserveClass />} />
+        <Route path="/reserveclass/:id" element={<ReserveClass/>} />
       ) : (
         <Route path="/reserveclass/:id" element={<Landing />} />
       )}
-      {userData?.role === "tutor" ? (
-        <Route path="/tutorCreation" element={<TutorRegistrationForm />} />
-      ) : (
-        <Route path="/tutorCreation" element={<Landing />} />
-      )}
+      {/* {userData?.role === "tutor" ? ( */}
+        <Route path="/tutorcompleteprofile" element={<TutorCompleteProfile/>} />
+      {/* ) : (
+        <Route path="/tutorcompleteprofile" element={<Landing />} />
+      )} */}
       <Route path="/noresult" element={<NoResultPage />} />
       <Route path="*" element={<NotFound />} />
 
@@ -55,6 +54,7 @@ function AllRoutes() {
       ) : (
         <Route path="/dashboard" element={<AdminDashboard />} />
       )}
+      <Route path="/studentcompleteprofile" element={<StudentCompleteProfile/>}/>
     </Routes>
   );
 }

@@ -1,5 +1,7 @@
 import { useRef } from "react";
 import PreviewDocs from "./PreviewDocs";
+import {AiOutlineCloudUpload} from 'react-icons/ai'
+
 function DocumentUpload(props) {
   const profileRef = useRef(null);
   const identityRef = useRef(null);
@@ -27,10 +29,7 @@ function DocumentUpload(props) {
             type="file"
             name="profilePic"
             onChange={(event) => {
-              props.formik.setFieldValue(
-                "profilePic",
-                event.target.files[0]
-              );
+              props.formik.setFieldValue("profilePic", event.target.files[0]);
             }}
           />
           <input
@@ -60,28 +59,31 @@ function DocumentUpload(props) {
               {props.formik.values.profilePic ? (
                 <PreviewDocs
                   file={props.formik.values.profilePic}
-                  width="100px"
-                  // height="100px"
+                  width="56"
+                  height="64"
                 />
               ) : (
                 <button
-                  className="h-64 w-56 bg-white border-2"
+                  className="h-64 w-56 bg-white border-2 flex justify-center items-center"
                   onClick={() => {
                     profileRef.current.click();
                   }}
                 >
                   Upload Profile Picture
+                  <span className="mx-2"><AiOutlineCloudUpload size="1.3em"/></span>
                 </button>
               )}
 
               {props.formik.values.profilePic && (
                 <button
-                  className="my-2  text-sm  border-2 w-2/3 rounded-sm p-2 transition-all ease-in-out duration-200 shadow-md hover:scale-105"
+                  className="my-2  flex justify-center items-center  text-sm  border-2 w-2/3 rounded-sm p-2 transition-all ease-in-out duration-200 shadow-md hover:scale-105"
                   onClick={() => {
                     profileRef.current.click();
                   }}
                 >
-                  Upload Profile
+                  Re-Upload
+                  <span className="mx-2"><AiOutlineCloudUpload size="1.3em"/></span>
+
                 </button>
               )}
 
@@ -97,28 +99,32 @@ function DocumentUpload(props) {
               {props.formik.values.identity ? (
                 <PreviewDocs
                   file={props.formik.values.identity}
-                  width="100px"
-                  // height="100px"
+                  width="56"
+                  height="64"
                 />
               ) : (
                 <button
-                  className="h-64 w-56 bg-white border-2"
+                  className="h-64 w-56 bg-white border-2  flex justify-center items-center"
                   onClick={() => {
                     identityRef.current.click();
                   }}
                 >
-                  Upload Identity
+                 Upload identity
+                  <span className="mx-2"><AiOutlineCloudUpload size="1.3em"/></span>
+
                 </button>
               )}
 
               {props.formik.values.identity && (
                 <button
-                  className="my-2 border-2 text-sm w-2/3 rounded-sm p-2 transition-all ease-in-out duration-200 shadow-md hover:scale-105"
+                  className="my-2 flex justify-center items-center border-2 text-sm w-2/3 rounded-sm p-2 transition-all ease-in-out duration-200 shadow-md hover:scale-105"
                   onClick={() => {
                     identityRef.current.click();
                   }}
                 >
-                  Upload Certificate
+                  Re-Upload
+                  <span className="mx-2"><AiOutlineCloudUpload size="1.3em"/></span>
+
                 </button>
               )}
               {props.formik.errors.identity && props.formik.touched.identity ? (
@@ -142,28 +148,32 @@ function DocumentUpload(props) {
               {props.formik.values.lastEducationalCertificate ? (
                 <PreviewDocs
                   file={props.formik.values.lastEducationalCertificate}
-                  width="100px"
-                  // height="100px"
+                  width="56"
+                  height="64"
                 />
               ) : (
                 <button
-                  className="h-64 w-56 bg-white border-2"
+                  className="h-64 w-56 bg-white border-2 flex flex-col justify-center items-center"
                   onClick={() => {
                     certificateRef.current.click();
                   }}
                 >
                   Upload last Educational Certificate Proof
+                  <span className="mx-2"><AiOutlineCloudUpload size="1.3em"/></span>
+
                 </button>
               )}
 
               {props.formik.values.lastEducationalCertificate && (
                 <button
-                  className="my-2  text-sm  border-2 w-2/3 rounded-sm p-2 transition-all ease-in-out duration-200 shadow-md hover:scale-105"
+                  className="my-2 flex justify-center items-center  text-sm  border-2 w-2/3 rounded-sm p-2 transition-all ease-in-out duration-200 shadow-md hover:scale-105"
                   onClick={() => {
                     certificateRef.current.click();
                   }}
                 >
-                  Upload
+                  Re-Upload
+                  <span className="mx-2"><AiOutlineCloudUpload size="1.3em"/></span>
+
                 </button>
               )}
 
@@ -175,29 +185,6 @@ function DocumentUpload(props) {
               ) : null}
             </div>
           </div>
-          {/* <div className="flex gap-2 my-5">
-            {props.formik.values.identity && (
-              <PreviewDocs
-                file={props.formik.values.profilePic}
-                width="180px"
-                height="180px"
-              />
-            )}
-            {props.formik.values.identity && (
-              <PreviewDocs
-                file={props.formik.values.identity}
-                width="180px"
-                height="180px"
-              />
-            )}
-            {props.formik.values.lastEducationalCertificate && (
-              <PreviewDocs
-                file={props.formik.values.lastEducationalCertificate}
-                width="180px"
-                height="180px"
-              />
-            )}
-          </div> */}
         </div>
       </div>
     </>

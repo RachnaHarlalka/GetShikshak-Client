@@ -27,16 +27,6 @@ function ReserveClass() {
     setTutor(response.data.user);
 
   };
-//   console.log("tutor",tutor)
-
-//   const subjects=tutor?.tutorForm?.subjects?.map((subject)=>{
-//     return (<h1>{subject}</h1>)
-//   })
-
-//   console.log("tutor",tutor?.tutorForm?.subjects.map((subject)=>{
-//     return (<h1>{subject}</h1>)
-//   }));
-  
   useEffect(() => {
     fetchData();
   }, []);

@@ -14,7 +14,7 @@ export default function PreviewDocs({ file, width, height ,handleClick}) {
   },[file]);
   return (
     <div onclick={handleClick}>
-      <img src={preview} alt="preview" className="h-64 w-56 object-cover rounded-sm "  />
+      <img src={preview} alt="preview" className={`h-${height} w-${width} object-cover rounded-sm`}  />
     </div>
   );
 }

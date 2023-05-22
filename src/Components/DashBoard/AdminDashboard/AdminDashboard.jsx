@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import EditButton from "../EditButton";
 import HomePage from "./HomePage";
 import axios from "axios";
+import ListingItems from "../ListingItems";
 function AdminDashboard() {
   const [pageId, setPageId] = useState(0);
   const[students,setStudents]=useState([]);
@@ -15,8 +16,8 @@ function AdminDashboard() {
         url:"http://localhost:3000/user/getstudents",
         method:"GET"
     })
-    console.log("student",response.data.students);
-    const fetchedStudent=response.data.students;
+    console.log("student",response.data.filteredStudents);
+    const fetchedStudent=response.data.filteredStudents;
     setStudents(fetchedStudent);
 
   }
@@ -31,6 +32,7 @@ function AdminDashboard() {
     setTutors(fetchedTutors);
   }
 
+  console.log("students",students);
   const fetchAdmin=async()=>{
     console.log("inside fatch admin")
     const response = await axios({
@@ -87,7 +89,7 @@ function AdminDashboard() {
       case 1:
         return (<><h1>Profile</h1></>);
       case 2:
-        return (<><h1>Students</h1></>);
+        return (<ListingItems pageheading={"Students List"} receivedData={students}/>);
       case 3:
         return (<><h1>Tutors</h1></>);
       case 4:
