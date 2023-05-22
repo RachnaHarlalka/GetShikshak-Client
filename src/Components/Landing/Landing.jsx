@@ -17,6 +17,7 @@ function Landing(){
         setTutors(response.data.filteredTutors);
     }
 
+    
     useEffect(()=>{
         fetchData();
     },[])

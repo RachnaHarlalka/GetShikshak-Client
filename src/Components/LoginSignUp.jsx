@@ -23,6 +23,7 @@ const LoginValues = {
 };
 
 function LoginSignUp(props) {
+  console.log("inside login sign up");
   let RegisterFormik, LoginFormik;
   const navigate = useNavigate();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
