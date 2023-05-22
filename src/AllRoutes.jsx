@@ -20,7 +20,7 @@ function AllRoutes() {
   const authToken = JSON.parse(sessionStorage.getItem("token"));
   const userData = JSON.parse(sessionStorage.getItem("user"));
 
-  console.log("authtoken wow", authToken);
+  // console.log("authtoken wow", authToken);
   return (
     <Routes>
       {authToken ? (
@@ -35,16 +35,22 @@ function AllRoutes() {
       {/* <Route path='/searchPage' element={<SearchPage/>}/> */}
       <Route path="/search" element={<SearchResult />} />
       <Route path="/user/:id" element={<TutorProfile />} />
-      {userData?.role === "student" ? (
+      {/* {userData?.role === "student" ? ( */}
         <Route path="/reserveclass/:id" element={<ReserveClass />} />
-      ) : (
+      {/* ) : (
         <Route path="/reserveclass/:id" element={<Landing />} />
-      )}
-      {userData?.role === "tutor" ? (
+      ) */}
+      {/* {userData?.role === "tutor" ? (
         <Route path="/tutorCreation" element={<TutorRegistrationForm />} />
       ) : (
         <Route path="/tutorCreation" element={<Landing />} />
-      )}
+      )} */}
+
+       (
+        <Route path="/tutorCreation" element={<TutorRegistrationForm />} />
+      ) : (
+        <Route path="/tutorCreation" element={<Landing />} />
+      )
       <Route path="/noresult" element={<NoResultPage />} />
       <Route path="*" element={<NotFound />} />
 

@@ -59,9 +59,13 @@
     top:0px;
 }
 
-/* .dashboard-input-box{
+.dashboard-input-box{
+    padding: 3px 5px;
+}
 
-} */
+#address{
+    width: 550px;
+}
 /* 
 .flex-list{
     display: flex;
@@ -91,6 +95,15 @@
    margin: 5px 0px 0px 0px;
    border-radius: none;
    box-shadow:none;
+}
+
+.document{
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    object-fit:cover;
+    /* margin: 0px; */
+    border:1px solid gray;
 }
 
 #profile-section-second-row{

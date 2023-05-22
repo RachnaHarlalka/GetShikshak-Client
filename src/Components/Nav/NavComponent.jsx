@@ -14,9 +14,9 @@ function NavComponent() {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const navigate = useNavigate();
 
-  console.log("Having role ",currentUser?.role);
-  console.log("Auth value ",authToken);
-  console.log("isProfileComplete ",currentUser);
+  // console.log("Having role ",currentUser?.role);
+  // console.log("Auth value ",authToken);
+  // console.log("isProfileComplete ",currentUser);
 
   function removeToken() {
     console.log("Inside logout");
