@@ -2,7 +2,7 @@ import "./card.css";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import Card from "./Card";
-import { productData, responsive } from "./data";
+import { responsive } from "./data";
 
 export default function TutorCarousal({tutors}) {
   // console.log("tutop",tutors[0]);
@@ -10,14 +10,15 @@ export default function TutorCarousal({tutors}) {
     return  (<>
     <Card
       key={index}
+      city={tutor.tutorForm.city}
       name={tutor.name}
       subjects={tutor.tutorForm.subjects}
       url= {`http://localhost:3000/assets/${tutor.profilePic}`}
       id={tutor._id}
-      // price={item.price}
+      // price={tutor.tutorForm.city}
       rate={tutor.tutorForm.rate}
     />
-    {console.log("profile",`http://localhost:3000/assets/${tutor.profilePic}`)}
+          {console.log("profile",`http://localhost:3000/assets/${tutor.profilePic}`)}
     </>
   )
   

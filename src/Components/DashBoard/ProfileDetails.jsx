@@ -1,10 +1,17 @@
     import './style.css'
     import './profileDetails.css'
     import EditButton from './EditButton';
+    import {useState,useEffect } from 'react';
 
-    function ProfileDetails(props){
+    function ProfileDetails({fetchedData}){
 
-        //console.log("DashBoard Rendered");
+        // console.log("Data recieved ",fetchedData);
+
+        const [userData, setUserData] = useState(null);
+
+        useEffect(()=>{
+            setUserData(fetchedData)
+        },[]);
 
         return(
             <div id="profile-page-root-div">
@@ -22,19 +29,19 @@
                                         <div className='content-col-div'>
                                             <li className='content-li'>
                                                     <span className='label-span'>Name</span>
-                                                    <input type="text" className='dashboard-input-box' id="name" placeholder="Tutor Name" disabled/>
-                                            </li>
-                                            <li className='content-li'>
-                                                    <span className='label-span'>Native Language</span>  
-                                                    <input type="text" className='dashboard-input-box' id="native-lang" placeholder="English/Assamese/Hindi"/>
+                                                    <input type="text" className='dashboard-input-box' id="name" placeholder="Tutor Name" disabled value={userData?.name}/>
                                             </li>
                                             <li className='content-li'>
                                                     <span className='label-span'>Email</span> 
-                                                    <input type="text" className='dashboard-input-box' id="email" placeholder="Email" disabled/>
+                                                    <input type="text" className='dashboard-input-box' id="email" placeholder="Email" disabled value={userData?.email}/>
                                             </li>
                                             <li className='content-li'>
-                                                    <span className='label-span'>State</span>
-                                                    <input type="text" className='dashboard-input-box' id="state" placeholder="Assam"/>
+                                                    <span className='label-span'>Phone No</span>
+                                                    <input type="text" className='dashboard-input-box' id="phone-no" placeholder="9872616113" value={userData?.tutorForm?.phone}/>
+                                            </li>
+                                            <li className='content-li'>
+                                                    <span className='label-span'>Addess</span>
+                                                    <input type="text" className='dashboard-input-box' id="address" placeholder="Guwahati"/>
                                             </li>
                                         </div>
                                         <div className='content-col-div'>
@@ -47,12 +54,8 @@
                                                     <input type="text" className='dashboard-input-box' id="age" placeholder="23yrs"/>
                                             </li>
                                             <li className='content-li'>
-                                                    <span className='label-span'>Phone No</span>
-                                                    <input type="text" className='dashboard-input-box' id="phone-no" placeholder="9872616113"/>
-                                            </li>
-                                            <li className='content-li'>
                                                     <span className='label-span'>City</span>
-                                                    <input type="text" className='dashboard-input-box' id="city" placeholder="Guwahati"/>
+                                                    <input type="text" className='dashboard-input-box' id="city" placeholder="Guwahati" disabled value={userData?.tutorForm?.city}/>
                                             </li>
                                         </div>
                                     </ul>
@@ -81,14 +84,11 @@
                             <div className='content-div'>
                                 <div className='sub-container-div col-div' id='id-proof-div'>
                                     <div className='div-heading'>
-                                        ID PROOF
+                                        ID Proof
                                     </div>
                                     <div className='content-div document-content-div'>
                                         <div className='document-show-div'>
-                                            Document
-                                        </div>
-                                        <div className='document-show-div'>
-                                            Document
+                                            <img className='document' alt="ID PROOF" src={`http://localhost:3000/assets/${userData?.tutorForm?.identity}`}/>
                                         </div>
                                     </div>
                                 </div>
@@ -98,10 +98,7 @@
                                         </div>
                                         <div className='content-div document-content-div'>
                                             <div className='document-show-div'>
-                                                Document
-                                            </div>
-                                            <div className='document-show-div'>
-                                                Document
+                                                <img className='document' alt="ID PROOF" src={`http://localhost:3000/assets/${userData?.tutorForm?.lastEducationalCertificate}`}/>
                                             </div>
                                         </div>
                                     </div>

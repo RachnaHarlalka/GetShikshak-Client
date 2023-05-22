@@ -3,14 +3,10 @@ import Select from "react-select";
 import { Formik, useFormik } from "formik";
 import { SearchStyle } from "../styleClasses";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import cityOptions from '../../utils/cityOptions.json'
 
 import "../index.css";
 
-const cityOptions = [
-  { value: "Assam", label: "Assam" },
-  { value: "Delhi", label: "Delhi" },
-  { value: "Gujarat", label: "Gujarat" },
-];
 function SearchBox() {
   const navigate = useNavigate();
   let [searchParams, setSearchParams] = useSearchParams();
@@ -21,6 +17,8 @@ function SearchBox() {
     subject:subject || "",
     city:city || "",
   };
+
+  console.log("city options",cityOptions);
 
   let formik = useFormik({
     initialValues,

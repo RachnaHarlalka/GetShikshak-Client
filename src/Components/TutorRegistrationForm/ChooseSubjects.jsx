@@ -15,7 +15,7 @@ function ChooseSubject(props) {
         url:"http://localhost:3000/advertise/subjects",
         method:"GET"
       })
-      console.log(response.data);
+      // console.log("Response Subject ",response);
       setSubjectOptions(response.data.subjects)
     }
     fetchData();
@@ -38,7 +38,7 @@ function ChooseSubject(props) {
     props.formik.setFieldValue(
       "subjects",
       selectedValue.map((option) => {
-        return option.value, option.label;
+        return (option.value,option.label);
       })
     );
   }

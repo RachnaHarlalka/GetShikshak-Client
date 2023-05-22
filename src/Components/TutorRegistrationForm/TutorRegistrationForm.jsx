@@ -39,6 +39,8 @@ const FormTitle = [
 const steps = [1, 2, 3, 4, 5, 6,7];
 
 function TutorRegistrationForm() {
+
+  console.log("Tutor Form");
   const [tutorFormData, setTutorFormData] = useRecoilState(userDataAtom);
   const navigate = useNavigate();
   // const [authToken, setAuthToken] = useRecoilState(authTokenAtom);

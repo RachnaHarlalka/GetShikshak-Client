@@ -9,7 +9,7 @@ import {authTokenAtom} from '../../Atom'
 import './style.css';
 
 function EditButton({inputBoxId,path,newData}){
-    console.log("Edit Button Rendered");
+    // console.log("Edit Button Rendered");
 
     const [showSave,setShowSave]=useState();
     // const [authToken,setAuthToken] = useRecoilState(authTokenAtom);
