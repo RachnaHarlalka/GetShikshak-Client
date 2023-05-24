@@ -13,7 +13,7 @@ function AccountSettings(){
                         </div>
                         <div className='account-content-div'>
                             <div className='sub-container-div' id='deactivate-account-div'>
-                                <div className='div-heading left-align-heading'>
+                                <div className='div-heading left-align-heading' style={{justifyContent:"flex-start"}}>
                                     Deactivate Account
                                 </div>
                                 <div className='account-content-div'>
@@ -30,7 +30,7 @@ function AccountSettings(){
                                 </div>
                             </div>
                             <div className='sub-container-div'>
-                                <div className='div-heading left-align-heading'>
+                                <div className='div-heading' style={{justifyContent:"flex-start"}}>
                                     Delete Account
                                 </div>
                                 <div className='account-content-div'>

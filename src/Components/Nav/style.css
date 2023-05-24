@@ -3,10 +3,10 @@
     position: sticky;
     top:0px; */
     /* width: 100vw; */
-    background-color:#0a4a40;
+    /* background-color:#0a4a40; */
     /* border: 2px solid gray; */
     height: 10vh;
-    color: white;
+    /* color: white; */
     display: flex;
     justify-content: space-around;
     align-items: center;

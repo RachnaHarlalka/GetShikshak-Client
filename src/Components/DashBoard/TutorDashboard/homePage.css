@@ -29,7 +29,7 @@
 .sub-container-div{
     /* box-shadow: 0px 2px 5px 0px gray; */
     /* background-color: red; */
-    border-radius: 6px;
+    border-radius: 3px;
     padding: 10px;
     margin: 10px;
     /* height: 100%; */
@@ -48,12 +48,23 @@
 }
 
 #welcome-greeting-div{
+    position: relative;
     /* background-color: pink; */
     display: flex;
     flex-direction: column;
     /* background-color: lightblue; */
     width: fit-content;
     padding: 20px 30px;
+}
+
+#verified-tag{
+    /* position:absolute;
+    top:0px;
+    right: 0px; */
+    font-size: 20px;
+    margin-left:5px;
+    padding-top: 3px;
+    /* background-color: rgb(165, 58, 58); */
 }
 
 #welcome-greeting-div > #user-name{
@@ -67,7 +78,7 @@
     /* font-weight:lighter; */
 }
 
-#waving-hand{
+#tutor-home-page-waving-hand{
     margin-left: 10px;
     color:rgb(190, 127, 8);
     /* color: rgb(138, 85, 15); */
@@ -206,6 +217,8 @@
 }
 
 #content-heading{
+    display: flex;
+    justify-content: space-between;
     text-transform: uppercase;
     font-weight: bold;
 }

@@ -122,11 +122,11 @@ function NavComponent() {
             <li id='dropDown-menu-user-name'>
               {currentUser && currentUser.email}
             </li>
-            <li>
-              <Link to="/dashboard" onClick={showDropDownMenu}>Dashboard</Link>
+            <li onClick={showDropDownMenu} style={{padding:"0px"}}>
+              <Link to="/dashboard" style={{width:"100%",textAlign:"center",padding:"8px 0px"}}>Dashboard</Link>
             </li>
-            <li className="active-button" onClick={showDropDownMenu}>
-                <button onClick={removeToken}>
+            <li className="active-button" onClick={()=>{removeToken();showDropDownMenu()}}>
+                <button>
                   Log Out
                 </button>
             </li>
