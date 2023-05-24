@@ -1,0 +1,163 @@
+#profile-page-root-div{
+    /* background-color: rgb(230, 229, 229); */
+    /* justify-content: space-between; */
+    height: 100%;
+}
+
+#profile-page-details-div{
+    /* margin-right: 5px; */
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.sub-container-div{
+    /* box-shadow: 0px 2px 5px 0px gray; */
+    border-radius: 6px;
+    padding: 10px;
+    /* margin: 10px; */
+}
+
+.col-div{
+    /* background-color:lightgray; */
+    /* border: 1px solid red; */
+    /* display: flex; */
+    /* margin: 0px; */
+    /* align-self: stretch; */
+}
+
+#profile-section-second-col{
+    width: 29%;
+    /* background-color: pink; */
+}
+
+#document-content-div{
+    /* background-color: blueviolet; */
+    display: block;
+    padding: 0px;
+    height: 96%;
+}
+
+.single-document{
+    /* background-color: lightblue; */
+    padding: 10px;
+    /* margin-top:10px; */
+}
+
+#first-col{
+    /* justify-content: space-around; */
+    /* background-color: aqua; */
+    width: 70%;
+}
+
+.content-div{
+    padding: 5px 10px;
+    display: flex;
+    /* background-color: gray; */
+}
+
+.label-span{
+    /* font-size: medium; */
+    font-weight:bold;
+    color: gray;
+
+}
+
+.content-span{
+    padding-left: 0px;
+}
+
+.content-li{
+    /* background-color: darkseagreen; */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* border-bottom: 1px solid black; */
+    margin-bottom: 20px;
+    height: 50px;
+}
+
+.edit-button-div{
+    position: absolute;
+    top:0px;
+}
+
+.dashboard-input-box{
+    padding: 3px 5px;
+}
+
+#address{
+    width: 550px;
+}
+/* 
+.flex-list{
+    display: flex;
+    flex-wrap: ;
+    justify-content: space-between;
+} */
+
+.content-col-div{
+    width: 200px;
+}
+
+.content-ul{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.qualification-row{
+    /* background-color: lightslategray; */
+    padding: 10px 10px;
+    width: 100%;
+}
+
+#document-div{
+   width: 100%;
+   height: 100%;
+   padding-bottom: 0px;
+   /* margin:0px; */
+   /* border-radius: 8px; */
+   /* background-color: black; */
+   /* box-shadow:none; */
+   /* border:5xpx solid green; */
+}
+
+
+
+.document{
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    object-fit:cover;
+    /* margin: 0px; */
+    /* border:1px solid gray; */
+}
+
+#profile-section-second-row{
+    /* background-color: gray; */
+}
+
+.document-content-div{
+    /* background-color: gray; */
+    /* display: flex ;
+    justify-content: space-around; */
+}
+
+.documets-div-options{
+    width: 150px;
+    height: 165px;
+    background-color: lightgray;
+}
+
+.document-show-div{
+    width: 85%;
+    height: 248px;
+    /* background-color: lightgray; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+}
+

@@ -68,17 +68,30 @@ function LoginSignUp(props) {
           if (response.status === 201) {
             console.log("Login success");
             if (response.data.token) {
-              let token = JSON.stringify(response.data.token);
-              const user = JSON.stringify(response.data.user);
-              sessionStorage.setItem("token", token);
-              sessionStorage.setItem("user",user);
+              const user = response.data.user;
+              let sessiontoken = JSON.stringify(response.data.token);
+              const sessionUser = JSON.stringify(response.data.user);
+              sessionStorage.setItem("token", sessiontoken);
+              sessionStorage.setItem("user",sessionUser);
+              console.log("Login successfull");
+              enqueueSnackbar(response.data.message, { variant: "success" });
+  
+              console.log("user.role login",user.role);
+              console.log("user login profileCompleted",user.isProfileCompleted)
+              if(user.role==="student"){
+                navigate('/studentcompleteprofile');
+              }
+              // if(user.role==="tutor" && user.tutorForm.isProfileCompleted === false){
+                navigate('/tutorcompleteprofile')
+              // }
+              // else{
+              //   navigate("/");
+              // }
+
              
               // console.log(sessionStorage.getItem("user"))
               // sessionStorage.setItem("authToken", token)
             }
-            console.log("Login successfull");
-            enqueueSnackbar(response.data.message, { variant: "success" });
-            navigate("/");
           }
         } catch (err) {
           enqueueSnackbar(err.response.data.error, { variant: "error" });

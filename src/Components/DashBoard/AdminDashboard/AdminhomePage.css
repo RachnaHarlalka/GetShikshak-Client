@@ -1,4 +1,4 @@
-#home-page-root-div{
+#admin-home-page-root-div{
     display: flex;
     /* background-color: paleturquoise; */
     /* justify-content: space-between; */
@@ -6,9 +6,9 @@
     height: 100%;
 }
 
-#home-page-details-div{
+#admin-home-page-details-div{
     position: relative;
-    /* width: 77.6%; */
+    width: 77.6%;
     margin-right: 5px;
     /* background-color: gray; */
 }
@@ -20,10 +20,48 @@
     /* margin: 0px; */
 }
 
+.content-li{
+    background-color: green;
+}
+
+.personal-details-row-div{
+    /* background-color: aqua; */
+    width: 45%;
+    justify-content: flex-start;
+    margin: 0px 5px;
+    /* text-align: center; */
+}
+
+.label-div{
+    font-weight: bold;
+    color: gray;
+    margin-right: 5px;
+}
+
+.details-item{
+    /* background-color: red; */
+    width: 50%;
+    padding: 5px;
+    margin-right: 5px;
+}
+
+.tutor-request-document-show-div{
+    /* background-color: aqua; */
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.tutor-request-document{
+    width: 300px;
+    height: 300px;
+    margin-right: 50px;
+}
+
 .sub-container-div{
     /* box-shadow: 0px 2px 5px 0px gray; */
     /* background-color: red; */
-    border-radius: 6px;
+    border-radius: 3px;
     padding: 10px;
     margin: 10px;
     /* height: 100%; */
@@ -87,6 +125,7 @@
 #crosss-div{
     display: flex;
     justify-content: flex-end;
+    /* background-color: aqua; */
 }
 
 .cursor-type-pointer{

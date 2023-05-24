@@ -22,8 +22,9 @@ function NavComponent() {
     console.log("Inside logout");
     sessionStorage.clear();
     enqueueSnackbar("Logout Successfull !", { variant: "success" });
+        // window.location.reload(); // Reload the window
+
     navigate("/login");
-    window.location.reload(); // Reload the window
   }
 
   function handleClick() {
@@ -66,9 +67,9 @@ function NavComponent() {
             <li>
             <Link to="/tutordashboard">Tutor Dash</Link>
             </li>
-            {authToken && currentUser && currentUser.role === "tutor" && currentUser.tutorForm.isProfileCompleted===false &&(
+            {authToken && currentUser && currentUser.role === "tutor" && currentUser.isProfileCompleted===false &&(
               <li>
-                <Link to="/tutorCreation">Complete Profile</Link>
+                <Link to="/tutorcompleteprofile">Complete Profile</Link>
               </li>
             )}
           </ul>
@@ -108,11 +109,11 @@ function NavComponent() {
             <li id='dropDown-menu-user-name'>
               {currentUser && currentUser.email}
             </li>
-            <li>
-              <Link to="/dashboard" onClick={showDropDownMenu}>Dashboard</Link>
+            <li onClick={showDropDownMenu} style={{padding:"0px"}}>
+              <Link to="/dashboard" style={{width:"100%",textAlign:"center",padding:"8px 0px"}}>Dashboard</Link>
             </li>
-            <li className="active-button" onClick={showDropDownMenu}>
-                <button  onClick={removeToken}>
+            <li className="active-button" onClick={()=>{removeToken();showDropDownMenu()}}>
+                <button>
                   Log Out
                 </button>
             </li>
@@ -136,7 +137,7 @@ function NavComponent() {
             <li>
               <Link to="/dashboard">Find Tutor</Link>
             </li>
-            {authToken && currentUser && currentUser.role==="tutor" && currentUser.tutorForm.isProfileCompleted===false && (<li>Complete Profile</li>)}
+            {authToken && currentUser && currentUser.role==="tutor" && currentUser.isProfileCompleted===false && (<li>Complete Profile</li>)}
           </ul>
          {!authToken ? (
           <ul className="hamburger-list" id="bottom-list">
