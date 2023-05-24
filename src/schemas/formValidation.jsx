@@ -14,7 +14,6 @@ export const LoginSchema=Yup.object({
 })
 
 
-
 export const subjectSchema=Yup.object({
     subjects:Yup.array()
     .required('Required!')
@@ -93,6 +92,28 @@ export const DocumentUploadSchema=Yup.object({
         (value)=>!value || (value && value.size <=5000*5000)
     )
     .test(
+        "FILE_FORMAT",
+        "Uploaded file has unsupported format.",
+        (value)=>!value || (value && SUPPORTED_FORMATS.includes(value?.type))
+    )
+})
+
+//  gender: "",
+//     age: "",
+//     phone:"",
+//     address: "",
+//     profilePic: "",
+//     education:"",
+
+export const StudentCompleteProfileSchema=Yup.object({
+    gender:Yup.string().required("Required Field"),
+    age:Yup.string().required("Required Field"),
+    phone:Yup.string().required("Required Field").matches(phoneRegExp,"Phone number is not valid"),
+    address:Yup.string().required("Required field"),
+    education:Yup.string().required("Required Field"),
+    profilePic:Yup.mixed().nullable().required("Profil picture is required").test("FILE SIZE",
+    "Uploaded file is too big.",
+    (value)=>!value || (value && value.size <=5000*5000)).test(
         "FILE_FORMAT",
         "Uploaded file has unsupported format.",
         (value)=>!value || (value && SUPPORTED_FORMATS.includes(value?.type))

@@ -9,10 +9,10 @@ import './index.css'
 ReactDOM.createRoot(document.getElementById('root')).render(
     <RecoilRoot>
         <BrowserRouter>
-     <SnackbarProvider  anchorOrigin={{vertical: 'top',horizontal: 'right',}} autoHideDuration={2000}>
-        <App />    
-     </SnackbarProvider>
-    </BrowserRouter>
+            <SnackbarProvider  anchorOrigin={{vertical: 'top',horizontal: 'right',}} autoHideDuration={2000}>
+                <App />    
+            </SnackbarProvider>
+        </BrowserRouter>
     </RecoilRoot>
  
 )

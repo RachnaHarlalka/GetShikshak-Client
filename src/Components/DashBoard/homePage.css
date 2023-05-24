@@ -8,7 +8,7 @@
 
 #home-page-details-div{
     position: relative;
-    /* width: 77.6%; */
+    width: 78%;
     margin-right: 5px;
     /* background-color: gray; */
 }
@@ -18,6 +18,12 @@
     display: flex;
     /* justify-content: space-around; */
     /* margin: 0px; */
+}
+
+#last-row{
+    /* background-color: red; */
+    display: flex;
+    justify-content: space-between;
 }
 
 .sub-container-div{
@@ -100,10 +106,24 @@
 #student-profile-div{
     width: 150px;
     height: 150px;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+}
+
+.student-profilePic{
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    object-fit:cover;
+    /* margin: 0px; */
+    /* border:1px solid gray; */
 }
 
 #request-details-div{
-    
+    /* background-color: red; */
+    justify-content: space-between;
+    align-items: center;
 }
 
 #requested-subjects-div{
@@ -202,7 +222,7 @@
     display: flex;
     flex-direction: column;
     /* align-items: center; */
-    width: 250px;
+    width: 22%;
     /* display: none; */
     margin: 0px;
 }
@@ -327,12 +347,13 @@
 }
 
 #rating-outer-div{
-    border: 1px solid lightgray;
+    /* border: 1px solid lightgray; */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     border-radius: 5px;
     height: 100%;
+    font-size: medium;
 }
 
 #rating-label-div{
@@ -416,7 +437,7 @@
 
 #home-page-top-sub-div{
     display: flex;
-    justify-content: center;
+    justify-content: end;
     width: 50%;
     /* background-color: aqua; */
 }

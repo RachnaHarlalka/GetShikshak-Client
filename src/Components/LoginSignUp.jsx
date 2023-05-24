@@ -7,7 +7,9 @@ import { useFormik, Field } from "formik";
 import { useNavigate } from "react-router-dom";
 import { RegisterSchema, LoginSchema } from "../schemas/formValidation";
 import { useSnackbar } from "notistack";
+import { useRecoilState } from "recoil";
 import axios from "axios";
+import { authTokenAtom, userDataAtom } from "../Atom";
 
 const RegisterValues = {
   name: "",
@@ -27,6 +29,10 @@ function LoginSignUp(props) {
   let RegisterFormik, LoginFormik;
   const navigate = useNavigate();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
+  const[userData, setUserData] = useRecoilState(userDataAtom);
+  const[token,setAuthAtom]=useRecoilState(authTokenAtom);
+
   if (props.type === "register") {
     RegisterFormik = useFormik({
       initialValues: RegisterValues,
@@ -75,18 +81,27 @@ function LoginSignUp(props) {
               sessionStorage.setItem("user",sessionUser);
               console.log("Login successfull");
               enqueueSnackbar(response.data.message, { variant: "success" });
+
+              setUserData({
+                ...user,
+                isProfileVerified: user.tutorForm.isProfileVerified
+              })
+              setAuthAtom(response.data.token);
+              
   
               console.log("user.role login",user.role);
               console.log("user login profileCompleted",user.isProfileCompleted)
-              if(user.role==="student"){
+              // navigate("/studentcompleteprofile");
+              if(user?.role==="student"){
+                
                 navigate('/studentcompleteprofile');
               }
-              // if(user.role==="tutor" && user.tutorForm.isProfileCompleted === false){
+              else if(user?.role==="tutor"){
                 navigate('/tutorcompleteprofile')
-              // }
-              // else{
-              //   navigate("/");
-              // }
+              }
+              else{
+                navigate("/");
+              }
 
              
               // console.log(sessionStorage.getItem("user"))
