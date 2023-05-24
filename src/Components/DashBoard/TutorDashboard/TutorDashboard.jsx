@@ -1,13 +1,9 @@
 import { useState,useEffect } from 'react';
 import '../style.css';
-import {FcManager} from 'react-icons/fc';
-import ProfileDetails from '../ProfileDetails';
-import HomePage from '../HomePage';
+import ProfileDetails from './ProfileDetails';
+import HomePage from './HomePage';
 import EditButton from '../EditButton';
-import {AiOutlineHome,AiOutlineProfile} from 'react-icons/ai';
 import axios from 'axios';
-import {useRecoilState} from 'recoil';
-import {authTokenAtom} from '../../../Atom'
 import AccountSettings from '../AccountSettings';
 import ListingItems from '../ListingItems';
 import {useLottie} from 'lottie-react';
