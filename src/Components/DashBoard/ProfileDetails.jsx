@@ -37,7 +37,7 @@
                                             </li>
                                             <li className='content-li'>
                                                     <span className='label-span'>Phone No</span>
-                                                    <input type="text" className='dashboard-input-box' id="phone-no" placeholder="9872616113" value={userData?.tutorForm?.phone}/>
+                                                    <input type="text" className='dashboard-input-box' id="phone-no" placeholder="9872616113" value={userData?.phone}/>
                                             </li>
                                             <li className='content-li'>
                                                     <span className='label-span'>Addess</span>
@@ -109,5 +109,3 @@
             </div>
         )
     }
-
-    export default ProfileDetails;

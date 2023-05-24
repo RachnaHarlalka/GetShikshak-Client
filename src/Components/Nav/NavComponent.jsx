@@ -4,12 +4,19 @@ import { Link } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
 import { RxHamburgerMenu } from "react-icons/rx";
+import {IoMdBook} from "react-icons/io";
 import { useState } from "react";
+// import logo from '../../../public/images/logo'
 import "./style.css";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { authTokenAtom, userDataAtom } from "../../Atom";
 function NavComponent() {
   const [showHamburger, setShowHamburger] = useState(false);
-  let currentUser = JSON.parse(sessionStorage.getItem("user"));
-  let authToken=JSON.parse(sessionStorage.getItem("token"));
+  const [currentUser, setCurrentUser] = useRecoilState(userDataAtom);
+  const [authToken, setAuthToken]=useRecoilState(authTokenAtom);
+
+  // let currentUser = JSON.parse(sessionStorage.getItem("user"));
+  // let authToken=JSON.parse(sessionStorage.getItem("token"));
   const [showDropDown , setShowDropDown] =useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const navigate = useNavigate();
@@ -23,7 +30,8 @@ function NavComponent() {
     sessionStorage.clear();
     enqueueSnackbar("Logout Successfull !", { variant: "success" });
         // window.location.reload(); // Reload the window
-
+    setCurrentUser(null);
+    setAuthToken(null);
     navigate("/login");
   }
 
@@ -43,7 +51,7 @@ function NavComponent() {
     });
   }
 
-  //console.log("userdata in nav",currentUser)
+  console.log("userdata in nav",currentUser)
 
   return (
     <>
@@ -51,14 +59,14 @@ function NavComponent() {
         <div className="nav-sub-div" id="logo-div">
           <img className="logoImg" src="" alt="" />
           <span className="logoName tracking-wider">
-            <Link to="/">GETSHIKSHAK</Link>
+            <Link className="flex justify-center items-center" to="/"><IoMdBook size="2em"/><span className="mx-1">GetShiksha</span></Link>
 
           </span>
         </div>
 
         <div className="nav-sub-div" id="mid-nav-sub-div">
           <ul className="flex flex-row justify-around">
-            <li>
+            {/* <li>
               <a href="./#about-section">About Us</a>
             </li>
             <li>
@@ -66,10 +74,15 @@ function NavComponent() {
             </li>
             <li>
             <Link to="/tutordashboard">Tutor Dash</Link>
-            </li>
+            </li> */}
             {authToken && currentUser && currentUser.role === "tutor" && currentUser.isProfileCompleted===false &&(
               <li>
                 <Link to="/tutorcompleteprofile">Complete Profile</Link>
+              </li>
+            )}
+             {authToken && currentUser && currentUser.role === "student" && currentUser.isProfileCompleted===false &&(
+              <li>
+                <Link to="/studentcompleteprofile">Complete Profile</Link>
               </li>
             )}
           </ul>
@@ -80,7 +93,7 @@ function NavComponent() {
             <li className="nav-button">
               <Link to="/login">Log In</Link>
             </li>
-            <li className="nav-button" id="sign-up-button">
+            <li className="nav-button mx-4" id="sign-up-button">
               <Link
                 to="/register"
                 className="font-semibold px-4 py-2 rounded-xl"
@@ -109,11 +122,11 @@ function NavComponent() {
             <li id='dropDown-menu-user-name'>
               {currentUser && currentUser.email}
             </li>
-            <li>
-              <Link to="/dashboard" onClick={showDropDownMenu}>Dashboard</Link>
+            <li onClick={showDropDownMenu} style={{padding:"0px"}}>
+              <Link to="/dashboard" style={{width:"100%",textAlign:"center",padding:"8px 0px"}}>Dashboard</Link>
             </li>
-            <li className="active-button" onClick={showDropDownMenu}>
-                <button onClick={removeToken}>
+            <li className="active-button" onClick={()=>{removeToken();showDropDownMenu()}}>
+                <button>
                   Log Out
                 </button>
             </li>

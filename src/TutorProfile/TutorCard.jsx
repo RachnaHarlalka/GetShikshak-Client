@@ -1,11 +1,16 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
+import { useRecoilState } from "recoil";
+import { authTokenAtom, userDataAtom } from "../Atom";
 
 export default function TutorCard({ tutor }) {
   const navigate = useNavigate();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  const authToken = JSON.parse(sessionStorage.getItem("token"))
-  const userData = JSON.parse(sessionStorage.getItem("user"))
+  // const authToken = JSON.parse(sessionStorage.getItem("token"))
+  // const userData = JSON.parse(sessionStorage.getItem("user"))
+  const [authToken,setAuthToken]=useRecoilState(authTokenAtom);
+  const [userData,setUserData]=useRecoilState(userDataAtom);
+  console.log("userdata in reservercard",userData.role);
   const handleClick = ()=>{
     const url=`/reserveClass/${tutor._id}`
    if(authToken) navigate(url)
@@ -52,7 +57,7 @@ export default function TutorCard({ tutor }) {
               </tbody>
             </table>
           </div>
-          {userData?.role==="student" && (<div className="text-center my-3 text-white bg-primary-color p-4 rounded-lg">
+          {(userData?.role!=="admin" && userData?.role!=="tutor")&& (<div className="text-center my-3 text-white bg-primary-color p-4 rounded-lg">
             <button onClick={handleClick}>Reserve a Class</button>
           </div>)}
         </div>

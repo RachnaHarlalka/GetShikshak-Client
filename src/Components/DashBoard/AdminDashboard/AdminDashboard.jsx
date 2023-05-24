@@ -3,12 +3,15 @@ import EditButton from "../EditButton";
 import HomePage from "./HomePage";
 import axios from "axios";
 import ListingItems from "../ListingItems";
+import { useRecoilValue } from "recoil";
+import { authTokenAtom } from "../../../Atom";
 function AdminDashboard() {
   const [pageId, setPageId] = useState(0);
   const[students,setStudents]=useState([]);
   const[tutors,setTutors]=useState([]);
   const[admin,setAdmin]=useState(null);
-  const authToken = JSON.parse(sessionStorage.getItem("token"));
+  // const authToken = JSON.parse(sessionStorage.getItem("token"));
+  const authToken = useRecoilValue(authTokenAtom);
   console.log(authToken);
 
   const fetchStudent=async()=>{
@@ -80,7 +83,7 @@ function AdminDashboard() {
     }
   }
 
-  const sidebarOptions = ["Home", "Profile", "Students", "Tutors", "AdvertiseInfo"];
+  const sidebarOptions = ["Home", "Profile","Tutors", "Students", "AdvertiseInfo"];
 
   function renderPage(id) {
     switch (id) {
@@ -89,9 +92,9 @@ function AdminDashboard() {
       case 1:
         return (<><h1>Profile</h1></>);
       case 2:
-        return (<ListingItems pageheading={"Students List"} receivedData={students}/>);
-      case 3:
         return (<><h1>Tutors</h1></>);
+      case 3:
+        return (<ListingItems pageheading={"Students List"} receivedData={students}/>);
       case 4:
         return (<><h1>AdvertiseInfo</h1></>);
       default:

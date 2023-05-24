@@ -1,12 +1,10 @@
 import { useState,useEffect } from 'react';
 import '../style.css';
-import {FcManager} from 'react-icons/fc';
-import ProfileDetails from '../ProfileDetails';
-import HomePage from '../HomePage';
+import ProfileDetails from './ProfileDetails';
+import HomePage from './HomePage';
 import EditButton from '../EditButton';
-import {AiOutlineHome,AiOutlineProfile} from 'react-icons/ai';
 import axios from 'axios';
-import {useRecoilState} from 'recoil';
+import {useRecoilValue} from 'recoil';
 import {authTokenAtom} from '../../../Atom'
 import AccountSettings from '../AccountSettings';
 import ListingItems from '../ListingItems';
@@ -14,11 +12,16 @@ import {useLottie} from 'lottie-react';
 import LoadingLottie from '../../../../src/assets/lf30_ykdoon9j.json';
 
 function TutorDashboard(){
-    // console.log("DashBoard Rendered");
+    console.log("DashBoard Rendered");
     
     const [pageId,setPageId]=useState(0);
     // const [authToken,setAuthToken] = useRecoilState(authTokenAtom);
-    const authToken = JSON.parse(sessionStorage.getItem("token"))
+    // const authToken = JSON.parse(sessionStorage.getItem("token"));
+    const token = useRecoilValue(authTokenAtom);
+    console.log("token inside dasg",token);
+    // const authToken = useRecoilValue(authTokenAtom);
+    // console.log("token inside dashboard",token);
+
     const [fetchedResponse,setFetchedResponse] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -36,7 +39,7 @@ function TutorDashboard(){
                 url:"http://localhost:3000/dashboard/userdata",
                 method:"GET",
                 headers:{
-                    "Authorization": `Bearer ${authToken}`
+                    "Authorization": `Bearer ${token}`
                 }
             }
         )

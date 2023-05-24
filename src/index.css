@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root{
+  --primary-color: #0a4a40;
+}
+
 *{
   margin: 0;
   padding: 0;

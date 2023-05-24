@@ -9,7 +9,7 @@ import DocumentUpload from "./DocumentUpload";
 import { useFormik } from "formik";
 import axios from 'axios'
 import { useRecoilState } from "recoil";
-import { userDataAtom, authTokenAtom } from "../../Atom";
+import { tutorFormDataAtom, userDataAtom } from "../../Atom";
 import { Stepper, StepLabel, Step } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import {
@@ -39,7 +39,8 @@ const FormTitle = [
 const steps = [1, 2, 3, 4, 5, 6,7];
 
 function TutorCompleteProfile() {
-  const [tutorFormData, setTutorFormData] = useRecoilState(userDataAtom);
+  const [tutorFormData, setTutorFormData] = useRecoilState(tutorFormDataAtom);
+  const [userData,setUserData]=useRecoilState(userDataAtom)
   const navigate = useNavigate();
   // const [authToken, setAuthToken] = useRecoilState(authTokenAtom);
   // console.log("tokeninside",));
@@ -103,6 +104,10 @@ function TutorCompleteProfile() {
         const user=JSON.parse(sessionStorage.getItem("user"));
         user.isProfileCompleted=true;
         sessionStorage.setItem("user",JSON.stringify(user))
+        setUserData((prev)=>({
+          ...prev,
+          isProfileCompleted:true
+        }))
         // storedData.method();
 
         // console.log("respose by login",response);

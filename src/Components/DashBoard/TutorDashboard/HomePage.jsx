@@ -1,19 +1,21 @@
-import './dashboardDetails.css';
 import './homePage.css';
 import {MdWavingHand} from 'react-icons/md';
 // import {IoCloseCircleOutline} from 'react-icons/io';
 import {MdOutlineStar} from 'react-icons/md';
 import { useEffect, useState } from 'react';
-import EditButton from './EditButton';
+import EditButton from '../EditButton';
 import {TiPin} from 'react-icons/ti';
 import {AiOutlineEye} from 'react-icons/ai';
-import {MdNotificationsActive} from 'react-icons/md';
+import {MdNotificationsActive,MdVerified} from 'react-icons/md';
+import {VscVerifiedFilled} from 'react-icons/vsc';
 import {RxCrossCircled} from 'react-icons/rx';
-import DateTime from './DateTime';
+import {GoUnverified} from 'react-icons/go';
+import DateTime from '../DateTime';
 import axios from 'axios';
+import Tooltip from '@mui/material/Tooltip';
 
 function HomePage({fetchedData}){
-    // console.log("Homepage Rendered and the pros passed ",props);
+    console.log("Homepage Rendered and the pros passed ");
 
     const [displayType, setDisplayType] = useState("none");
     const [currentNotification, setCurrentNotification] = useState(null);
@@ -44,17 +46,17 @@ function HomePage({fetchedData}){
     const userData = fetchedData;
 
     useEffect(()=>{
+        fetchData();
         setAboutYou(userData?.tutorForm?.aboutYou)
         setAboutClass(userData?.tutorForm?.aboutClass)
-    },[fetchedData])
+    },[])
 
-    fetchData();
 
 
     // console.log("class requests ",classRequests);
     function notificationList(){    
             // console.log("Inside Class Request ",classRequests);
-            const notifications = classRequests.map((item,index)=>{
+            let notifications = classRequests?.map((item,index)=>{
                 return (
                     <div className="notification" onClick={(e)=>{handleActiveNotification(e,index)}} id={index}>
                             <TiPin/>
@@ -63,29 +65,29 @@ function HomePage({fetchedData}){
                     </div>
                 )
             })
-    
             // console.log("notifi ",notifications);
             return(
                 <div id="account-notification-div" className='sub-container-div'>
                     <div className='div-heading'>
-                        {/* NOTIFICATIONS */}
                         NEW CLASS REQUESTS
                         <span id="notification-icon">
                             <MdNotificationsActive/>
                         </span>
-                        
                     </div>
-    
+                    
                     <div id='notification-listing-div'>
-                        {/* <NotificatonList data={requestArr}/> */}
-                        {notifications}
+                        {notifications?.length>0?notifications:
+                        <div style={{ position:"relative" ,top:"200px", textAlign:"center"}}>
+                            NO NEW REQUESTS
+                        </div>
+                        }
                     </div>
                 </div>
             )
     }
 
     function notificationDetailsPage(){
-    
+        console.log(currentNotification);
         return(
             <div id="notification-details-div" className='sub-container-div' style={{display:displayType}}>
                         <div className='row-div margin-buttom-div' id="crosss-div">
@@ -99,7 +101,7 @@ function HomePage({fetchedData}){
                                 <div className='sub-container-div' id='content-of-request-div'>
                                     <div id='content-heading' className='request-content-sub-div'>
                                         {currentNotification?.studentId.name}
-                                        
+                                        <span style={{textTransform:"none"}}>Email: <span style={{fontWeight:"normal"}}>{currentNotification?.studentId?.email}</span></span>
                                     </div>
                                     <div id='request-content' className='request-content-sub-div'>
                                         {currentNotification?.intro}
@@ -194,13 +196,6 @@ function HomePage({fetchedData}){
 
     //  setAboutClass(userData?.tutorForm?.aboutYou)
 
-    function getMappedLi(arr){
-        const newArr=arr.map((item)=>{
-            return (<li>{item}</li>);
-        })
-        return newArr;
-    }
-
     const handleChangeText =(event)=> {
         switch(event.target.id){
             case "about":   setAboutYou(event.target.value); break;
@@ -209,13 +204,28 @@ function HomePage({fetchedData}){
         }
     }
 
+    console.log("Profile Status ",userData?.tutorForm?.isProfileVerified);
     return(
         <div id='home-page-root-div'>
             <div id="home-page-details-div">
                 <div className='row-div mb-12' id="first-row-home-page">
                     <div id='welcome-greeting-div' className="sub-container-div">
                         <span id='welcome-msg'>Welcome</span>
-                        <span id='user-name'>{userData.name}<span id='waving-hand'><MdWavingHand/></span></span>
+                        <span id='user-name'>{userData.name.split(" ")[0]}
+                            {/* <span id='tutor-home-page-waving-hand'><MdWavingHand/></span> */}
+                            {userData?.tutorForm?.isProfileVerified==="true" 
+                            ?
+                            <Tooltip title="Account Verified" placement="right" arrow>
+                                <span id="verified-tag"><VscVerifiedFilled color="green" /></span>
+                            </Tooltip>
+                            :
+                            <Tooltip title="Account Not Verified" placement="right" arrow>
+                                <span id="verified-tag"><GoUnverified color="rgb(165, 58, 58)"/></span>
+                            </Tooltip>
+                         }
+
+                        </span>
+                        
                     </div>
                     <div id='home-page-top-sub-div'>
                         <div className='sub-container-div' id="rating-div">
@@ -317,8 +327,7 @@ function HomePage({fetchedData}){
                             <div className='content-div' id='rate-display-div'>
                                 {/* <input type="text" className='dashboard-input-box' id="rate" value={userData?userData.tutorForm.rate:""}/> */}
                                 <span style={{fontSize:"large"}}>
-                                <span style={{fontWeight:"bold", marginRight:"5px"}}>{userData?userData.tutorForm.rate:""}</span>
-                                ₹/hr
+                                ₹<span style={{fontWeight:"bold"}}>{userData?userData.tutorForm.rate:""}</span>/hr
                                 </span>
                             </div>
                         </div>
@@ -340,7 +349,7 @@ function HomePage({fetchedData}){
                 </div>
                 {currentNotification ?notificationDetailsPage():console.log("nothing")}
             </div>
-            {classRequests && classRequests.length && notificationList()}
+            {notificationList()}
         </div>
     )
 }

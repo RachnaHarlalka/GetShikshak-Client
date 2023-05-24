@@ -71,8 +71,8 @@ function PreviewForm(props) {
           {userData.profilePic && (
             <PreviewDocs
               file={userData.profilePic}
-              width="100px"
-              // height="100px"
+              width="56"
+              height="64"
             />
           )}
           </div>
@@ -81,8 +81,8 @@ function PreviewForm(props) {
           {userData.identity && (
             <PreviewDocs
               file={userData.identity}
-              width="100px"
-              // height="100px"
+              width="56"
+                  height="64"
             />
           )}
           </div>
@@ -91,8 +91,8 @@ function PreviewForm(props) {
           {userData.lastEducationalCertificate && (
             <PreviewDocs
               file={userData.lastEducationalCertificate}
-              width="100px"
-              // height="100px"
+              width="56"
+                  height="64"
             />
           )}
           </div>

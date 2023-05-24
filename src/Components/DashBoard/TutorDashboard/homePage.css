@@ -8,7 +8,7 @@
 
 #home-page-details-div{
     position: relative;
-    /* width: 77.6%; */
+    width: 78%;
     margin-right: 5px;
     /* background-color: gray; */
 }
@@ -20,10 +20,16 @@
     /* margin: 0px; */
 }
 
+#last-row{
+    /* background-color: red; */
+    display: flex;
+    justify-content: space-between;
+}
+
 .sub-container-div{
     /* box-shadow: 0px 2px 5px 0px gray; */
     /* background-color: red; */
-    border-radius: 6px;
+    border-radius: 3px;
     padding: 10px;
     margin: 10px;
     /* height: 100%; */
@@ -42,12 +48,23 @@
 }
 
 #welcome-greeting-div{
+    position: relative;
     /* background-color: pink; */
     display: flex;
     flex-direction: column;
     /* background-color: lightblue; */
     width: fit-content;
     padding: 20px 30px;
+}
+
+#verified-tag{
+    /* position:absolute;
+    top:0px;
+    right: 0px; */
+    font-size: 20px;
+    margin-left:5px;
+    padding-top: 3px;
+    /* background-color: rgb(165, 58, 58); */
 }
 
 #welcome-greeting-div > #user-name{
@@ -61,7 +78,7 @@
     /* font-weight:lighter; */
 }
 
-#waving-hand{
+#tutor-home-page-waving-hand{
     margin-left: 10px;
     color:rgb(190, 127, 8);
     /* color: rgb(138, 85, 15); */
@@ -100,10 +117,24 @@
 #student-profile-div{
     width: 150px;
     height: 150px;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+}
+
+.student-profilePic{
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    object-fit:cover;
+    /* margin: 0px; */
+    /* border:1px solid gray; */
 }
 
 #request-details-div{
-    
+    /* background-color: red; */
+    justify-content: space-between;
+    align-items: center;
 }
 
 #requested-subjects-div{
@@ -186,6 +217,8 @@
 }
 
 #content-heading{
+    display: flex;
+    justify-content: space-between;
     text-transform: uppercase;
     font-weight: bold;
 }
@@ -202,7 +235,7 @@
     display: flex;
     flex-direction: column;
     /* align-items: center; */
-    width: 250px;
+    width: 22%;
     /* display: none; */
     margin: 0px;
 }
@@ -327,12 +360,13 @@
 }
 
 #rating-outer-div{
-    border: 1px solid lightgray;
+    /* border: 1px solid lightgray; */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     border-radius: 5px;
     height: 100%;
+    font-size: medium;
 }
 
 #rating-label-div{
@@ -416,7 +450,7 @@
 
 #home-page-top-sub-div{
     display: flex;
-    justify-content: center;
+    justify-content: end;
     width: 50%;
     /* background-color: aqua; */
 }

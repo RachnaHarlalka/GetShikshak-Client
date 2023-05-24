@@ -12,25 +12,50 @@ export const authTokenAtom = atom({
 
 const user = JSON.parse(sessionStorage.getItem("user"));
 
+export const tutorFormDataAtom = atom({
+  key: "tutorForm",
+  default: {
+    name:(user?.name) || "",
+    email: (user?.email) || "",
+    role: ( user?.role) || "",
+    subjects: ( user?.tutorForm.subjects) || [],
+    title: ( user?.tutorForm.title) || "",
+    aboutYou: ( user?.tutorForm.aboutYou) || "",
+    aboutClass: ( user?.tutorForm.aboutClass) || "",
+    city: ( user?.tutorForm.city) || "",
+    mode: ( user?.tutorForm.mode) || [],
+    language: ( user?.tutorForm.language) || [],
+    rate: ( user?.tutorForm.rate) || "",
+    phone: ( user?.phone) || "",
+    profilePic: ( user?.profilePic) || "",
+    identity: ( user?.tutorForm.identity) || "",
+    lastEducationalCertificate:
+      ( user?.tutorForm.lastEducationalCertificate) || "",
+    isProfileVerified: (user?.tutorForm?.isProfileVerified )||"",
+    isProfileCompleted:(user?.isProfileCompleted)||""
+  },
+});
+
+
 export const userDataAtom = atom({
   key: "userData",
-  default: {
-    name:(user && user.name) || "",
-    email: (user && user.email) || "",
-    role: (user && user.role) || "",
-    subjects: (user && user.tutorForm.subjects) || [],
-    title: (user && user.tutorForm.title) || "",
-    aboutYou: (user && user.tutorForm.aboutYou) || "",
-    aboutClass: (user && user.tutorForm.aboutClass) || "",
-    city: (user && user.tutorForm.city) || "",
-    mode: (user && user.tutorForm.mode) || [],
-    language: (user && user.tutorForm.language) || [],
-    rate: (user && user.tutorForm.rate) || "",
-    phone: (user && user.tutorForm.phone) || "",
-    profilePic: (user && user.profilePic) || "",
-    identity: (user && user.tutorForm.identity) || "",
-    lastEducationalCertificate:
-      (user && user.tutorForm.lastEducationalCertificate) || "",
+  default: user ? {
+    ...user,
+    isProfileVerified: user.tutorForm.isProfileVerified
+  
+  } : {
+    id:"",
+    name:"",
+    email: "",
+    role: "",
+    address:"",
+    phone: "",
+    profilePic: "",
+    identity: "",
+    lastEducationalCertificate:"",
     isProfileVerified: "",
+    isProfileCompleted:"",
+    isAccountActive:""
+
   },
 });
