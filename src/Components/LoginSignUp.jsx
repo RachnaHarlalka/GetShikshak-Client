@@ -92,11 +92,11 @@ function LoginSignUp(props) {
               console.log("user.role login",user.role);
               console.log("user login profileCompleted",user.isProfileCompleted)
               // navigate("/studentcompleteprofile");
-              if(user?.role==="student"){
+              if(user?.role==="student" && user?.isProfileCompleted===false){
                 
                 navigate('/studentcompleteprofile');
               }
-              else if(user?.role==="tutor"){
+              else if(user?.role==="tutor" && user?.isProfileCompleted===false){
                 navigate('/tutorcompleteprofile')
               }
               else{

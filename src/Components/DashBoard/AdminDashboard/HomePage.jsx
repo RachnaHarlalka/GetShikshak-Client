@@ -13,9 +13,9 @@ import {RxCrossCircled} from 'react-icons/rx';
 
 function HomePage(props){
     console.log("Homepage Rendered");
-    const studentCount=props.students.length;
-    const tutorCount=props.tutors.length;
-    const admin=props.admin;
+    const studentCount=props?.students?.length;
+    const tutorCount=props?.tutors?.length;
+    const admin=props?.admin;
     console.log(admin && admin[0]?.name)
     // console.log("admin",props.admin);
     // console.log(props.students.length)
