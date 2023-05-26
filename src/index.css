@@ -58,7 +58,7 @@
 }
 
 #search-btn:hover{
-  background-color: #ff531a;
-  color:black;
+  /* background-color: #ff531a; */
+  background-color: var(--primary-color);
 }
 

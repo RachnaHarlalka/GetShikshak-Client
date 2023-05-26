@@ -14,6 +14,7 @@ function ReserveClass() {
   // const authToken = JSON.parse(sessionStorage.getItem("token"));
   const userData = useRecoilValue(userDataAtom);
   const authToken = useRecoilValue(authTokenAtom);
+  const authToken = useRecoilValue(authTokenAtom);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -33,14 +34,15 @@ function ReserveClass() {
     intro: "",
     subjects: [],
     mode: "",
-    phone: userData.phone,
-    address: userData.address,
+    phone: userData?.phone,
+    address: userData?.address,
   };
   console.log("Usredata", userData?._id);
   const Formik = useFormik({
     initialValues,
     onSubmit: async (values, action) => {
       console.log("resrve class values",values);
+      console.log("clicked")
       try {
         const response = await axios({
           url: `http://localhost:3000/user/reserveclass/${tutor?._id}`,
@@ -51,12 +53,14 @@ function ReserveClass() {
             Authorization: `Bearer ${authToken}`,
           },
         });
+        console.log("response in onsubmit ",response)
         if (response.status === 201) {
           enqueueSnackbar(response.data.message, { variant: "success" });
           navigate(`/user/${tutor?._id}`);
         }
         console.log("values", response);
       } catch (err) {
+        console.log("eror is submit", err);
         enqueueSnackbar(err.response.data.error, { variant: "error" });
       }
     },
