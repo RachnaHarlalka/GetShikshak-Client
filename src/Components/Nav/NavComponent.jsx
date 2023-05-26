@@ -166,13 +166,6 @@ function NavComponent() {
           </div>
         )}
 
-
-
-
-
-
-
-
         <div
           id="navbar-profile-icon-dropDown"
           style={
@@ -205,7 +198,7 @@ function NavComponent() {
               <button>Log Out</button>
             </li>
           </ul>
-        </div> */}
+        </div> 
 
         {authToken && (
             <React.Fragment>
@@ -311,7 +304,6 @@ function NavComponent() {
 
         </div> */}
       </div>
-      {children}
     </>
   );
 }

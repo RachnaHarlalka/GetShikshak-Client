@@ -65,7 +65,7 @@ export default function ListingItems({pageheading,receivedData}) {
                 </TableCell>)
                 console.log("inside profile pic",itemObj[item])
             }
-            else if(Array.isArray(itemObj[item])){
+            // else if(Array.isArray(itemObj[item])){
             if(item === "tutorId"){
                 continue;
             }
@@ -104,15 +104,6 @@ export default function ListingItems({pageheading,receivedData}) {
                     <TableCell sx={{}} align="center">
                         {<Button variant="contained" sx={{fontSize:"10px", textTransform:"none", padding:"2px 5px", backgroundColor:"var(--primary-color)"}} onClick={handleModal}>Share Feedback</Button>}
                     </TableCell>)
-            }
-            else if(typeof itemObj[item]==="object"){
-                console.log("Inside object item",item);
-                continue;
-            }
-            else if((typeof itemObj[item]) === "boolean"){
-                const bool = itemObj[item]?"Active":"In-Active";
-                const textColor = itemObj[item]?"green":"red";
-                row.push(<TableCell sx={{borderRight:"1px solid black",textTransform:'uppercase',fontWeight:"bold",color:textColor }} align="center">{bool}</TableCell>)
             }
             else if(typeof itemObj[item]==="object"){
                 console.log("Inside object item",item);

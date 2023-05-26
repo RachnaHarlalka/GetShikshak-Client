@@ -14,7 +14,6 @@ function ReserveClass() {
   // const authToken = JSON.parse(sessionStorage.getItem("token"));
   const userData = useRecoilValue(userDataAtom);
   const authToken = useRecoilValue(authTokenAtom);
-  const authToken = useRecoilValue(authTokenAtom);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const { id } = useParams();
