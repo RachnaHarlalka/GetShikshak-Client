@@ -75,27 +75,22 @@ function AdminDashboard() {
       case "3":
         setPageId(3);
         break;
-      case "4":
-        setPageId(4);
-        break;
       default:
         console.log("Default of Handle Click");
     }
   }
 
-  const sidebarOptions = ["Home", "Profile","Tutors", "Students", "AdvertiseInfo"];
+  const sidebarOptions = ["Home","Tutors", "Students", "AdvertiseInfo"];
 
   function renderPage(id) {
     switch (id) {
       case 0:
         return (<HomePage students={students} tutors={tutors} admin={admin}/>);
       case 1:
-        return (<><h1>Profile</h1></>);
+        return (<ListingItems pageheading={"Tutors List"} receivedData={tutors}/>);
       case 2:
-        return (<><h1>Tutors</h1></>);
-      case 3:
         return (<ListingItems pageheading={"Students List"} receivedData={students}/>);
-      case 4:
+      case 3:
         return (<><h1>AdvertiseInfo</h1></>);
       default:
         console.log("Default");
@@ -109,7 +104,7 @@ function AdminDashboard() {
 
           <div id="dashboard-profile-section">
             <div id="profile-pic-section">
-              <div id="profile-pic">
+              <div id="profile-pic" >
                 {/* <FcManager/> */}
                 <img
                   id="profile-image"

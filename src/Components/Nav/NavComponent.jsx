@@ -4,22 +4,45 @@ import { Link } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
 import { RxHamburgerMenu } from "react-icons/rx";
-import {IoMdBook} from "react-icons/io";
-import { useState } from "react";
-// import logo from '../../../public/images/logo'
+import { IoMdBook } from "react-icons/io";
+import { GiBookCover } from "react-icons/gi";
+import { useState, useEffect } from "react";
 import "./style.css";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { authTokenAtom, userDataAtom } from "../../Atom";
-function NavComponent() {
-  const [showHamburger, setShowHamburger] = useState(false);
-  const [currentUser, setCurrentUser] = useRecoilState(userDataAtom);
-  const [authToken, setAuthToken]=useRecoilState(authTokenAtom);
+import * as React from "react";
+// import { Box,Avatar,Menu,MenuItem,ListItemIcon,Divider,IconButton,Typography,Tooltip,PersonAdd,Settings,Logout} from "@mui/material";
+import Box from "@mui/material/Box";
+import Avatar from "@mui/material/Avatar";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Tooltip from "@mui/material/Tooltip";
+import PersonAdd from "@mui/icons-material/PersonAdd";
+import Settings from "@mui/icons-material/Settings";
+import Logout from "@mui/icons-material/Logout";
 
-  // let currentUser = JSON.parse(sessionStorage.getItem("user"));
-  // let authToken=JSON.parse(sessionStorage.getItem("token"));
-  const [showDropDown , setShowDropDown] =useState(false);
+function NavComponent({ children }) {
+  const [showHamburger, setShowHamburger] = useState(false);
+  const [shouldShowShadow, setShouldShowShadow] = useState(false);
+
+  const [currentUser, setCurrentUser] = useRecoilState(userDataAtom);
+  const [authToken, setAuthToken] = useRecoilState(authTokenAtom);
+  const [showDropDown, setShowDropDown] = useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const navigate = useNavigate();
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   // console.log("Having role ",currentUser?.role);
   // console.log("Auth value ",authToken);
@@ -29,42 +52,61 @@ function NavComponent() {
     console.log("Inside logout");
     sessionStorage.clear();
     enqueueSnackbar("Logout Successfull !", { variant: "success" });
-        // window.location.reload(); // Reload the window
+    // window.location.reload(); // Reload the window
     setCurrentUser(null);
     setAuthToken(null);
     navigate("/login");
   }
 
-  function handleClick() {
-    setShowHamburger((prev) => {
-      return !prev;
-    });
-
-    console.log("clicked" + showHamburger);
-  }
+  // function handleClick() {
+  //   setShowHamburger((prev) => {
+  //     return !prev;
+  //   });
+  //   console.log("clicked" + showHamburger);
+  // }
   // console.log("currentUser in nav",currentUser)
   // console.log("currentUser token",authToken);
 
-  function showDropDownMenu(){
+  function showDropDownMenu() {
     setShowDropDown((prev) => {
       return !prev;
     });
   }
 
-  console.log("userdata in nav",currentUser)
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset;
+      const shouldShow = scrollTop > 20;
+      setShouldShowShadow(shouldShow);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    // Clean up the event listener when the component is unmounted
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <>
-      <div id="nav-bar">
-        <div className="nav-sub-div" id="logo-div">
+      <div
+        id="nav-bar"
+        className={shouldShowShadow ? "shadow-[0px_8px_10px_-15px_#111]" : ""}
+      >
+        <div className="" id="logo-div">
           <img className="logoImg" src="" alt="" />
           <span className="logoName tracking-wider">
-            <Link className="flex justify-center items-center" to="/"><IoMdBook size="2em"/><span className="mx-1">GetShiksha</span></Link>
-
+            <Link className="flex justify-center items-center" to="/">
+              <GiBookCover size="2em" color="var(--primary-color)" />
+              <span className="mx-1 text-primary-color font-bold">
+                GetShiksha
+              </span>
+            </Link>
           </span>
         </div>
 
-        <div className="nav-sub-div" id="mid-nav-sub-div">
+        <div className=" text-primary-color" id="mid-nav-sub-div">
           <ul className="flex flex-row justify-around">
             {/* <li>
               <a href="./#about-section">About Us</a>
@@ -75,42 +117,57 @@ function NavComponent() {
             <li>
             <Link to="/tutordashboard">Tutor Dash</Link>
             </li> */}
-            {authToken && currentUser && currentUser.role === "tutor" && currentUser.isProfileCompleted===false &&(
-              <li>
-                <Link to="/tutorcompleteprofile">Complete Profile</Link>
-              </li>
-            )}
-             {authToken && currentUser && currentUser.role === "student" && currentUser.isProfileCompleted===false &&(
-              <li>
-                <Link to="/studentcompleteprofile">Complete Profile</Link>
-              </li>
-            )}
+            {authToken &&
+              currentUser &&
+              currentUser.role === "tutor" &&
+              currentUser.isProfileCompleted === false && (
+                <li className="font-bold">
+                  <Link to="/tutorcompleteprofile">Complete Profile</Link>
+                </li>
+              )}
+            {authToken &&
+              currentUser &&
+              currentUser.role === "student" &&
+              currentUser.isProfileCompleted === false && (
+                <li className="font-bold">
+                  <Link to="/studentcompleteprofile">Complete Profile</Link>
+                </li>
+              )}
           </ul>
         </div>
 
-        {!authToken && (<div className="nav-sub-div" id="right-nav-sub-div">
-          <ul id="nav-bar-login-option">
-            <li className="nav-button">
-              <Link to="/login">Log In</Link>
-            </li>
-            <li className="nav-button mx-4" id="sign-up-button">
-              <Link
-                to="/register"
-                className="font-semibold px-4 py-2 rounded-xl"
-              >
-                Sign Up
-              </Link>
-            </li>
-          </ul>
-        </div>)}
+        {!authToken && (
+          <div className="nav-sub-div" id="right-nav-sub-div">
+            <ul id="nav-bar-login-option">
+              <li className="nav-button font-bold text-primary-color">
+                <Link to="/login">Log In</Link>
+              </li>
+              <li className="nav-button mx-4 font-bold" id="sign-up-button">
+                <Link
+                  to="/register"
+                  className="font-semibold px-4 py-2 rounded-xl text-white bg-primary-color"
+                >
+                  Sign Up
+                </Link>
+              </li>
+            </ul>
+          </div>
+        )}
 
-        {authToken && (
-          <div id='navbar-logedIn-profile-icon' onClick={showDropDownMenu}>
-            <div id='navbar-profile-pic'>
-                {currentUser &&  currentUser.name.toString()[0].toUpperCase()}
+        {/* {authToken && (
+          <div id="navbar-logedIn-profile-icon" onClick={showDropDownMenu}>
+            <div id="navbar-profile-pic" className="text-white">
+              {(currentUser?.profilePic)?(
+                <div>
+                  <img src={`http://localhost:3000/assets/${currentUser?.profilePic}`} alt="" className="rounded-full h-10 w-10 object-cover"/>
+                </div>
+              ):(
+                <div>{currentUser?.name.toString()[0].toUpperCase()}</div>
+              )}
+              {currentUser && currentUser.name.toString()[0].toUpperCase()}
             </div>
           </div>
-        )}   
+        )} */}
 
         <div
           id="navbar-profile-icon-dropDown"
@@ -119,25 +176,123 @@ function NavComponent() {
           }
         >
           <ul className="profile-icon-dropDown-list">
-            <li id='dropDown-menu-user-name'>
+            <li id="dropDown-menu-user-name">
               {currentUser && currentUser.email}
             </li>
-            <li onClick={showDropDownMenu} style={{padding:"0px"}}>
-              <Link to="/dashboard" style={{width:"100%",textAlign:"center",padding:"8px 0px"}}>Dashboard</Link>
+            <li onClick={showDropDownMenu} style={{ padding: "0px" }}>
+              <Link
+                to="/dashboard"
+                style={{
+                  width: "100%",
+                  textAlign: "center",
+                  padding: "8px 0px",
+                }}
+              >
+                Dashboard
+              </Link>
             </li>
-            <li className="active-button" onClick={()=>{removeToken();showDropDownMenu()}}>
-                <button>
-                  Log Out
-                </button>
+            <li
+              className="active-button"
+              onClick={() => {
+                removeToken();
+                showDropDownMenu();
+              }}
+            >
+              <button>Log Out</button>
             </li>
           </ul>
         </div>
 
-        <div id="hamburger-icon">
-          <RxHamburgerMenu onClick={handleClick} />
-        </div>
+        {authToken && (
+          <React.Fragment>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                textAlign: "center",
+              }}
+            >
+              <Tooltip title="Account settings">
+                <IconButton
+                  onClick={handleClick}
+                  size="small"
+                  sx={{ ml: 2 }}
+                  aria-controls={open ? "account-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? "true" : undefined}
+                >
+                  <Avatar sx={{ width: 32, height: 32 }}>
+                    {currentUser.name.toString()[0].toUpperCase()}
+                  </Avatar>
+                </IconButton>
+              </Tooltip>
+            </Box>
+            <Menu
+              anchorEl={anchorEl}
+              id="account-menu"
+              open={open}
+              onClose={handleClose}
+              onClick={handleClose}
+              PaperProps={{
+                elevation: 0,
+                sx: {
+                  overflow: "visible",
+                  filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                  mt: 1.5,
+                  "& .MuiAvatar-root": {
+                    width: 32,
+                    height: 32,
+                    ml: -0.5,
+                    mr: 1,
+                  },
+                  "&:before": {
+                    content: '""',
+                    display: "block",
+                    position: "absolute",
+                    top: 0,
+                    right: 14,
+                    width: 10,
+                    height: 10,
+                    bgcolor: "background.paper",
+                    transform: "translateY(-50%) rotate(45deg)",
+                    zIndex: 0,
+                  },
+                },
+              }}
+              transformOrigin={{ horizontal: "right", vertical: "top" }}
+              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+            >
+              <MenuItem onClick={handleClose}>
+                <Avatar />
+                {currentUser?.role === "admin" ? (
+                  <Link to="/admindashboard">My account</Link>
+                ) : currentUser?.role === "tutor" ? (
+                  <Link to="/tutordashboard">My account</Link>
+                ) : (
+                  <Link to="/studentdashboard">My account</Link>
+                )}
+              </MenuItem>
+              <Divider />
+              <MenuItem
+                onClick={() => {
+                  removeToken();
+                  handleClose();
+                }}
+              >
+                <ListItemIcon>
+                  <Logout fontSize="small" />
+                </ListItemIcon>
+                Logout
+              </MenuItem>
+            </Menu>
+          </React.Fragment>
+        )}
 
-        <div
+        {/* <div id="hamburger-icon">
+          <RxHamburgerMenu onClick={handleClick} />
+        </div> */}
+
+        {/* <div
           id="hamburger-menu"
           style={
             showHamburger ? { visibility: "visible" } : { visibility: "hidden" }
@@ -150,7 +305,12 @@ function NavComponent() {
             <li>
               <Link to="/dashboard">Find Tutor</Link>
             </li>
-            {authToken && currentUser && currentUser.role==="tutor" && currentUser.isProfileCompleted===false && (<li>Complete Profile</li>)}
+            {authToken &&
+              currentUser &&
+              currentUser.role === "tutor" &&
+              currentUser.isProfileCompleted === false && (
+                <li>Complete Profile</li>
+              )}
           </ul>
          {!authToken ? (
           <ul className="hamburger-list" id="bottom-list">
@@ -164,8 +324,9 @@ function NavComponent() {
         </ul>
         )}
 
-        </div>
+        </div> */}
       </div>
+      {children}
     </>
   );
 }

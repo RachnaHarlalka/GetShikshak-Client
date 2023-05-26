@@ -17,11 +17,10 @@ export const SearchStyle = {
     ...provided,
     minWidth:"250px",
     minHeight:"40px",
-    borderRadius:"0",
-    borderColor: state.isFocused ? 'none' : 'none',
-    boxShadow: state.isFocused ? 'none' : 'none',
+    borderColor: state.isFocused ? 'red' : 'red',
+    boxShadow: state.isFocused ? 'red' : 'red',
+    border:"10px",
 
-    border:"none",
     '&:hover': {
       borderColor: "#0a4a40"
     },

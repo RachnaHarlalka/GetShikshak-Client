@@ -1,4 +1,4 @@
-#admin-home-page-root-div{
+#home-page-root-div{
     display: flex;
     /* background-color: paleturquoise; */
     /* justify-content: space-between; */
@@ -6,9 +6,9 @@
     height: 100%;
 }
 
-#admin-home-page-details-div{
+#student-home-page-details-div{
     position: relative;
-    width: 77.6%;
+    width: 100%;
     margin-right: 5px;
     /* background-color: gray; */
 }
@@ -20,58 +20,23 @@
     /* margin: 0px; */
 }
 
-.content-li{
-    background-color: green;
+#class-request-listing-div{
+    /* background-color: aqua;   */
+    width: 100%;
 }
 
-.personal-details-row-div{
-    /* background-color: aqua; */
-    width: 45%;
-    justify-content: flex-start;
-    margin: 0px 5px;
-    /* text-align: center; */
-}
-
-.label-div{
-    font-weight: bold;
-    color: gray;
-    margin-right: 5px;
-}
-
-.details-item{
+#last-row{
     /* background-color: red; */
-    width: 50%;
-    padding: 5px;
-    margin-right: 5px;
-}
-
-.tutor-request-document-show-div{
-    background-color: aqua;
     display: flex;
-    /* justify-content: center; */
-    width: 100%;
+    justify-content: space-between;
 }
 
-.tutor-request-document{
-    width: 100%;
-    height: 100%;
-    margin-right: 50px;
-    object-fit: cover;
-}
-
-.admin-sub-container-div{
+.sub-container-div{
     /* box-shadow: 0px 2px 5px 0px gray; */
     /* background-color: red; */
-    border-radius: 6px;
+    border-radius: 3px;
     padding: 10px;
-    background-color: white;
     margin: 10px;
-    /* box-shadow: 0 0 0 2px #ccc; without blur shadow */
-
-    /* box-shadow: 0 0 2px 2px #ccc;  */
-    /* with blur shadow */
-
-    /* box-shadow: 0px 0px 2px 0px black; */
     /* height: 100%; */
     /* background-color:burlywood; */
 }
@@ -84,16 +49,39 @@
     /* background-color: aqua; */
     /* padding: 0px 0px; */
     margin-bottom: 10px;
+    border-bottom: 1px solid lightgray;
+}
+
+#student-page-class-request-div-heading{
+    font-size: medium;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    /* background-color: aqua; */
+    /* padding: 0px 0px; */
     /* border-bottom: 1px solid lightgray; */
 }
 
 #welcome-greeting-div{
+    position: relative;
     /* background-color: pink; */
     display: flex;
     flex-direction: column;
     /* background-color: lightblue; */
     width: fit-content;
     padding: 20px 30px;
+}
+
+#verified-tag{
+    /* position:absolute;
+    top:0px;
+    right: 0px; */
+    font-size: 20px;
+    margin-left:5px;
+    padding-top: 3px;
+    /* background-color: rgb(165, 58, 58); */
 }
 
 #welcome-greeting-div > #user-name{
@@ -107,7 +95,7 @@
     /* font-weight:lighter; */
 }
 
-#waving-hand{
+#tutor-home-page-waving-hand{
     margin-left: 10px;
     color:rgb(190, 127, 8);
     /* color: rgb(138, 85, 15); */
@@ -121,7 +109,7 @@
     height: 100%;
     margin: 0px;
     /* border: 2px solid red; */
-    background-color: rgb(243 244 246);
+    background-color: white;
     z-index:1;
     flex-direction: column;
 }
@@ -133,7 +121,6 @@
 #crosss-div{
     display: flex;
     justify-content: flex-end;
-    /* background-color: aqua; */
 }
 
 .cursor-type-pointer{
@@ -147,10 +134,24 @@
 #student-profile-div{
     width: 150px;
     height: 150px;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+}
+
+.student-profilePic{
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    object-fit:cover;
+    /* margin: 0px; */
+    /* border:1px solid gray; */
 }
 
 #request-details-div{
-    
+    /* background-color: red; */
+    justify-content: space-between;
+    align-items: center;
 }
 
 #requested-subjects-div{
@@ -206,14 +207,7 @@
 }
 
 #accept-button{
-    background-color: rgb(97, 219, 97);
-}
-#reject-button{
-    background-color: rgb(226, 98, 98);
-}
-
-#revert-button{
-    background-color: rgb(139, 139, 191);
+    background-color: rgb(79, 204, 79);
 }
 
 .accept-reject-button{
@@ -221,6 +215,7 @@
     width: 100px;
     padding: 8px;
     border-radius: 5px;
+    background-color: orange;
     margin-right: 10px;
 }
 
@@ -239,6 +234,8 @@
 }
 
 #content-heading{
+    display: flex;
+    justify-content: space-between;
     text-transform: uppercase;
     font-weight: bold;
 }
@@ -255,10 +252,9 @@
     display: flex;
     flex-direction: column;
     /* align-items: center; */
-    width: 250px;
+    width: 22%;
     /* display: none; */
     margin: 0px;
-    background-color: rgb(243 244 246);
 }
 
 #notification-icon{
@@ -381,12 +377,13 @@
 }
 
 #rating-outer-div{
-    border: 1px solid lightgray;
+    /* border: 1px solid lightgray; */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     border-radius: 5px;
     height: 100%;
+    font-size: medium;
 }
 
 #rating-label-div{
@@ -470,12 +467,12 @@
 
 #home-page-top-sub-div{
     display: flex;
-    justify-content: center;
+    justify-content: end;
     width: 50%;
     /* background-color: aqua; */
 }
 
-#first-row-home-page{
+#student-home-page-first-row-home-page{
     /* background-color: brown; */
     justify-content: space-between;
 }

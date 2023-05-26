@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400&family=Poppins:wght@300;400&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400&family=Poppins:wght@300;400&display=swap'); */
 
 @tailwind base;
 @tailwind components;
@@ -51,14 +51,14 @@
 }
 
 #search-btn{
-  background-color: black;
+  background-color: var(--primary-color);
   color:white;
   width: 50px;
   height: 40px;
 }
 
 #search-btn:hover{
-  background-color: #ff531a;
-  color:black;
+  /* background-color: #ff531a; */
+  background-color: var(--primary-color);
 }
 

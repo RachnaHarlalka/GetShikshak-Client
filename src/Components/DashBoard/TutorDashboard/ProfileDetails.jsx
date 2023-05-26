@@ -46,7 +46,7 @@
                                             </div>
                                             <div className='details-item'>
                                                 <span className='label-div'>Phone:</span>
-                                                <span>{userData?.tutorForm?.phone}</span>
+                                                <span>{userData?.phone}</span>
                                             </div>
                                         </div>
                                     </div>
