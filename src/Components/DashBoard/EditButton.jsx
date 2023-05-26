@@ -4,7 +4,7 @@ import {RxCrossCircled} from 'react-icons/rx';
 import {BiEdit} from 'react-icons/bi';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {authTokenAtom} from '../../Atom'
 import './style.css';
 
@@ -13,7 +13,8 @@ function EditButton({inputBoxId,path,newData}){
 
     const [showSave,setShowSave]=useState();
     // const [authToken,setAuthToken] = useRecoilState(authTokenAtom);
-    const authToken = JSON.parse(sessionStorage.getItem("token"));
+    // const authToken = JSON.parse(sessionStorage.getItem("token"));
+    const token=useRecoilValue(authTokenAtom);
 
     useEffect(()=>{
         setShowSave(false);
@@ -32,7 +33,7 @@ function EditButton({inputBoxId,path,newData}){
                     newData
                 },
                 headers:{
-                    "Authorization": `Bearer ${authToken}`
+                    "Authorization": `Bearer ${token}`
                 },
                 
             }

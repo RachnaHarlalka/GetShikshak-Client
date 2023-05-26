@@ -27,7 +27,7 @@ function Landing(){
     return(
         <div>
             <HeroSection/>
-            {tutors ? (<TutorCarousal tutors={tutors}/>):(<NoResultPage/>)}
+            {tutors?.length>0 ? (<TutorCarousal tutors={tutors}/>):(<NoResultPage/>)}
             <About/>
 
             {/* <TutorCardSection/> */}

@@ -70,19 +70,20 @@ function TutorProfile() {
               <h1 className="mb-4 text-lg font-bold font-[Quicksand]">About {tutor && tutor.name.split(" ")[0]}</h1>
              <div className="bg-gray-100 rounded-md p-4"> {tutor && tutor.tutorForm.aboutYou}</div>
             </div>
-            <div className="aboutClass my-6 ">
-            
-              <h1 className="mb-4 text-lg font-bold font-[Quicksand] ">About The lesson</h1>
-              <div className="flex gap-4 my-6">
-                <h1 className="text-md font-[Quicksand]">Languages </h1>
-                <div>
+            <div className="flex flex-col gap-4 my-6">
+                <h1 className="text-lg font-[Quicksand] font-bold">Languages </h1>
+                <div className="flex flex-wrap">
                 {tutor && tutor.tutorForm.language.map((language,index)=>{
                   return(
-                    <span key={index} className="text-md py-2 px-4 border-2 rounded-full mx-2">{language}</span>
+                    <span key={index} className="text-md py-2 px-4 border-2 rounded-full m-2">{language}</span>
                   )
                 })}
                 </div>
               </div>
+            <div className="aboutClass my-6 ">
+            
+              <h1 className="mb-4 text-lg font-bold font-[Quicksand] ">About The Class</h1>
+             
               <div className="bg-gray-100 rounded-md p-4">
               {tutor && tutor.tutorForm.aboutClass}
               </div>

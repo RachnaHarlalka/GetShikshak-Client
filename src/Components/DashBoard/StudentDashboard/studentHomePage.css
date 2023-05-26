@@ -6,9 +6,9 @@
     height: 100%;
 }
 
-#home-page-details-div{
+#student-home-page-details-div{
     position: relative;
-    width: 78%;
+    width: 100%;
     margin-right: 5px;
     /* background-color: gray; */
 }
@@ -18,6 +18,11 @@
     display: flex;
     /* justify-content: space-around; */
     /* margin: 0px; */
+}
+
+#class-request-listing-div{
+    /* background-color: aqua;   */
+    width: 100%;
 }
 
 #last-row{
@@ -45,6 +50,18 @@
     /* padding: 0px 0px; */
     margin-bottom: 10px;
     border-bottom: 1px solid lightgray;
+}
+
+#student-page-class-request-div-heading{
+    font-size: medium;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    /* background-color: aqua; */
+    /* padding: 0px 0px; */
+    /* border-bottom: 1px solid lightgray; */
 }
 
 #welcome-greeting-div{
@@ -455,7 +472,7 @@
     /* background-color: aqua; */
 }
 
-#first-row-home-page{
+#student-home-page-first-row-home-page{
     /* background-color: brown; */
     justify-content: space-between;
 }

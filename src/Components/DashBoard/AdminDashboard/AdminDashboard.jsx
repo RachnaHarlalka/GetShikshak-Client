@@ -3,12 +3,15 @@ import EditButton from "../EditButton";
 import HomePage from "./HomePage";
 import axios from "axios";
 import ListingItems from "../ListingItems";
+import { useRecoilValue } from "recoil";
+import { authTokenAtom } from "../../../Atom";
 function AdminDashboard() {
   const [pageId, setPageId] = useState(0);
   const[students,setStudents]=useState([]);
   const[tutors,setTutors]=useState([]);
   const[admin,setAdmin]=useState(null);
-  const authToken = JSON.parse(sessionStorage.getItem("token"));
+  // const authToken = JSON.parse(sessionStorage.getItem("token"));
+  const authToken = useRecoilValue(authTokenAtom);
   console.log(authToken);
 
   const fetchStudent=async()=>{

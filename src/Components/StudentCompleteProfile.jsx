@@ -2,26 +2,35 @@ import { useFormik } from "formik";
 import { useRef } from "react";
 import {AiOutlineCloudUpload} from 'react-icons/ai'
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-
 import PreviewDocs from "./TutorCompleteProfile/PreviewDocs";
 import { enqueueSnackbar } from "notistack";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { authTokenAtom } from "../Atom";
+import { userDataAtom } from "../Atom";
+import axios from "axios";
+import {StudentCompleteProfileSchema} from '../schemas/formValidation'
+
 
 function StudentCompleteProfile() {
   const profileRef = useRef(null);
   const navigate=useNavigate();
-  const token = JSON.parse(sessionStorage.getItem("token"));
+  // const token = JSON.parse(sessionStorage.getItem("token"));
+  const token=useRecoilValue(authTokenAtom)
+  const [userData,setUserData]=useRecoilState(userDataAtom);
 
   const initialValues = {
     gender: "",
     age: "",
+    phone:"",
     address: "",
     profilePic: "",
-    education:""
+    education:"",
+    isProfileCompleted:true
   };
 
   const Formik = useFormik({
     initialValues,
+    validationSchema:StudentCompleteProfileSchema,
     onSubmit: async (values) => {
       try {
         console.log("values", values);
@@ -37,6 +46,13 @@ function StudentCompleteProfile() {
         })
         if(response.status===201){
           console.log("message",response.data.message,response.data.savedStudent);
+          const user=JSON.parse(sessionStorage.getItem("user"));
+          user.isProfileCompleted=true;
+          sessionStorage.setItem("user",JSON.stringify(user))
+          setUserData((prev)=>({
+            ...prev,
+            isProfileCompleted:true
+          }))
           // const user = JSON.parse(sessionStorage.getItem("user"));
           // // user.isProfileCompleted=true;
           // sessionStorage.setItem("user",JSON.stringify);
@@ -50,15 +66,15 @@ function StudentCompleteProfile() {
   });
   return (
     <>
-      <div className="flex justify-center items-center h-[90vh]">
+      <div className="flex justify-center items-center">
         <form
           onSubmit={Formik.handleSubmit}
-          className="min-w-[30vw] shadow-sm rounded-md shadow-emerald-600 p-8"
+          className="min-w-[40vw] shadow-sm rounded-md shadow-emerald-600 p-8 my-4"
         >
           <div className="flex justify-between mt-2 mb-4 ">
             <h1 className="font-semibold">Gender :</h1>
             <div className="flex">
-            <div className="mx-2 ">
+            <div className="mx-2 w-1/2">
               <label className="flex">
                 <input
                   type="radio"
@@ -71,6 +87,7 @@ function StudentCompleteProfile() {
                 Male
               </label>
             </div>
+            
             <div className="mx-2">
               <label className="flex">
                 <input
@@ -99,31 +116,65 @@ function StudentCompleteProfile() {
             </div>
             </div>
           </div>
+          {Formik.errors.gender && Formik.touched.gender ? (
+                <p className="text-red-500">
+                  {Formik.errors.gender}
+                </p>
+              ) : null}
           <div className="my-2 flex justify-between items-center">
-            <label htmlFor="age" className="font-semibold">Age :</label>
+            <label htmlFor="age" className="font-semibold ">Age :</label>
             <input
               type="text"
-              className="border-2 p-2 rounded-md my-2 mx-4"
+              className="border-2 p-2 rounded-md my-2 mx-4 w-1/2"
               name="age"
               onChange={Formik.handleChange}
               placeholder="Your age"
             />
           </div>
+          {Formik.errors.age && Formik.touched.age ? (
+                <p className="text-red-500">
+                  {Formik.errors.age}
+                </p>
+              ) : null}
+          <div className="my-2 flex justify-between items-center">
+            <label htmlFor="age" className="font-semibold">Phone :</label>
+            <input
+              type="text"
+              className="border-2 p-2 rounded-md my-2 mx-4 w-1/2"
+              name="phone"
+              onChange={Formik.handleChange}
+              placeholder="Your phone number"
+            />
+          </div>
+          {Formik.errors.phone && Formik.touched.phone ? (
+                <p className="text-red-500">
+                  {Formik.errors.phone}
+                </p>
+              ) : null}
           <div className="my-2 flex justify-between items-center">
             <label htmlFor="education" className="font-semibold">Education :</label>
             <input
               type="text"
-              className="border-2 p-2 rounded-md my-2 mx-4"
+              className="border-2 p-2 rounded-md my-2 mx-4 w-1/2"
               name="education"
               onChange={Formik.handleChange}
               placeholder="standard/degree"
             />
           </div>
+          {Formik.errors.education && Formik.touched.education ? (
+                <p className="text-red-500">
+                  {Formik.errors.education}
+                </p>
+              ) : null}
           <div className="my-2 flex flex-col">
             <label htmlFor="address" className="font-semibold">Address :</label>
             <textarea className="border-2 p-2 rounded-md my-2" name="address" id="" cols="5" rows="3" onChange={Formik.handleChange}></textarea>
           </div>
-          
+          {Formik.errors.address && Formik.touched.address ? (
+                <p className="text-red-500">
+                  {Formik.errors.address}
+                </p>
+              ) : null}
           <input
             ref={profileRef}
             hidden
@@ -166,12 +217,12 @@ function StudentCompleteProfile() {
                 </button>
               )}
 
-              {Formik.errors.profilePic && Formik.touched.profilePic ? (
-                <p className="text-red-500 font-bold">
+            </div>
+            {Formik.errors.profilePic && Formik.touched.profilePic ? (
+                <p className="text-red-500">
                   {Formik.errors.profilePic}
                 </p>
               ) : null}
-            </div>
             <button className="p-2 bg-primary-color text-white">Submit</button>
           </div>
         </form>
