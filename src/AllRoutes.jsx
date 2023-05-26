@@ -17,6 +17,8 @@ import { authTokenAtom, userDataAtom } from "./Atom";
 import PrivateRoute from "./Components/PrivateRoute";
 
 function AllRoutes() {
+
+  console.log("inside all routes")
   // const authToken =useRecoilValue(authTokenAtom);
 
   // const authToken = useRecoilValue(authTokenAtom);

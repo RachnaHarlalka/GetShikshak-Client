@@ -26,9 +26,10 @@ function Landing(){
     // console.log("Tutors landing",response.data.tutors)
     return(
         <div>
+            {console.log("Hello")}
             <HeroSection/>
             <div className="bg-gray-100">
-            {tutors.length>0 ? (<TutorCarousal tutors={tutors}/>):(<NoResultPage/>)}
+            {tutors?.length>0 ? (<TutorCarousal tutors={tutors}/>):(<NoResultPage/>)}
 
             </div>
             {/* <About/> */}

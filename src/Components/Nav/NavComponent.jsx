@@ -5,27 +5,27 @@ import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdBook } from "react-icons/io";
-import {GiBookCover} from "react-icons/gi";
-import { useState,useEffect } from "react";
+import { GiBookCover } from "react-icons/gi";
+import { useState, useEffect } from "react";
 import "./style.css";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { authTokenAtom, userDataAtom } from "../../Atom";
-import * as React from 'react';
+import * as React from "react";
 // import { Box,Avatar,Menu,MenuItem,ListItemIcon,Divider,IconButton,Typography,Tooltip,PersonAdd,Settings,Logout} from "@mui/material";
-import Box from '@mui/material/Box';
-import Avatar from '@mui/material/Avatar';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Tooltip from '@mui/material/Tooltip';
-import PersonAdd from '@mui/icons-material/PersonAdd';
-import Settings from '@mui/icons-material/Settings';
-import Logout from '@mui/icons-material/Logout';
+import Box from "@mui/material/Box";
+import Avatar from "@mui/material/Avatar";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Tooltip from "@mui/material/Tooltip";
+import PersonAdd from "@mui/icons-material/PersonAdd";
+import Settings from "@mui/icons-material/Settings";
+import Logout from "@mui/icons-material/Logout";
 
-function NavComponent() {
+function NavComponent({ children }) {
   const [showHamburger, setShowHamburger] = useState(false);
   const [shouldShowShadow, setShouldShowShadow] = useState(false);
 
@@ -40,9 +40,9 @@ function NavComponent() {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-    const handleClose = () => {
-      setAnchorEl(null);
-    };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   // console.log("Having role ",currentUser?.role);
   // console.log("Auth value ",authToken);
@@ -79,9 +79,9 @@ function NavComponent() {
       const shouldShow = scrollTop > 20;
       setShouldShowShadow(shouldShow);
     };
-  
+
     window.addEventListener("scroll", handleScroll);
-  
+
     // Clean up the event listener when the component is unmounted
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -90,7 +90,10 @@ function NavComponent() {
 
   return (
     <>
-      <div id="nav-bar" className={shouldShowShadow?"shadow-[0px_8px_10px_-15px_#111]":""}>
+      <div
+        id="nav-bar"
+        className={shouldShowShadow ? "shadow-[0px_8px_10px_-15px_#111]" : ""}
+      >
         <div className="" id="logo-div">
           <img className="logoImg" src="" alt="" />
           <span className="logoName tracking-wider">
@@ -151,7 +154,7 @@ function NavComponent() {
           </div>
         )}
 
-        {authToken && (
+        {/* {authToken && (
           <div id="navbar-logedIn-profile-icon" onClick={showDropDownMenu}>
             <div id="navbar-profile-pic" className="text-white">
               {(currentUser?.profilePic)?(
@@ -161,10 +164,10 @@ function NavComponent() {
               ):(
                 <div>{currentUser?.name.toString()[0].toUpperCase()}</div>
               )}
-              {/* {currentUser && currentUser.name.toString()[0].toUpperCase()} */}
+              {currentUser && currentUser.name.toString()[0].toUpperCase()}
             </div>
           </div>
-        )}
+        )} */}
 
         <div
           id="navbar-profile-icon-dropDown"
@@ -198,21 +201,29 @@ function NavComponent() {
               <button>Log Out</button>
             </li>
           </ul>
-        </div> 
+        </div>
 
         {authToken && (
-            <React.Fragment>
-            <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+          <React.Fragment>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                textAlign: "center",
+              }}
+            >
               <Tooltip title="Account settings">
                 <IconButton
                   onClick={handleClick}
                   size="small"
                   sx={{ ml: 2 }}
-                  aria-controls={open ? 'account-menu' : undefined}
+                  aria-controls={open ? "account-menu" : undefined}
                   aria-haspopup="true"
-                  aria-expanded={open ? 'true' : undefined}
+                  aria-expanded={open ? "true" : undefined}
                 >
-                  <Avatar sx={{ width: 32, height: 32 }}>{currentUser.name.toString()[0].toUpperCase()}</Avatar>
+                  <Avatar sx={{ width: 32, height: 32 }}>
+                    {currentUser.name.toString()[0].toUpperCase()}
+                  </Avatar>
                 </IconButton>
               </Tooltip>
             </Box>
@@ -225,38 +236,49 @@ function NavComponent() {
               PaperProps={{
                 elevation: 0,
                 sx: {
-                  overflow: 'visible',
-                  filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                  overflow: "visible",
+                  filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
                   mt: 1.5,
-                  '& .MuiAvatar-root': {
+                  "& .MuiAvatar-root": {
                     width: 32,
                     height: 32,
                     ml: -0.5,
                     mr: 1,
                   },
-                  '&:before': {
+                  "&:before": {
                     content: '""',
-                    display: 'block',
-                    position: 'absolute',
+                    display: "block",
+                    position: "absolute",
                     top: 0,
                     right: 14,
                     width: 10,
                     height: 10,
-                    bgcolor: 'background.paper',
-                    transform: 'translateY(-50%) rotate(45deg)',
+                    bgcolor: "background.paper",
+                    transform: "translateY(-50%) rotate(45deg)",
                     zIndex: 0,
                   },
                 },
               }}
-              transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-              anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+              transformOrigin={{ horizontal: "right", vertical: "top" }}
+              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
               <MenuItem onClick={handleClose}>
                 <Avatar />
-                <Link to="/dashboard">My account</Link>
+                {currentUser?.role === "admin" ? (
+                  <Link to="/admindashboard">My account</Link>
+                ) : currentUser?.role === "tutor" ? (
+                  <Link to="/tutordashboard">My account</Link>
+                ) : (
+                  <Link to="/studentdashboard">My account</Link>
+                )}
               </MenuItem>
               <Divider />
-              <MenuItem onClick={()=>{removeToken();handleClose()}}>
+              <MenuItem
+                onClick={() => {
+                  removeToken();
+                  handleClose();
+                }}
+              >
                 <ListItemIcon>
                   <Logout fontSize="small" />
                 </ListItemIcon>
@@ -304,6 +326,7 @@ function NavComponent() {
 
         </div> */}
       </div>
+      {children}
     </>
   );
 }
