@@ -46,24 +46,32 @@
 }
 
 .tutor-request-document-show-div{
-    /* background-color: aqua; */
+    background-color: aqua;
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
     width: 100%;
 }
 
 .tutor-request-document{
-    width: 300px;
-    height: 300px;
+    width: 100%;
+    height: 100%;
     margin-right: 50px;
+    object-fit: cover;
 }
 
-.sub-container-div{
+.admin-sub-container-div{
     /* box-shadow: 0px 2px 5px 0px gray; */
     /* background-color: red; */
-    border-radius: 3px;
+    border-radius: 6px;
     padding: 10px;
+    background-color: white;
     margin: 10px;
+    /* box-shadow: 0 0 0 2px #ccc; without blur shadow */
+
+    /* box-shadow: 0 0 2px 2px #ccc;  */
+    /* with blur shadow */
+
+    /* box-shadow: 0px 0px 2px 0px black; */
     /* height: 100%; */
     /* background-color:burlywood; */
 }
@@ -76,7 +84,7 @@
     /* background-color: aqua; */
     /* padding: 0px 0px; */
     margin-bottom: 10px;
-    border-bottom: 1px solid lightgray;
+    /* border-bottom: 1px solid lightgray; */
 }
 
 #welcome-greeting-div{
@@ -113,7 +121,7 @@
     height: 100%;
     margin: 0px;
     /* border: 2px solid red; */
-    background-color: white;
+    background-color: rgb(243 244 246);
     z-index:1;
     flex-direction: column;
 }
@@ -198,7 +206,14 @@
 }
 
 #accept-button{
-    background-color: rgb(79, 204, 79);
+    background-color: rgb(97, 219, 97);
+}
+#reject-button{
+    background-color: rgb(226, 98, 98);
+}
+
+#revert-button{
+    background-color: rgb(139, 139, 191);
 }
 
 .accept-reject-button{
@@ -206,7 +221,6 @@
     width: 100px;
     padding: 8px;
     border-radius: 5px;
-    background-color: orange;
     margin-right: 10px;
 }
 
@@ -244,6 +258,7 @@
     width: 250px;
     /* display: none; */
     margin: 0px;
+    background-color: rgb(243 244 246);
 }
 
 #notification-icon{

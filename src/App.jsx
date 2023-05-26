@@ -28,8 +28,11 @@ function App() {
 
   return (
     <>
-      <NavComponent/>
+      <NavComponent>
+      {console.log("inside appp")}
+
       <AllRoutes/> 
+      </NavComponent>
     </>
   );
 }

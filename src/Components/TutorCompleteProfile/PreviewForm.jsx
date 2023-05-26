@@ -1,9 +1,9 @@
 import { useRecoilValue } from "recoil";
-import { userDataAtom } from "../../Atom";
+import { tutorFormDataAtom } from "../../Atom";
 import { useState } from "react";
 import PreviewDocs from "./PreviewDocs";
 function PreviewForm(props) {
-  const userData = useRecoilValue(userDataAtom);
+  const userData = useRecoilValue(tutorFormDataAtom);
   console.log("userData", userData);
   return (
     <>

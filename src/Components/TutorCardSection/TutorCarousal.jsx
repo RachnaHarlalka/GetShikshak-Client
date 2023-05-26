@@ -10,15 +10,14 @@ export default function TutorCarousal({tutors}) {
     return  (<>
     <Card
       key={index}
-      city={tutor.tutorForm.city}
-      name={tutor.name}
-      subjects={tutor.tutorForm.subjects}
-      url= {`http://localhost:3000/assets/${tutor.profilePic}`}
-      id={tutor._id}
+      city={tutor?.city}
+      name={tutor?.name}
+      subjects={tutor?.subjects}
+      url= {`http://localhost:3000/assets/${tutor?.profilePic}`}
+      id={tutor?.id}
       // price={tutor.tutorForm.city}
-      rate={tutor.tutorForm.rate}
+      rate={tutor?.rate}
     />
-          {console.log("profile",`http://localhost:3000/assets/${tutor.profilePic}`)}
     </>
   )
   
@@ -40,7 +39,7 @@ export default function TutorCarousal({tutors}) {
   // };
 
   return (
-    <div className="carousal">
+    <div className="carousal ">
       <Carousel showDots  responsive={responsive}>
         {AllTutors}
       </Carousel>

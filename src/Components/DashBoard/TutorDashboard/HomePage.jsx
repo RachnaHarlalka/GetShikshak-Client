@@ -21,12 +21,13 @@ function HomePage({fetchedData}){
     const [currentNotification, setCurrentNotification] = useState(null);
     const [aboutYou , setAboutYou] = useState("");
     const [aboutClass , setAboutClass] = useState("");   
+    const [title,setTitle]=useState("");
     const [classRequests,setClassRequests] = useState(null);
     const [activeNotification, setActiveNotification] = useState(null);
 
     const authToken = JSON.parse(sessionStorage.getItem('token'));
 
-    // console.log("Current ",currentNotification);
+    console.log("Current ",currentNotification);
 
     const fetchData= async()=>{
         let response = await axios(
@@ -38,9 +39,11 @@ function HomePage({fetchedData}){
                 }
             }
         )
-        // console.log("In Response ",response.data);
+        console.log("hello")
+
+        console.log("In Response ",response.data);
         setClassRequests(response.data);
-        // console.log("in class requests ",classRequests);
+        console.log("in class requests ",classRequests);
     }
 
     const userData = fetchedData;
@@ -49,13 +52,39 @@ function HomePage({fetchedData}){
         fetchData();
         setAboutYou(userData?.tutorForm?.aboutYou)
         setAboutClass(userData?.tutorForm?.aboutClass)
+        setTitle(userData?.tutorForm?.title)
     },[])
+
+    const handleRequestStatus=async(status)=>{
+        try{
+            const response = await axios({
+                url:"http://localhost:3000/tutor/updatereservationrequest",
+                method:"PATCH",
+                data:{
+                    updatedStatus:status,
+                    reqId:currentNotification._id
+                },
+                headers:{
+                    Authorization:`Bearer ${authToken}`
+                }
+            })
+            console.log("response",response.data.updatedReservationRequest);
+            closeNotificationDetailsPage();
+            const updatedClassRequest = classRequests.filter((classRequest)=>{
+                return classRequest._id!==currentNotification._id;
+            });
+            setClassRequests(updatedClassRequest);
+        }   
+        catch(err){
+
+        }
+    }
 
 
 
     // console.log("class requests ",classRequests);
     function notificationList(){    
-            // console.log("Inside Class Request ",classRequests);
+            console.log("Inside Class Request ",classRequests);
             let notifications = classRequests?.map((item,index)=>{
                 return (
                     <div className="notification" onClick={(e)=>{handleActiveNotification(e,index)}} id={index}>
@@ -67,7 +96,7 @@ function HomePage({fetchedData}){
             })
             // console.log("notifi ",notifications);
             return(
-                <div id="account-notification-div" className='sub-container-div'>
+                <div id="account-notification-div" className='tutor-sub-container-div'>
                     <div className='div-heading'>
                         NEW CLASS REQUESTS
                         <span id="notification-icon">
@@ -89,16 +118,16 @@ function HomePage({fetchedData}){
     function notificationDetailsPage(){
         console.log(currentNotification);
         return(
-            <div id="notification-details-div" className='sub-container-div' style={{display:displayType}}>
+            <div id="notification-details-div" className='tutor-sub-container-div' style={{display:displayType}}>
                         <div className='row-div margin-buttom-div' id="crosss-div">
                             <RxCrossCircled size="1.4rem" color="red" className="cursor-type-pointer" onClick={()=>{closeNotificationDetailsPage()}}/>
                         </div>
                         <div className='row-div margin-buttom-div' >
                             <div className='display-type-flex width-100' id="request-details-div">
-                                <div className='sub-container-div' id="student-profile-div">
+                                <div className='tutor-sub-container-div' id="student-profile-div">
                                         STUDENT PROFILE PIC
                                 </div>
-                                <div className='sub-container-div' id='content-of-request-div'>
+                                <div className='tutor-sub-container-div' id='content-of-request-div'>
                                     <div id='content-heading' className='request-content-sub-div'>
                                         {currentNotification?.studentId.name}
                                         <span style={{textTransform:"none"}}>Email: <span style={{fontWeight:"normal"}}>{currentNotification?.studentId?.email}</span></span>
@@ -111,7 +140,7 @@ function HomePage({fetchedData}){
                         </div>
                         <div className='row-div margin-buttom-div' id='class-options'>
                             <div className='display-type-flex' >
-                                <div className='sub-container-div' id='requested-subjects-div'>
+                                <div className='tutor-sub-container-div' id='requested-subjects-div'>
                                     <div className='div-heading'>
                                         SUBJECTS
                                     </div>
@@ -123,7 +152,7 @@ function HomePage({fetchedData}){
                                         }
                                     </div>
                                 </div>
-                                <div className='sub-container-div' id='requested-mode-div'>
+                                <div className='tutor-sub-container-div' id='requested-mode-div'>
                                     <div className='div-heading'>
                                         MODE OF LEARNING
                                     </div>
@@ -140,8 +169,12 @@ function HomePage({fetchedData}){
                         <div className='row-div margin-buttom-div'>
                             <div className='width-100 display-type-flex' id='accept-reject-div'>
                                 <div className='content-div'>
-                                        <button className='accept-reject-button' id='accept-button'>ACCEPT</button>
-                                        <button className='accept-reject-button' id='reject-button'>REJECT</button>
+                                        <button className='accept-reject-button' id='accept-button' onClick={()=>{
+                                            handleRequestStatus("accepted")
+                                        }}>ACCEPT</button>
+                                        <button className='accept-reject-button' id='reject-button'  onClick={()=>{
+                                            handleRequestStatus("rejected")
+                                        }}>REJECT</button>
                                 </div>  
                         </div>
                 </div>
@@ -200,6 +233,7 @@ function HomePage({fetchedData}){
         switch(event.target.id){
             case "about":   setAboutYou(event.target.value); break;
             case "ads"  :   setAboutClass(event.target.value); break;
+            case "title":   setTitle(event.target.value);break;
             default: console.log("default");
         }
     }
@@ -209,11 +243,11 @@ function HomePage({fetchedData}){
         <div id='home-page-root-div'>
             <div id="home-page-details-div">
                 <div className='row-div mb-12' id="first-row-home-page">
-                    <div id='welcome-greeting-div' className="sub-container-div">
+                    <div id='welcome-greeting-div' className="tutor-sub-container-div">
                         <span id='welcome-msg'>Welcome</span>
                         <span id='user-name'>{userData.name.split(" ")[0]}
                             {/* <span id='tutor-home-page-waving-hand'><MdWavingHand/></span> */}
-                            {userData?.tutorForm?.isProfileVerified==="true" 
+                            {userData?.tutorForm?.isProfileVerified==="accepted" 
                             ?
                             <Tooltip title="Account Verified" placement="right" arrow>
                                 <span id="verified-tag"><VscVerifiedFilled color="green" /></span>
@@ -228,7 +262,7 @@ function HomePage({fetchedData}){
                         
                     </div>
                     <div id='home-page-top-sub-div'>
-                        <div className='sub-container-div' id="rating-div">
+                        <div className='tutor-sub-container-div' id="rating-div">
                             <div id='rating-outer-div'>
                                 <div id='rating-label-div'>
                                     Class Rating
@@ -239,13 +273,13 @@ function HomePage({fetchedData}){
                                 </div>
                             </div>
                         </div>
-                        <div className='sub-container-div' id="date-time-block-div">
+                        <div className='tutor-sub-container-div' id="date-time-block-div">
                             <DateTime/>
                         </div>
                     </div>
                 </div>
                 <div className='row-div' id='second-row'>
-                    <div className='sub-container-div w-1/2'>
+                    <div className='tutor-sub-container-div w-1/2'>
                         <div className='div-heading'>
                             ABOUT YOU
                             <div className='edit-button-div' >
@@ -266,9 +300,9 @@ function HomePage({fetchedData}){
                             </textarea>
                         </div>
                     </div>
-                    <div className='sub-container-div w-1/2'>
+                    <div className='tutor-sub-container-div w-1/2'>
                         <div className='div-heading'>
-                            YOUR ADS
+                            ABOUT CLASS
                             <div className='edit-button-div' >
                                 <EditButton inputBoxId="ads" path="updateaboutclass" newData={aboutClass}/>
                             </div>
@@ -285,9 +319,28 @@ function HomePage({fetchedData}){
                             </textarea>
                         </div>
                     </div>
+                    <div className='tutor-sub-container-div w-1/2'>
+                        <div className='div-heading'>
+                            AD TITLE
+                            <div className='edit-button-div' >
+                                <EditButton inputBoxId="title" path="updatetitle" newData={title}/>
+                            </div>
+                        </div>
+                        <div className='content-div medium-content-div'>
+                            <textarea 
+                            id="title" 
+                            onChange={handleChangeText}
+                            className='textarea-input-box' 
+                            placeholder="Type here ....." 
+                            disabled 
+                            value={title}>
+
+                            </textarea>
+                        </div>
+                    </div>
                 </div>
                 <div className='row-div'>
-                        <div className='sub-container-div' id='language-div'>
+                        <div className='tutor-sub-container-div' id='language-div'>
                             <div className='div-heading'>
                                 LANGUAGES    
                                 <div className="edit-button-div">
@@ -302,7 +355,7 @@ function HomePage({fetchedData}){
                                 }
                             </div>
                         </div>
-                        <div className='sub-container-div' id='subjects-div'>
+                        <div className='tutor-sub-container-div' id='subjects-div'>
                             <div className='div-heading'>
                                 SUBJECTS 
                                 <div className="edit-button-div">
@@ -317,7 +370,7 @@ function HomePage({fetchedData}){
                                 }
                             </div>
                         </div>
-                        <div className='sub-container-div' id="rate-div">
+                        <div className='tutor-sub-container-div' id="rate-div">
                             <div className='div-heading'>
                                 RATE 
                                 <div className="edit-button-div">
@@ -331,7 +384,7 @@ function HomePage({fetchedData}){
                                 </span>
                             </div>
                         </div>
-                        <div className='sub-container-div' id='teaching-mode-div'>
+                        <div className='tutor-sub-container-div' id='teaching-mode-div'>
                             <div className='div-heading'>
                                 TEACHING MODE
                                 <div className="edit-button-div">

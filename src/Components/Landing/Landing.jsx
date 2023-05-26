@@ -27,8 +27,12 @@ function Landing(){
     return(
         <div>
             <HeroSection/>
+            <div className="bg-gray-100">
             {tutors.length>0 ? (<TutorCarousal tutors={tutors}/>):(<NoResultPage/>)}
-            <About/>
+
+            </div>
+            {/* <About/> */}
+            
 
             {/* <TutorCardSection/> */}
             {/* <div> {props.children}</div> */}

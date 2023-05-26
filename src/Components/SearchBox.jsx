@@ -18,7 +18,7 @@ function SearchBox() {
     city:city || "",
   };
 
-  console.log("city options",cityOptions);
+  // console.log("city options",cityOptions);
 
   let formik = useFormik({
     initialValues,
@@ -36,7 +36,7 @@ function SearchBox() {
     },
   });
   return (
-    <form className="h-fit" id="search-box" onSubmit={formik.handleSubmit}>
+    <form className="h-fit " id="search-box" onSubmit={formik.handleSubmit}>
       <Select
         id="searchSelect"
         options={cityOptions}
@@ -63,7 +63,7 @@ function SearchBox() {
         />
         {/* <Link to="/searchPage"> */}
         <button className="flex justify-center items-center" id="search-btn">
-          <GoSearch />
+          <GoSearch style={{fontweight:"bold"}}/>
         </button>
       </div>
       {/* </Link> */}

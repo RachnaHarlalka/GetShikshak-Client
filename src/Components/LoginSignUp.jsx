@@ -4,7 +4,7 @@ import { MdOutlineEmail } from "react-icons/md";
 import { ImGoogle3 } from "react-icons/im";
 import InputBox from "./InputBox";
 import { useFormik, Field } from "formik";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation,Link } from "react-router-dom";
 import { RegisterSchema, LoginSchema } from "../schemas/formValidation";
 import { useSnackbar } from "notistack";
 import { useRecoilState } from "recoil";
@@ -25,9 +25,11 @@ const LoginValues = {
 };
 
 function LoginSignUp(props) {
-  console.log("inside login sign up");
   let RegisterFormik, LoginFormik;
   const navigate = useNavigate();
+  const location = useLocation();
+  console.log("location.state",location);
+  const from = location.state?.from?.pathname || "/";
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const[userData, setUserData] = useRecoilState(userDataAtom);
@@ -70,16 +72,13 @@ function LoginSignUp(props) {
               "content-type": "application/json",
             },
           });
-          console.log("response", response);
           if (response.status === 201) {
-            console.log("Login success");
             if (response.data.token) {
               const user = response.data.user;
               let sessiontoken = JSON.stringify(response.data.token);
               const sessionUser = JSON.stringify(response.data.user);
               sessionStorage.setItem("token", sessiontoken);
               sessionStorage.setItem("user",sessionUser);
-              console.log("Login successfull");
               enqueueSnackbar(response.data.message, { variant: "success" });
 
               setUserData({
@@ -87,23 +86,17 @@ function LoginSignUp(props) {
                 isProfileVerified: user.tutorForm.isProfileVerified
               })
               setAuthAtom(response.data.token);
-              
-  
-              console.log("user.role login",user.role);
-              console.log("user login profileCompleted",user.isProfileCompleted)
               // navigate("/studentcompleteprofile");
-              if(user?.role==="student"){
+              if(user?.role==="student" && user?.isProfileCompleted===false){
                 
                 navigate('/studentcompleteprofile');
               }
-              else if(user?.role==="tutor"){
+              else if(user?.role==="tutor" && user?.isProfileCompleted===false){
                 navigate('/tutorcompleteprofile')
               }
               else{
-                navigate("/");
+                navigate(from,{replace:true});
               }
-
-             
               // console.log(sessionStorage.getItem("user"))
               // sessionStorage.setItem("authToken", token)
             }

@@ -4,32 +4,27 @@ import { Link } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
 import { RxHamburgerMenu } from "react-icons/rx";
-import {IoMdBook} from "react-icons/io";
-import { useState } from "react";
-// import logo from '../../../public/images/logo'
+import { IoMdBook } from "react-icons/io";
+import {GiBookCover} from "react-icons/gi";
+import { useState,useEffect } from "react";
 import "./style.css";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { authTokenAtom, userDataAtom } from "../../Atom";
-function NavComponent() {
+function NavComponent({children}) {
   const [showHamburger, setShowHamburger] = useState(false);
-  const [currentUser, setCurrentUser] = useRecoilState(userDataAtom);
-  const [authToken, setAuthToken]=useRecoilState(authTokenAtom);
+  const [shouldShowShadow, setShouldShowShadow] = useState(false);
 
-  // let currentUser = JSON.parse(sessionStorage.getItem("user"));
-  // let authToken=JSON.parse(sessionStorage.getItem("token"));
-  const [showDropDown , setShowDropDown] =useState(false);
+  const [currentUser, setCurrentUser] = useRecoilState(userDataAtom);
+  const [authToken, setAuthToken] = useRecoilState(authTokenAtom);
+  const [showDropDown, setShowDropDown] = useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const navigate = useNavigate();
-
-  // console.log("Having role ",currentUser?.role);
-  // console.log("Auth value ",authToken);
-  // console.log("isProfileComplete ",currentUser);
 
   function removeToken() {
     console.log("Inside logout");
     sessionStorage.clear();
     enqueueSnackbar("Logout Successfull !", { variant: "success" });
-        // window.location.reload(); // Reload the window
+    // window.location.reload(); // Reload the window
     setCurrentUser(null);
     setAuthToken(null);
     navigate("/login");
@@ -45,26 +40,43 @@ function NavComponent() {
   // console.log("currentUser in nav",currentUser)
   // console.log("currentUser token",authToken);
 
-  function showDropDownMenu(){
+  function showDropDownMenu() {
     setShowDropDown((prev) => {
       return !prev;
     });
   }
 
-  console.log("userdata in nav",currentUser)
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset;
+      const shouldShow = scrollTop > 20;
+      setShouldShowShadow(shouldShow);
+    };
+  
+    window.addEventListener("scroll", handleScroll);
+  
+    // Clean up the event listener when the component is unmounted
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <>
-      <div id="nav-bar">
-        <div className="nav-sub-div" id="logo-div">
+      <div id="nav-bar" className={shouldShowShadow?"shadow-[0px_8px_10px_-15px_#111]":""}>
+        <div className="" id="logo-div">
           <img className="logoImg" src="" alt="" />
           <span className="logoName tracking-wider">
-            <Link className="flex justify-center items-center" to="/"><IoMdBook size="2em"/><span className="mx-1">GetShiksha</span></Link>
-
+            <Link className="flex justify-center items-center" to="/">
+              <GiBookCover size="2em" color="var(--primary-color)" />
+              <span className="mx-1 text-primary-color font-bold">
+                GetShiksha
+              </span>
+            </Link>
           </span>
         </div>
 
-        <div className="nav-sub-div" id="mid-nav-sub-div">
+        <div className=" text-primary-color" id="mid-nav-sub-div">
           <ul className="flex flex-row justify-around">
             {/* <li>
               <a href="./#about-section">About Us</a>
@@ -75,42 +87,64 @@ function NavComponent() {
             <li>
             <Link to="/tutordashboard">Tutor Dash</Link>
             </li> */}
-            {authToken && currentUser && currentUser.role === "tutor" && currentUser.isProfileCompleted===false &&(
-              <li>
-                <Link to="/tutorcompleteprofile">Complete Profile</Link>
-              </li>
-            )}
-             {authToken && currentUser && currentUser.role === "student" && currentUser.isProfileCompleted===false &&(
-              <li>
-                <Link to="/studentcompleteprofile">Complete Profile</Link>
-              </li>
-            )}
+            {authToken &&
+              currentUser &&
+              currentUser.role === "tutor" &&
+              currentUser.isProfileCompleted === false && (
+                <li className="font-bold">
+                  <Link to="/tutorcompleteprofile">Complete Profile</Link>
+                </li>
+              )}
+            {authToken &&
+              currentUser &&
+              currentUser.role === "student" &&
+              currentUser.isProfileCompleted === false && (
+                <li className="font-bold">
+                  <Link to="/studentcompleteprofile">Complete Profile</Link>
+                </li>
+              )}
           </ul>
         </div>
 
-        {!authToken && (<div className="nav-sub-div" id="right-nav-sub-div">
-          <ul id="nav-bar-login-option">
-            <li className="nav-button">
-              <Link to="/login">Log In</Link>
-            </li>
-            <li className="nav-button mx-4" id="sign-up-button">
-              <Link
-                to="/register"
-                className="font-semibold px-4 py-2 rounded-xl"
-              >
-                Sign Up
-              </Link>
-            </li>
-          </ul>
-        </div>)}
+        {!authToken && (
+          <div className="nav-sub-div" id="right-nav-sub-div">
+            <ul id="nav-bar-login-option">
+              <li className="nav-button font-bold text-primary-color">
+                <Link to="/login">Log In</Link>
+              </li>
+              <li className="nav-button mx-4 font-bold" id="sign-up-button">
+                <Link
+                  to="/register"
+                  className="font-semibold px-4 py-2 rounded-xl text-white bg-primary-color"
+                >
+                  Sign Up
+                </Link>
+              </li>
+            </ul>
+          </div>
+        )}
 
         {authToken && (
-          <div id='navbar-logedIn-profile-icon' onClick={showDropDownMenu}>
-            <div id='navbar-profile-pic'>
-                {currentUser &&  currentUser.name.toString()[0].toUpperCase()}
+          <div id="navbar-logedIn-profile-icon" onClick={showDropDownMenu}>
+            <div id="navbar-profile-pic" className="text-white">
+              {(currentUser?.profilePic)?(
+                <div>
+                  <img src={`http://localhost:3000/assets/${currentUser?.profilePic}`} alt="" className="rounded-full h-10 w-10 object-cover"/>
+                </div>
+              ):(
+                <div>{currentUser?.name.toString()[0].toUpperCase()}</div>
+              )}
+              {/* {currentUser && currentUser.name.toString()[0].toUpperCase()} */}
             </div>
           </div>
-        )}   
+        )}
+
+
+
+
+
+
+
 
         <div
           id="navbar-profile-icon-dropDown"
@@ -119,16 +153,29 @@ function NavComponent() {
           }
         >
           <ul className="profile-icon-dropDown-list">
-            <li id='dropDown-menu-user-name'>
+            <li id="dropDown-menu-user-name">
               {currentUser && currentUser.email}
             </li>
-            <li onClick={showDropDownMenu} style={{padding:"0px"}}>
-              <Link to="/dashboard" style={{width:"100%",textAlign:"center",padding:"8px 0px"}}>Dashboard</Link>
+            <li onClick={showDropDownMenu} style={{ padding: "0px" }}>
+              <Link
+                to="/dashboard"
+                style={{
+                  width: "100%",
+                  textAlign: "center",
+                  padding: "8px 0px",
+                }}
+              >
+                Dashboard
+              </Link>
             </li>
-            <li className="active-button" onClick={()=>{removeToken();showDropDownMenu()}}>
-                <button>
-                  Log Out
-                </button>
+            <li
+              className="active-button"
+              onClick={() => {
+                removeToken();
+                showDropDownMenu();
+              }}
+            >
+              <button>Log Out</button>
             </li>
           </ul>
         </div>
@@ -150,22 +197,27 @@ function NavComponent() {
             <li>
               <Link to="/dashboard">Find Tutor</Link>
             </li>
-            {authToken && currentUser && currentUser.role==="tutor" && currentUser.isProfileCompleted===false && (<li>Complete Profile</li>)}
+            {authToken &&
+              currentUser &&
+              currentUser.role === "tutor" &&
+              currentUser.isProfileCompleted === false && (
+                <li>Complete Profile</li>
+              )}
           </ul>
-         {!authToken ? (
-          <ul className="hamburger-list" id="bottom-list">
-            <li>Login</li>
-           <li id="active-button">Sign Up</li>
-          </ul>
-         ):(
-          <ul className="hamburger-list" id="bottom-list">
-          <li>My Profile</li>
-          <li id="active-button">Logout</li>
-        </ul>
-        )}
-
+          {!authToken ? (
+            <ul className="hamburger-list" id="bottom-list">
+              <li>Login</li>
+              <li id="active-button">Sign Up</li>
+            </ul>
+          ) : (
+            <ul className="hamburger-list" id="bottom-list">
+              <li>My Profile</li>
+              <li id="active-button">Logout</li>
+            </ul>
+          )}
         </div>
       </div>
+      {children}
     </>
   );
 }

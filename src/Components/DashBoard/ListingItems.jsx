@@ -10,6 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useState } from 'react';
 import './listingitems.css';
+import { boolean } from 'yup';
 
 export default function ListingItems({pageheading,receivedData}) {
     console.log("List Rendered");
@@ -43,11 +44,26 @@ export default function ListingItems({pageheading,receivedData}) {
     function generateTableRow(itemObj){
         let row=[];
         for(let item in itemObj){
-            if(Array.isArray(itemObj[item])){
+           if(item=="profilePic"){
+                row.push(<TableCell sx={{borderRight:"1px solid black", display:"flex",justifyContent:"center"}} align="center" className=''>
+                    <img src={`http://localhost:3000/assets/${itemObj[item]}`} alt="" style={{objectFit:"cover"}} className='w-16 h-16 '/>
+                </TableCell>)
+                console.log("inside profile pic",itemObj[item])
+            }
+            else if(Array.isArray(itemObj[item])){
                 const newItem=itemObj[item].map((i,index)=>{
                     return (index==0?i:", "+i)
                 })
                 row.push(<TableCell sx={{borderRight:"1px solid black"}} align="center">{newItem}</TableCell>)
+            }
+            else if(typeof itemObj[item]==="object"){
+                console.log("Inside object item",item);
+                continue;
+            }
+            else if((typeof itemObj[item]) === "boolean"){
+                const bool = itemObj[item]?"Active":"In-Active";
+                const textColor = itemObj[item]?"green":"red";
+                row.push(<TableCell sx={{borderRight:"1px solid black",textTransform:'uppercase',fontWeight:"bold",color:textColor }} align="center">{bool}</TableCell>)
             }
             else
             row.push(<TableCell sx={{borderRight:"1px solid black"}} align="center">{itemObj[item]}</TableCell>)
@@ -70,8 +86,9 @@ export default function ListingItems({pageheading,receivedData}) {
 
     return (
     <div id='listing-items-root-div'>
-        <div id='list-heading'>
+        <div id='list-heading' className='flex justify-between'>
                 {pageheading}
+                <h1>{pageheading.split(" ")[0]} Count : {receivedData.length}</h1>
         </div>
         <div id='items-list'>
         <Box sx={{ width: '100%'}} color="black">

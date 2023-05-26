@@ -13,7 +13,7 @@ function ReserveClass() {
   // const userData = JSON.parse(sessionStorage.getItem("user"));
   // const authToken = JSON.parse(sessionStorage.getItem("token"));
   const userData = useRecoilValue(userDataAtom);
-  const token = useRecoilValue(authTokenAtom);
+  const authToken = useRecoilValue(authTokenAtom);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -40,6 +40,7 @@ function ReserveClass() {
   const Formik = useFormik({
     initialValues,
     onSubmit: async (values, action) => {
+      console.log("resrve class values",values);
       try {
         const response = await axios({
           url: `http://localhost:3000/user/reserveclass/${tutor?._id}`,
