@@ -5,6 +5,8 @@ import axios from "axios";
 import ListingItems from "../ListingItems";
 import { useRecoilValue } from "recoil";
 import { authTokenAtom } from "../../../Atom";
+
+
 function AdminDashboard() {
   const [pageId, setPageId] = useState(0);
   const[students,setStudents]=useState([]);
@@ -12,14 +14,14 @@ function AdminDashboard() {
   const[admin,setAdmin]=useState(null);
   // const authToken = JSON.parse(sessionStorage.getItem("token"));
   const authToken = useRecoilValue(authTokenAtom);
-  console.log(authToken);
+  // console.log(authToken);
 
   const fetchStudent=async()=>{
     const response = await axios({
         url:"http://localhost:3000/user/getstudents",
         method:"GET"
     })
-    console.log("student",response.data.filteredStudents);
+    // console.log("student",response.data.filteredStudents);
     const fetchedStudent=response.data.filteredStudents;
     setStudents(fetchedStudent);
 
@@ -30,14 +32,12 @@ function AdminDashboard() {
         url:"http://localhost:3000/user/gettutors",
         method:"GET"
     })
-    console.log("tutor",response.data.filteredTutors);
+    // console.log("tutor",response.data.filteredTutors);
     const fetchedTutors=response.data.filteredTutors;
     setTutors(fetchedTutors);
   }
 
-  console.log("students",students);
   const fetchAdmin=async()=>{
-    console.log("inside fatch admin")
     const response = await axios({
         url:"http://localhost:3000/dashboard/getadmin",
         method:"GET",
@@ -50,7 +50,7 @@ function AdminDashboard() {
     //     "Content-Type":"application/json",
     //     "Authorization":`Bearer ${authToken}`
     //   }
-    console.log("admin",response.data.admin);
+    // console.log("admin",response.data.admin);
     const fetchedAdmin=response.data.admin;
     setAdmin(fetchedAdmin);
   }
@@ -61,7 +61,6 @@ function AdminDashboard() {
     fetchAdmin();
   },[])
   function handleClick(id) {
-    console.log(id);
     switch (id) {
       case "0":
         setPageId(0);
@@ -75,27 +74,22 @@ function AdminDashboard() {
       case "3":
         setPageId(3);
         break;
-      case "4":
-        setPageId(4);
-        break;
       default:
         console.log("Default of Handle Click");
     }
   }
 
-  const sidebarOptions = ["Home", "Profile","Tutors", "Students", "AdvertiseInfo"];
+  const sidebarOptions = ["Home","Tutors", "Students", "AdvertiseInfo"];
 
   function renderPage(id) {
     switch (id) {
       case 0:
         return (<HomePage students={students} tutors={tutors} admin={admin}/>);
       case 1:
-        return (<><h1>Profile</h1></>);
+        return (<ListingItems pageheading={"Tutors List"} receivedData={tutors}/>);
       case 2:
-        return (<><h1>Tutors</h1></>);
-      case 3:
         return (<ListingItems pageheading={"Students List"} receivedData={students}/>);
-      case 4:
+      case 3:
         return (<><h1>AdvertiseInfo</h1></>);
       default:
         console.log("Default");
@@ -109,7 +103,7 @@ function AdminDashboard() {
 
           <div id="dashboard-profile-section">
             <div id="profile-pic-section">
-              <div id="profile-pic">
+              <div id="profile-pic" >
                 {/* <FcManager/> */}
                 <img
                   id="profile-image"

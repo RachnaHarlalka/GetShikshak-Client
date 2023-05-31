@@ -2,16 +2,40 @@
     import './profileDetails.css'
     import EditButton from '../EditButton';
     import {useState,useEffect } from 'react';
+    import Button from '@mui/material/Button';
+    import {MdZoomOutMap} from 'react-icons/md';
+    import {RxCrossCircled} from 'react-icons/rx';
 
     function ProfileDetails({fetchedData}){
 
         console.log("Data recieved ",fetchedData);
 
         const [userData, setUserData] = useState(null);
+        // const [showZoom, setShowZoom] = useState("none");
+        const [zoomedImage, setzoomedImage] = useState("none");
+        const [currentDoc, setCurrentDoc] = useState(null);
 
         useEffect(()=>{
             setUserData(fetchedData)
         },[]);
+
+        function handleShowZoom(event){
+            event.stopPropagation();
+            console.log("event ",event.target.className);
+            if(event.target.className !== "zoom-icon"){
+                console.log("on not zoom");
+                event.target.style.display === "block"? event.target.style.display = "none" : event.target.style.display = "block";
+            }
+            else{
+                const children = event.target.childNodes;
+                console.log("child ",children);
+                if(children[0].style.display === "flex")
+                    children[0].style.display="none";
+                else
+                    children[0].style.display="flex";
+            }
+            // event.target.closest('.zoom-icon').style.display="flex";
+        }
 
         return(
             <div id="profile-page-root-div">
@@ -46,7 +70,7 @@
                                             </div>
                                             <div className='details-item'>
                                                 <span className='label-div'>Phone:</span>
-                                                <span>{userData?.tutorForm?.phone}</span>
+                                                <span>{userData?.phone}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -60,7 +84,9 @@
                                 </div>
                                 <div className='content-div'>
                                     <div className='qualification-row'>
-                                        Qualification1
+                                        <Button variant="contained" size="small" onClick={()=>{console.log("Add")}}>
+                                            Add Qualification
+                                        </Button>
                                     </div>
                                 </div>
 
@@ -77,8 +103,11 @@
                                         ID Proof
                                     </div>
                                     <div className=''>
-                                        <div className='document-show-div'>
+                                        <div className='document-show-div' onMouseOver={(e)=>{handleShowZoom(e)}} onMouseLeave={(e)=>{handleShowZoom(e)}}>
                                             <img className='document' alt="ID PROOF" src={`http://localhost:3000/assets/${userData?.tutorForm?.identity}`}/>
+                                            <div className='zoom-icon' onClick={()=>{setzoomedImage("block"), setCurrentDoc("id")}}>
+                                                    <MdZoomOutMap size="2rem" style={{display:"none"}}/>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -87,13 +116,24 @@
                                         Qualification Document
                                         </div>
                                         <div className=''>
-                                            <div className='document-show-div'>
+                                            <div className='document-show-div' onMouseOver={(e)=>{handleShowZoom(e)}} onMouseLeave={(e)=>{handleShowZoom(e)}}>
                                                 <img className='document' alt="ID PROOF" src={`http://localhost:3000/assets/${userData?.tutorForm?.lastEducationalCertificate}`}/>
+                                                <div className='zoom-icon' onClick={()=>{setzoomedImage("block"), setCurrentDoc("qualification")}}>
+                                                    <MdZoomOutMap size="2rem" style={{display:"none"}}/>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div style={{display:zoomedImage}} id="zoomed-image-background-div">
+                        <div className='row-div margin-buttom-div' id="crosss-div">
+                            <RxCrossCircled size="2rem" color="red" className="cursor-type-pointer" onClick={()=>{setzoomedImage("none")}}/>
+                        </div>
+                        <div className='row-div flex justify-center items-center' id="zoomed-image-div">
+                            <img className='w-[50%] h-full object-contain' alt="ID PROOF" src={`http://localhost:3000/assets/${currentDoc === "id" ? userData?.tutorForm?.identity:userData?.tutorForm?.lastEducationalCertificate}`}/>
                         </div>
                     </div>
             </div>

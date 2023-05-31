@@ -3,8 +3,11 @@ import { useLottie } from "lottie-react";
 import LoginSignUp from '../LoginSignUp'
 import loginLoti from '../../assets/login-loty.json'
 import {Link} from 'react-router-dom'
+import React from 'react';
 
 function Login(){
+  console.log("login")
+  
     const options = {
         animationData: loginLoti,
         loop: true

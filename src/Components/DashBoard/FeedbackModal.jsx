@@ -5,21 +5,46 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Rating from '@mui/material/Rating';
 import TextField from '@mui/material/TextField';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
+import axios from 'axios';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { authTokenAtom,} from '../../Atom';
+import { useSnackbar } from 'notistack';
 
-function FeedbackModal({displayState,handleModal}){
-    console.log("display ",displayState);
+function FeedbackModal({displayState,handleModal,classId}){
+    console.log("class ", classId);
+    const token = useRecoilValue(authTokenAtom);
+    const {enqueueSnackbar} = useSnackbar();
     const [open, setOpen] =useState(false);
     const [feedback, setFeedback] = useState({
-        rating:0,
-        review:""
+        rating: 0,
+        review: ""
     });
+
+    const fetchClassFeedback = async()=>{
+        let response = await axios({
+            url: `http://localhost:3000/dashboard/getclassfeedback/${classId}`,
+            method: "GET",
+            headers:{
+                "Authorization" : `Bearer ${token}`
+            }
+        })
+        console.log("fetched feedback ",response);
+        setFeedback(()=>{
+            return(
+                {
+                    rating: response?.data?.rating,
+                    review: response?.data?.review
+                }
+            )
+        })
+    }
     
-    React.useEffect(()=>{
+    useEffect(()=>{
+        classId && fetchClassFeedback();
         setOpen(displayState);
     },[displayState])
-    console.log("open ",open);
-
+    
     const style = {
         position: 'absolute',
         top: '50%',
@@ -33,13 +58,56 @@ function FeedbackModal({displayState,handleModal}){
       };
 
 
-    function handleSendFeedback(event){
-        console.log("Current Feedback ",feedback);
-        handleModal();
+    async function handleSendFeedback(event){
+        if(!feedback.rating || !feedback.review){
+            handleModal(classId);
+            return
+        }
+        const response = await axios({
+            url: `http://localhost:3000/user/givefeedback/${classId}`,
+            method: "PATCH",
+            data: feedback,
+            headers :{
+                "Authorization" : `Bearer ${token}`
+            }
+        })
+        console.log("Feedback Response ", response?.data);
+        if(response.status === 201){
+            setFeedback(()=>{
+                return(
+                    {
+                        rating: response?.data?.classData?.rating,
+                        review: response?.data?.classData?.review
+                    }
+                )
+            })
+            enqueueSnackbar(response?.data?.message,{variant:"success"});
+        }
+        else{
+            setFeedback(()=>{
+                return(
+                    {
+                        rating: 0,
+                        review: ""
+                    }
+                )
+            })
+            enqueueSnackbar(response.data.message,{variant:"error"});
+        }
+        
+        handleModal(classId);
     }
 
     function handleClose(){
-        handleModal();
+        setFeedback(()=>{
+            return(
+                {
+                    rating: 0,
+                    review: ""
+                }
+            )
+        })
+        handleModal(classId);
     }
 
 
@@ -59,7 +127,7 @@ function FeedbackModal({displayState,handleModal}){
                 <Rating
                 sx={{marginLeft:"10px"}}
                 name="simple-controlled"
-                value={feedback.rating}
+                value={feedback.rating? feedback.rating:0}
                 onChange={(event, newValue) => {
                     setFeedback((prev)=>{
                         return{
@@ -79,6 +147,7 @@ function FeedbackModal({displayState,handleModal}){
                 <TextField fullWidth label="Share Review" id="fullWidth"
                     multiline
                     rows={7} 
+                    value={feedback.review? feedback.review:""}
                     onChange={(e)=>{
                         setFeedback((prev)=>{
                             return{

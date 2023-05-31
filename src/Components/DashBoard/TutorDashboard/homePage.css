@@ -26,12 +26,13 @@
     justify-content: space-between;
 }
 
-.sub-container-div{
+.tutor-sub-container-div{
     /* box-shadow: 0px 2px 5px 0px gray; */
     /* background-color: red; */
     border-radius: 3px;
     padding: 10px;
     margin: 10px;
+    box-shadow: 0px 0px 0.8px 0px black;
     /* height: 100%; */
     /* background-color:burlywood; */
 }
@@ -44,7 +45,7 @@
     /* background-color: aqua; */
     /* padding: 0px 0px; */
     margin-bottom: 10px;
-    border-bottom: 1px solid lightgray;
+    /* border-bottom: 1px solid lightgray; */
 }
 
 #welcome-greeting-div{

@@ -112,7 +112,7 @@ function TutorCompleteProfile() {
 
         // console.log("respose by login",response);
         // enqueueSnackbar(response.data.message, { variant: "success" });
-        navigate("/tutordashboard")
+        navigate("/dashboard")
       }
     } catch (err) {
       console.log("form submit error", err);

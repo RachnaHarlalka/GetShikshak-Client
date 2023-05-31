@@ -15,6 +15,8 @@ function TutorDashboard(){
     console.log("DashBoard Rendered");
     
     const [pageId,setPageId]=useState(0);
+    const [students,setStudents]=useState([]);
+    const [classes,setClasses]=useState([]);
     // const [authToken,setAuthToken] = useRecoilState(authTokenAtom);
     // const authToken = JSON.parse(sessionStorage.getItem("token"));
     const token = useRecoilValue(authTokenAtom);
@@ -22,7 +24,7 @@ function TutorDashboard(){
     // const authToken = useRecoilValue(authTokenAtom);
     // console.log("token inside dashboard",token);
 
-    const [fetchedResponse,setFetchedResponse] = useState([]);
+    const [userData,setUserData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
     const options = {
@@ -31,6 +33,21 @@ function TutorDashboard(){
     }
 
     const {view} = useLottie(options);
+
+    const fetchStudents=async()=>{
+        const response = await axios({
+            url:"http://localhost:3000/tutor/getmystudents",
+            method:"GET",
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+        })
+        console.log("clases",response.data.filtered);
+        const fetchedStudent=response.data.filteredStudents;
+        const fetchedClass= response.data.filteredClasses;
+        setStudents(fetchedStudent);
+        setClasses(fetchedClass);
+      }
 
 
     const fetchData= async()=>{
@@ -43,15 +60,16 @@ function TutorDashboard(){
                 }
             }
         )
-        setFetchedResponse(response.data.user);
+        setUserData(response.data.user);
         setIsLoading(false);
-        // console.log("In Home ",fetchedResponse);
+        console.log("In Home ",userData);
         //JSON.parse(JSON.stringify(
-        //console.log(fetchedResponse);
+        //console.log(userData);
     }
 
     useEffect(()=>{
         fetchData();
+        fetchStudents();
     },[])
 
 
@@ -68,13 +86,50 @@ function TutorDashboard(){
     }    
 
     function renderPage(id) {
+        //);
         // console.log("inside renderpage");   
         switch(id) {
-            case 0: return <HomePage fetchedData={fetchedResponse}/>;
-            case 1: return <ProfileDetails fetchedData={fetchedResponse}/>;
-            case 2: return <ListingItems pageheading={"Students List"} receivedData={newStudentData}/>;
-            case 3: return <ListingItems pageheading={"Class List"} receivedData={newClassData}/>;
-            case 4: return <AccountSettings/>;
+            case 0: return <HomePage fetchedData={userData}/>;
+            case 1: return <ProfileDetails fetchedData={userData}/>;
+            case 2: if(userData?.tutorForm?.isProfileVerified === "accepted"){
+                        return (<ListingItems pageheading={"Students List"} receivedData={students}/>)
+                    }
+                    else{ 
+                        return (
+                            <div style={{display:"flex", justifyContent:"center",alignItems:"center",height:"100%"}}>
+                                <h1 style={{fontSize:"x-large",textAlign:"center",backgroundColor:"lightcyan",padding:"20px",borderRadius:"5px"}}>
+                                    {userData?.tutorForm?.isProfileVerified === "pending" ?
+                                        <>
+                                            <span>Account Verification {userData?.tutorForm?.isProfileVerified.toUpperCase()}</span>
+                                            <span style={{display:"block"}}>No Students Yet</span>
+                                        </>
+                                        :
+                                        <span>Account {userData?.tutorForm?.isProfileVerified.toUpperCase()}</span>
+                                    }
+                                </h1>
+                            </div>
+                        )
+                    } 
+            case 3: if(userData?.tutorForm?.isProfileVerified === "accepted"){
+                        return (<ListingItems pageheading={"Students List"} receivedData={classes}/>)
+                    }
+                    else{ 
+                        return (
+                            <div style={{display:"flex", justifyContent:"center",alignItems:"center",height:"100%"}}>
+                                <h1 style={{fontSize:"x-large",textAlign:"center",backgroundColor:"lightcyan",padding:"20px",borderRadius:"5px"}}>
+                                    {userData?.tutorForm?.isProfileVerified === "pending" ?
+                                        <>
+                                            <span>Account Verification {userData?.tutorForm?.isProfileVerified.toUpperCase()}</span>
+                                            <span style={{display:"block"}}>No Classes Yet</span>
+                                        </>
+                                        :
+                                        <span>Account {userData?.tutorForm?.isProfileVerified.toUpperCase()}</span>
+                                    }
+                                </h1>
+                            </div>
+                        )
+                    }
+            case 4: return <AccountSettings status={userData.isAccountActive} userRole={userData.role}/>;
             default: console.log("Default");
         }
     }
@@ -97,7 +152,7 @@ function TutorDashboard(){
                             <div id='profile-pic-section'>
                                 <div id='profile-pic'>
                                     {/* <FcManager/> */}
-                                    <img id="profile-image" alt="image" src={`http://localhost:3000/assets/${fetchedResponse?.profilePic}`}/>
+                                    <img id="profile-image" alt="image" src={`http://localhost:3000/assets/${userData?.profilePic}`}/>
                                     <div id="edit-profile-button">
                                         <EditButton bgcolor="lightgray"/>
                                     </div>
@@ -118,7 +173,7 @@ function TutorDashboard(){
                                             <AiOutlineHome/>
                                         </div> */}
                                         Home
-                                        {/* {fetchedResponse || "Showed"} */}
+                                        {/* {userData || "Showed"} */}
                                     {/* <Link to="/">Profile Section</Link> */}
                                 </button>
                                 <button className='dashboard-menu-options' onClick={(e)=>{handleClick(e.target.id)}} id={1}>

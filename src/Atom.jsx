@@ -59,3 +59,8 @@ export const userDataAtom = atom({
 
   },
 });
+
+export const studentsClassesAtom = atom({
+  key: "studentClasses",
+  default:[]
+})

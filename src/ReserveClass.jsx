@@ -40,6 +40,7 @@ function ReserveClass() {
   const Formik = useFormik({
     initialValues,
     onSubmit: async (values, action) => {
+      console.log("resrve class values",values);
       console.log("clicked")
       try {
         const response = await axios({

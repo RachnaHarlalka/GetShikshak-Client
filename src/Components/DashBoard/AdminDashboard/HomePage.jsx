@@ -1,6 +1,12 @@
-import '../dashboardDetails.css';
 import './AdminhomePage.css';
-import {MdWavingHand} from 'react-icons/md';
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+import Rating from '@mui/material/Rating';
+import TextField from '@mui/material/TextField';
+import {MdWavingHand,MdZoomOutMap} from 'react-icons/md';
 import DateTime from '../DateTime';
 import {MdNotificationsActive} from 'react-icons/md';
 import {AiFillStar} from 'react-icons/ai';
@@ -9,81 +15,120 @@ import EditButton from '../EditButton';
 import {TiPin} from 'react-icons/ti';
 import {AiOutlineEye} from 'react-icons/ai';
 import {RxCrossCircled} from 'react-icons/rx';
+import axios from 'axios';
+import { useRecoilValue } from 'recoil';
+import { authTokenAtom } from '../../../Atom';
 // import name from '../../../assets/HeroPic.png'
 
 function HomePage(props){
-    console.log("Homepage Rendered");
+    // console.log("Homepage Rendered");
     const studentCount=props?.students?.length;
+    const authToken = useRecoilValue(authTokenAtom)
     const tutorCount=props?.tutors?.length;
     const admin=props?.admin;
-    console.log(admin && admin[0]?.name)
-    // console.log("admin",props.admin);
-    // console.log(props.students.length)
 
     const [displayType, setDisplayType] = useState("none");
     const [currentNotification, setCurrentNotification] = useState(null);
-    //const [verificationRequests,setVerificationRequest] = useState(null);
+    const [verificationRequests,setVerificationRequest] = useState(null);
     const [activeNotification, setActiveNotification] = useState(null);
+    const [open, setOpen] =useState(false);
+    const [revertMsg, setRevertMsg] = useState("");
+    
+    // React.useEffect(()=>{
+    //     setOpen(displayState);
+    // },[displayState])
+    
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '46%',
+        transform: 'translate(-40%, -70%)',
+        width: 500,
+        bgcolor: 'background.paper',
+        // border: '2px solid #000',
+        // boxShadow: 24,
+        p: 4,
+      };
 
-    // const fetchData= async()=>{
-    //     let response = await axios(
-    //         {
-    //             url:"http://localhost:3000/dashboard/classrequest",
-    //             method:"GET",
-    //             headers:{
-    //                 "Authorization": `Bearer ${authToken}`
-    //             }
-    //         }
-    //     )
-    //     // console.log("In Response ",response.data);
-    //     setVerificationRequest(response.data);
-    //     // console.log("in class requests ",classRequests);
-    // }
+
+    const fetchData= async()=>{
+        let response = await axios(
+            {
+                url:"http://localhost:3000/dashboard/verificationrequest",
+                method:"GET",
+                headers:{
+                    "Authorization": `Bearer ${authToken}`
+                }
+            }
+        )
+        // console.log("In Response ",response.data.tutors);
+        setVerificationRequest(response.data.tutors);
+        // console.log("in class requests ",classRequests);
+    }
 
     // const userData = fetchedData;
 
-    // useEffect(()=>{
-    //     fetchData();
-    // },[])
+    useEffect(()=>{
+        fetchData();
+    },[])
+   
+    const handleVerificationRequest=(status)=>{
+        if(status === "reverted"){
+            // setShowButtons("none");
+            console.log("Clicked on revert")
+            setOpen(true);
+        }
+        else{
+            sendVerificationUpdate(status);
+        }
+        
+    }
 
-    const verificationRequests = [
-        {
-            id:"12345",
-            name:"New Tutor",
-            email:"newtutor@gmail.com",
-            role:"tutor",
-            tutorForm:{
-                    subjects:["Eng","Hindi","Maths"],
-                    mode:["online", "offline","can travel"],
-                    language:["English","Assamese","Hindi","bengali"],
-                    aboutClass:"This is about class",
-                    aboutYou:"This is about You",
-                    city:"Assam",
-                    phone:"9872171717",
-                    rate:"1000",
-                    title:"This is ad title"
-            },
-            profilePic:""
-        },
-        {
-            id:"12345",
-            name:"New Tutor2",
-            email:"newtutor2@gmail.com",
-            role:"tutor",
-            tutorForm:{
-                    subjects:["Maths"],
-                    mode:["can travel"],
-                    language:["English"],
-                    aboutClass:"This is about class",
-                    aboutYou:"This is about You",
-                    city:"Assam",
-                    phone:"9872171717",
-                    rate:"1000",
-                    title:"This is ad title"
-            },
-            profilePic:""
-        },
-    ]
+    function handleSendRevertMsg(){
+        console.log("Revert Msg ",revertMsg);
+        sendVerificationUpdate("reverted");
+        setOpen(false);
+    }
+
+    function handleClose(){
+        setOpen(false);
+    }
+
+    const sendVerificationUpdate = async (status) =>{
+        try{
+            const response = await axios({
+                url:"http://localhost:3000/admin/updateverificationrequest",
+                method:"PATCH",
+                data:status === "reverted"?
+                    {
+                      updatedStatus:status,
+                      revertMsg: revertMsg,
+                      reqId:currentNotification._id
+                    } 
+                    :
+                    {
+                      updatedStatus:status,
+                      reqId:currentNotification._id
+                    },
+                headers:{
+                    Authorization:`Bearer ${authToken}`
+                }
+            })
+            console.log("response",response.data.updatedVerificationrequest);
+            closeNotificationDetailsPage();
+            const updatedVerificationRequest=verificationRequests.filter((req)=>{
+                return req._id!==currentNotification._id;
+            })
+            setVerificationRequest(updatedVerificationRequest);
+        }
+        catch(err){
+
+        }
+        console.log("status",status);
+        console.log("curren",currentNotification);
+    }
+    
+    // console.log("currentNotion",currentNotification)
 
     function notificationList(){    
         // console.log("Inside Class Request ",classRequests);
@@ -99,7 +144,7 @@ function HomePage(props){
 
         // console.log("notifi ",notifications);
         return(
-            <div id="account-notification-div" className='sub-container-div'>
+            <div id="account-notification-div" className='admin-sub-container-div'>
                 <div className='div-heading'>
                     {/* NOTIFICATIONS */}
                     NEW TUTOR REQUEST
@@ -111,7 +156,7 @@ function HomePage(props){
 
                 <div id='notification-listing-div'>
                     {notifications?.length>0?notifications:
-                        <div style={{ position:"relative" ,top:"200px", textAlign:"center"}}>
+                        <div style={{ position:"relative" ,top:"200px", textAlign:"center",border:"none",backgroundColor:"transparent"}}>
                             NO NEW REQUESTS
                         </div>
                     }
@@ -120,24 +165,60 @@ function HomePage(props){
         )
     }
 
+    function modalBox(){
+        return(
+            <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            >
+                <Box sx={style}>
+                <Typography id="modal-modal-title" variant="h6" component="h2" sx={{textAlign:"center",marginBottom:"20px"}}>
+                    Verification Request Revert Reason
+                    {/* <span style={{fontSize:"small",display:"block"}}>Share your experience regarding this class</span> */}
+                </Typography>
+                <Box 
+                    sx={{
+                        width: 500,
+                        maxWidth: '100%',
+                    }}
+                    >
+                    <TextField fullWidth label="Write reason here" id="fullWidth"
+                        multiline
+                        rows={7} 
+                        onChange={(e)=>{
+                            setRevertMsg(e.target.value)
+                        }}
+                    />
+                    <div className='flex justify-end py-5'>
+                        <Button variant="contained" sx={{ padding:"5px 10px", backgroundColor:"var(--primary-color)", marginRight:"20px"}} onClick={handleClose} >CLOSE</Button>
+                        <Button variant="contained" sx={{ padding:"5px 10px", backgroundColor:"var(--primary-color)"}} onClick={(e)=>{handleSendRevertMsg()}}>SEND REVERT REASON</Button>
+                    </div>
+                </Box>
+                </Box>
+            </Modal>
+        )
+    }
+
     function notificationDetailsPage(){
     
         return(
-            <div id="notification-details-div" className='sub-container-div'  style={{display:displayType}}>
+            <div id="notification-details-div" className='admin-sub-container-div'  style={{display:displayType}}>
                     <div className='row-div margin-buttom-div' id="crosss-div">
                             <RxCrossCircled size="1.4rem" color="red" className="cursor-type-pointer" onClick={()=>{closeNotificationDetailsPage()}}/>
                     </div>
-                    <div style={{overflowY:"auto"}}>
+                    <div style={{overflowY:"auto",padding:"0px 5px"}}>
                         <div className='row-div margin-buttom-div' >
                             <div className='display-type-flex width-100' id="request-details-div">
-                                <div className='sub-container-div' id="student-profile-div">
+                                <div className='' id="tutor-profile-div">
                                     <div id='profile-pic-section'>
-                                        <div id='profile-pic'>
-                                            {/* <img id="profile-image" alt="image" src={`http://localhost:3000/assets/${fetchedResponse?.profilePic}`}/> */}
+                                        <div id='profile-pic' style={{width:"100%"}}>
+                                            <img id="profile-image" alt="image" src={`http://localhost:3000/assets/${currentNotification?.profilePic}`}/>
                                         </div>
                                     </div>
                                 </div>
-                                <div className='sub-container-div' style={{width:"78%"}}>
+                                <div className='admin-sub-container-div' style={{width:"78%"}}>
                                     <div className='div-heading'>
                                         PERSONAL DETAILS
                                     </div>
@@ -145,7 +226,7 @@ function HomePage(props){
                                         <div className='col-div personal-details-row-div'>
                                             <div className='details-item'>
                                                 <span className='label-div'>ID:</span>
-                                                <span>{currentNotification?.id}</span>
+                                                <span>{currentNotification?._id}</span>
                                             </div>
                                             <div className='details-item'>
                                                 <span className='label-div'>Name:</span>
@@ -163,7 +244,7 @@ function HomePage(props){
                                             </div>
                                             <div className='details-item'>
                                                 <span className='label-div'>Phone:</span>
-                                                <span>{currentNotification?.tutorForm?.phone}</span>
+                                                <span>{currentNotification?.phone}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -171,7 +252,7 @@ function HomePage(props){
                             </div>
                         </div>
                         <div className='row-div margin-buttom-div justify-center' >
-                                <div className='sub-container-div w-1/2'>
+                                <div className='admin-sub-container-div w-1/2'>
                                     <div id='content-heading' className='request-content-sub-div'>
                                         About Tutor                                        
                                     </div>
@@ -179,7 +260,7 @@ function HomePage(props){
                                         {currentNotification?.tutorForm?.aboutYou}
                                     </div>
                                 </div>
-                                <div className='sub-container-div w-1/2'>
+                                <div className='admin-sub-container-div w-1/2'>
                                     <div id='content-heading' className='request-content-sub-div'>
                                         About Class                                        
                                     </div>
@@ -187,7 +268,7 @@ function HomePage(props){
                                         {currentNotification?.tutorForm?.aboutClass}
                                     </div>
                                 </div>
-                                <div className='sub-container-div w-1/2'>
+                                <div className='admin-sub-container-div w-1/2'>
                                     <div id='content-heading' className='request-content-sub-div'>
                                         Ad Title                                        
                                     </div>
@@ -197,7 +278,7 @@ function HomePage(props){
                                 </div>
                         </div>
                         <div className='row-div margin-buttom-div justify-center'>
-                            <div className='sub-container-div w-1/2'>
+                            <div className='admin-sub-container-div w-1/2'>
                                 <div className='div-heading'>
                                     SUBJECTS
                                 </div>
@@ -209,7 +290,7 @@ function HomePage(props){
                                     }
                                 </div>
                             </div>
-                            <div className='sub-container-div w-1/2'>
+                            <div className='admin-sub-container-div w-1/2'>
                                 <div className='div-heading'>
                                     MODE OF LEARNING
                                 </div>
@@ -221,7 +302,7 @@ function HomePage(props){
                                     }
                                 </div>
                             </div>
-                            <div className='sub-container-div w-1/2'>
+                            <div className='admin-sub-container-div w-1/2'>
                                 <div className='div-heading'>
                                     LANGUAGES    
                                 </div>
@@ -233,7 +314,7 @@ function HomePage(props){
                                     }
                                 </div>
                             </div>
-                            <div className='sub-container-div w-1/2'>
+                            <div className='admin-sub-container-div w-1/2'>
                                 <div className='div-heading'>
                                     RATE  
                                 </div>
@@ -244,20 +325,19 @@ function HomePage(props){
                                 </div>
                             </div>
                         </div>
-                        <div className='sub-container-div row-div'>
+                        <div className='admin-sub-container-div'>
                         <div className='' id="document-div">
                             <div className='div-heading'>
                                     DOCUMENTS
                             </div>
                             <div style={{display:"flex",justifyContent:"center"}}>
                                 <div className='single-document' id='id-proof-div'>
-                                    <div className='div-heading' style={{justifyContent:"flex-start", border:"none"}}>
+                                    <div className='div-heading' style={{ border:"none"}}>
                                         ID Proof
                                     </div>
                                     <div className=''>
                                         <div className='tutor-request-document-show-div'>
-                                            <img className='tutor-request-document' alt="ID PROOF" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cmFuZG9tJTIwcGVvcGxlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"/>
-                                            {/* src={`http://localhost:3000/assets/${userData?.tutorForm?.identity}`} */}
+                                            <img className='w-64 h-[20rem] object-cover' src={`http://localhost:3000/assets/${currentNotification?.tutorForm?.identity}`} alt="" />
                                         </div>
                                     </div>
                                 </div>
@@ -267,8 +347,7 @@ function HomePage(props){
                                         </div>
                                         <div className=''>
                                             <div className='tutor-request-document-show-div'>
-                                            <img className='tutor-request-document' alt="ID PROOF" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cmFuZG9tJTIwcGVvcGxlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"/>
-                                                {/* <img className='document' alt="ID PROOF" src={`http://localhost:3000/assets/${userData?.tutorForm?.lastEducationalCertificate}`}/> */}
+                                            <img className='w-64 h-[20rem] object-cover' src={`http://localhost:3000/assets/${currentNotification?.tutorForm?.lastEducationalCertificate}`} alt="" />
                                             </div>
                                         </div>
                                     </div>
@@ -277,14 +356,24 @@ function HomePage(props){
                         </div>
                 </div>
                         
-                    <div className='row-div' style={{padding:"10px 10px"}}>
-                        <div className='width-100 display-type-flex' id='accept-reject-div'>
-                            <div className='content-div'>
-                                    <button className='accept-reject-button' id='accept-button'>ACCEPT</button>
-                                    <button className='accept-reject-button' id='reject-button'>REJECT</button>
-                            </div>  
+                <div className='row-div' style={{padding:"10px 10px"}} >
+                    <div className='width-100 display-type-flex' id='accept-reject-div' style={{display:"flex"}}>
+                        <div className='content-div'>
+                                <button className='accept-reject-button' id='accept-button' onClick={()=>{
+                                    handleVerificationRequest("accepted")
+                                }}>ACCEPT</button>
+                                <button className='accept-reject-button' id='reject-button' onClick={()=>{
+                                    handleVerificationRequest("rejected")
+                                }}>REJECT</button>
+                                <button className='accept-reject-button' id='revert-button' onClick={()=>{
+                                    handleVerificationRequest("reverted")
+                                }}>REVERT</button>
+
+                        </div>  
                     </div>
                 </div>
+                {modalBox()}
+                
             </div>
         )
     }
@@ -309,7 +398,6 @@ function HomePage(props){
     }
 
     function closeNotificationDetailsPage(){
-        console.log('clicked on cross');
         setDisplayType("none");
         deactivateNotification();
     }
@@ -348,12 +436,12 @@ function HomePage(props){
     return(
         <div id='admin-home-page-root-div'>
             <div id="admin-home-page-details-div">
-                <div className='row-div mb-12 justify-center'>
-                    <div id='welcome-greeting-div' className="sub-container-div">
+                <div className='row-div mb-24 justify-between'>
+                    <div id='welcome-greeting-div' className="admin-sub-container-div">
                         <span id='welcome-msg'>Welcome</span>
-                        <span id='user-name'>{admin && admin[0]?.name} Admin<span id='waving-hand'><MdWavingHand/></span></span>
+                        <span id='user-name'>{admin && admin[0]?.name} <span id='waving-hand'><MdWavingHand/></span></span>
                     </div>
-                    <div className='sub-container-div' id="date-time-block-div">
+                    <div className='admin-sub-container-div' id="date-time-block-div">
                             <DateTime/>
                     </div>
                 </div>
@@ -367,13 +455,13 @@ function HomePage(props){
                             <span className='font-bold text-xl'>Student Count</span>
                             <span className='font-bold text-6xl my-4'>{studentCount}</span>
                         </div>
-                        <div className='flex flex-col justify-center items-center shadow-md bg-green-100 w-[50vw]'>
+                        {/* <div className='flex flex-col justify-center items-center shadow-md bg-green-100 w-[50vw]'>
                             <span className='font-bold text-xl'>New Tutor Verification Request</span>
-                            <span className='font-bold text-6xl my-4'>{verificationRequests.length}</span>
-                        </div>
+                            <span className='font-bold text-6xl my-4'>{verificationRequests?.length}</span>
+                        </div> */}
                     </div>
                 </div>
-                {currentNotification ?notificationDetailsPage():console.log("nothing")}
+                {currentNotification ?notificationDetailsPage():null}
             </div>
             {notificationList()}
         </div>
