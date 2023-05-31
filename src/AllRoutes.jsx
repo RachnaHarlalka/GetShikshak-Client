@@ -15,6 +15,8 @@ import StudentCompleteProfile from "./Components/StudentCompleteProfile";
 import { useRecoilValue } from "recoil";
 import { authTokenAtom, userDataAtom } from "./Atom";
 import PrivateRoute from "./Components/PrivateRoute";
+import PasswordReset from "./Components/PasswordReset.jsx";
+import ForgotPassword from "./Components/DashBoard/ForgotPassword.jsx";
 
 function AllRoutes() {
 
@@ -22,7 +24,7 @@ function AllRoutes() {
   // const authToken =useRecoilValue(authTokenAtom);
 
   // const authToken = useRecoilValue(authTokenAtom);
-  // const userData = useRecoilValue(userDataAtom);
+  const userData = useRecoilValue(userDataAtom);
 
   // console.log("authtoken wow", authToken,userData);
   return (
@@ -89,6 +91,9 @@ function AllRoutes() {
       <Route path="/noresult" element={<NoResultPage />} />
       <Route path="*" element={<NotFound />} />
       <Route path="/" element={<Landing />} />
+      <Route path="/password-reset" element={<PasswordReset/>}/>
+      <Route path="/forgotpassword/:id" element={<ForgotPassword />} />
+
       <Route element={<PrivateRoute allowedRole="tutor" />}>
         <Route path="/tutordashboard" element={<TutorDashboard />} />
         <Route

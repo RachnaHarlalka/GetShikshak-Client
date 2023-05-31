@@ -60,13 +60,13 @@ export default function ListingItems({pageheading,receivedData}) {
         let row=[];
         for(let item in itemObj){
            if(item=="profilePic"){
-                row.push(<TableCell sx={{borderRight:"1px solid black", display:"flex",justifyContent:"center"}} align="center" className=''>
+                row.push(<TableCell sx={{ display:"flex",justifyContent:"center"}} align="center" className=''>
                     <img src={`http://localhost:3000/assets/${itemObj[item]}`} alt="" style={{objectFit:"cover"}} className='w-16 h-16 '/>
                 </TableCell>)
                 console.log("inside profile pic",itemObj[item])
             }
             // else if(Array.isArray(itemObj[item])){
-            if(item === "tutorId"){
+            else if(item === "tutorId"){
                 continue;
             }
             else if(Array.isArray(itemObj[item])){

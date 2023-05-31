@@ -17,7 +17,7 @@ function AccountSettings({status}){
                     updatedStatus:!activeStatus
                 },
                 headers:{
-                    Authorization:`Bearer ${authToken}`
+                    "Authorization":`Bearer ${authToken}`
                 }
             })
             if(response.status===201){

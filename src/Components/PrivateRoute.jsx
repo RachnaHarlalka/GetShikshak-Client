@@ -4,7 +4,7 @@ import { authTokenAtom ,userDataAtom} from "../Atom";
 
 const PrivateRoute=({allowedRole})=>{
     const location = useLocation();
-    console.log("location in private",location);
+    // console.log("location in private",location);
     const token = useRecoilValue(authTokenAtom);
     const user=useRecoilValue(userDataAtom);
 

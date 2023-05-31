@@ -44,6 +44,19 @@ function NavComponent({ children }) {
     setAnchorEl(null);
   };
 
+  const handleMyAccountClick = () => {
+    console.log("clicked")
+    if (currentUser?.role === "student" && currentUser?.isProfileCompleted === false) {
+      enqueueSnackbar("Please complete profile before accessing dashboard",{variant:"warning"})
+      navigate("/studentcompleteprofile");
+    } else if(currentUser?.role === "tutor" && currentUser?.isProfileCompleted === false){
+      enqueueSnackbar("Please complete profile before accessing dashboard",{variant:"warning"})
+      navigate("/tutorcompleteprofile");
+
+    }  else {
+      handleClose(); // Assuming this function closes the menu
+    }
+  };
   // console.log("Having role ",currentUser?.role);
   // console.log("Auth value ",authToken);
   // console.log("isProfileComplete ",currentUser);
@@ -221,8 +234,22 @@ function NavComponent({ children }) {
                   aria-haspopup="true"
                   aria-expanded={open ? "true" : undefined}
                 >
-                  <Avatar sx={{ width: 32, height: 32 }}>
-                    {currentUser.name.toString()[0].toUpperCase()}
+                  <Avatar
+                    sx={{
+                      width: 46,
+                      height: 46,
+                      bgcolor: "var(--primary-color)",
+                    }}
+                  >
+                    {currentUser?.profilePic ? (
+                      <img
+                        src={`http://localhost:3000/assets/${currentUser?.profilePic}`}
+                        alt=""
+                        className="rounded-full h-10 w-10 object-cover"
+                      />
+                    ) : (
+                      currentUser?.name?.toString()[0]?.toUpperCase()
+                    )}
                   </Avatar>
                 </IconButton>
               </Tooltip>
@@ -262,7 +289,7 @@ function NavComponent({ children }) {
               transformOrigin={{ horizontal: "right", vertical: "top" }}
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-              <MenuItem onClick={handleClose}>
+              <MenuItem onClick={handleMyAccountClick}>
                 <Avatar />
                 {currentUser?.role === "admin" ? (
                   <Link to="/admindashboard">My account</Link>

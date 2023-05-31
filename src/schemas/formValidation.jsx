@@ -39,7 +39,8 @@ export const aboutYouSchema=Yup.object({
     aboutYou:Yup.string().required('Required!').test(3,"Must have at least 12 words!",value=>{
         const wordCount = value.trim().split(/\s+/).length;
         return wordCount>=3;
-    })
+    }),
+    education:Yup.string().required("Required!")
 })
 
 const phoneRegExp = /^(0|91)?[6-9][0-9]{9}$/

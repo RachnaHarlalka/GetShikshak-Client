@@ -237,11 +237,11 @@
     width: 100%;
     padding: 10px;
 }
-
+/* 
 #content-heading{
     text-transform: uppercase;
     font-weight: bold;
-}
+} */
 
 #class-options{
     
@@ -381,7 +381,7 @@
 }
 
 #rating-outer-div{
-    border: 1px solid lightgray;
+    /* border: 1px solid lightgray; */
     display: flex;
     flex-direction: column;
     justify-content: space-between;

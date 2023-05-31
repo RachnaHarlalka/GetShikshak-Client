@@ -9,7 +9,7 @@ function AdminDashboard() {
   const [pageId, setPageId] = useState(0);
   const[students,setStudents]=useState([]);
   const[tutors,setTutors]=useState([]);
-  const[admin,setAdmin]=useState(null);
+  const[currentUser,setCurrentUser]=useState(null);
   // const authToken = JSON.parse(sessionStorage.getItem("token"));
   const authToken = useRecoilValue(authTokenAtom);
   console.log(authToken);
@@ -36,10 +36,10 @@ function AdminDashboard() {
   }
 
   console.log("students",students);
-  const fetchAdmin=async()=>{
+  const fetchCurrentUser=async()=>{
     console.log("inside fatch admin")
     const response = await axios({
-        url:"http://localhost:3000/dashboard/getadmin",
+        url:"http://localhost:3000/dashboard/userdata",
         method:"GET",
         headers:{
             "Authorization":`Bearer ${authToken}`
@@ -50,15 +50,15 @@ function AdminDashboard() {
     //     "Content-Type":"application/json",
     //     "Authorization":`Bearer ${authToken}`
     //   }
-    console.log("admin",response.data.admin);
-    const fetchedAdmin=response.data.admin;
-    setAdmin(fetchedAdmin);
+    console.log("admin response",response.data.user);
+    const fetchedData=response.data.user;
+    setCurrentUser(fetchedData);
   }
 
   useEffect(()=>{
     fetchStudent();
     fetchTutor();
-    fetchAdmin();
+    fetchCurrentUser();
   },[])
   function handleClick(id) {
     console.log(id);
@@ -85,7 +85,7 @@ function AdminDashboard() {
   function renderPage(id) {
     switch (id) {
       case 0:
-        return (<HomePage students={students} tutors={tutors} admin={admin}/>);
+        return (<HomePage students={students} tutors={tutors} currentUser={currentUser}/>);
       case 1:
         return (<ListingItems pageheading={"Tutors List"} receivedData={tutors}/>);
       case 2:
@@ -106,14 +106,17 @@ function AdminDashboard() {
             <div id="profile-pic-section">
               <div id="profile-pic" >
                 {/* <FcManager/> */}
-                <img
+                <div id="profile-image" className="flex justify-center items-center bg-white">
+                {currentUser?.name?.toString()[0]?.toUpperCase()}
+                </div>
+                {/* <img
                   id="profile-image"
                   alt="image"
                   src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cmFuZG9tJTIwcGVvcGxlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
-                />
-                <div id="edit-profile-button">
+                /> */}
+                {/* <div id="edit-profile-button">
                   <EditButton bgcolor="lightgray" />
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
