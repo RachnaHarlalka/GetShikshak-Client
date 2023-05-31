@@ -5,7 +5,7 @@ import axios from 'axios'
 import { authTokenAtom } from '../../Atom'
 import { useRecoilState } from 'recoil'
 import { useState } from 'react'
-function AccountSettings({status}){
+function AccountSettings({status,userRole}){
     const [authToken,setAuthToken]=useRecoilState(authTokenAtom);
     const [activeStatus,setActiveStatus]=useState(status);
     const handleClick=async()=>{
@@ -32,7 +32,7 @@ function AccountSettings({status}){
     // console.log({props});
     return(
         <div id="settings-page-root-div">
-            <div id="settings-page-details-div">
+            <div id="settings-page-details-div" >
     
                     <div className='' id='personal-details-div'>
                         <div className='div-heading'>
@@ -54,7 +54,7 @@ function AccountSettings({status}){
                                             ):(
                                                <>
                                                 <span className="text-red-600 mr-4">IN-ACTIVE</span>
-                                                <span className='font-medium text-gray-500'>(Your Ad will not be visible to students)</span>
+                                                {userRole === 'tutor' && <span className='font-medium text-gray-500'>(Your Ad will not be visible to students)</span> }
                                                </>
                                             )}
                                             
@@ -64,7 +64,7 @@ function AccountSettings({status}){
                                         </div>
                                 </div>
                             </div>
-                            <div className='sub-container-div'>
+                            {/* <div className='sub-container-div'>
                                 <div className='div-heading' style={{justifyContent:"flex-start"}}>
                                     Delete Account
                                 </div>
@@ -77,7 +77,7 @@ function AccountSettings({status}){
                                             <button className='account-settings-button'>DELETE</button>
                                         </div>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 

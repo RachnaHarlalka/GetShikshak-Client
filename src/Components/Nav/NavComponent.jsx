@@ -19,13 +19,13 @@ import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
-import PersonAdd from "@mui/icons-material/PersonAdd";
-import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import SpaceDashboardIcon from '@mui/icons-material/SpaceDashboard';
+import {FaUser} from 'react-icons/Fa';
 
-function NavComponent({ children }) {
+function NavComponent({children}) {
   const [showHamburger, setShowHamburger] = useState(false);
   const [shouldShowShadow, setShouldShowShadow] = useState(false);
 
@@ -182,6 +182,7 @@ function NavComponent({ children }) {
             <li onClick={showDropDownMenu} style={{ padding: "0px" }}>
               <Link
                 to="/dashboard"
+
                 style={{
                   width: "100%",
                   textAlign: "center",
@@ -210,9 +211,10 @@ function NavComponent({ children }) {
                 display: "flex",
                 alignItems: "center",
                 textAlign: "center",
+                marginRight:"50px",
               }}
             >
-              <Tooltip title="Account settings">
+              <Tooltip title={currentUser?.name}>
                 <IconButton
                   onClick={handleClick}
                   size="small"
@@ -221,8 +223,8 @@ function NavComponent({ children }) {
                   aria-haspopup="true"
                   aria-expanded={open ? "true" : undefined}
                 >
-                  <Avatar sx={{ width: 32, height: 32 }}>
-                    {currentUser.name.toString()[0].toUpperCase()}
+                  <Avatar sx={{ width: 32, height: 32, backgroundColor:"var(--primary-color)"}}>
+                    {currentUser?.name.toString()[0].toUpperCase()}
                   </Avatar>
                 </IconButton>
               </Tooltip>
@@ -262,14 +264,19 @@ function NavComponent({ children }) {
               transformOrigin={{ horizontal: "right", vertical: "top" }}
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
+              <MenuItem sx={{cursor:"unset"}}>
+                <FaUser style={{marginRight:"15px",color:"var(--primary-color)",margin:"0px 15px 0px 2px"}}/>
+                {currentUser.name.split(" ")[0]}
+              </MenuItem>
+              <Divider />
               <MenuItem onClick={handleClose}>
-                <Avatar />
+                <SpaceDashboardIcon sx={{marginRight:"15px",color:"var(--primary-color)"}} fontSize="small"/>
                 {currentUser?.role === "admin" ? (
-                  <Link to="/admindashboard">My account</Link>
+                  <Link to="/admindashboard">Dashboard</Link>
                 ) : currentUser?.role === "tutor" ? (
-                  <Link to="/tutordashboard">My account</Link>
+                  <Link to="/tutordashboard">Dashboard</Link>
                 ) : (
-                  <Link to="/studentdashboard">My account</Link>
+                  <Link to="/studentdashboard">Dashboard</Link>
                 )}
               </MenuItem>
               <Divider />
@@ -280,7 +287,7 @@ function NavComponent({ children }) {
                 }}
               >
                 <ListItemIcon>
-                  <Logout fontSize="small" />
+                  <Logout fontSize="small" sx={{color:"red"}}/>
                 </ListItemIcon>
                 Logout
               </MenuItem>

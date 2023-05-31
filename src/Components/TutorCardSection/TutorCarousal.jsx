@@ -5,7 +5,7 @@ import Card from "./Card";
 import { responsive } from "./data";
 
 export default function TutorCarousal({tutors}) {
-  // console.log("tutop",tutors[0]);
+  console.log("tutop",tutors);
   const AllTutors = tutors.map((tutor,index) => {
     return  (<>
     <Card
@@ -16,6 +16,7 @@ export default function TutorCarousal({tutors}) {
       url= {`http://localhost:3000/assets/${tutor?.profilePic}`}
       id={tutor?.id}
       // price={tutor.tutorForm.city}
+      rating={tutor?.rating}
       rate={tutor?.rate}
     />
     </>

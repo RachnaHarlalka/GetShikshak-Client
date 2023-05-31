@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import TutorCard from "./TutorCard";
+import Rating from '@mui/material/Rating';
 
 function TutorProfile() {
   const [tutor, setTutor] = useState(null);
-  const [tutorReviews,setTutorReviews]=useState(null);
+  const [tutorFeedback,setTutorFeedback]=useState([]);
   const [cardPosition, setCardPosition] = useState(false);
 
   const { id } = useParams();
@@ -14,20 +15,21 @@ function TutorProfile() {
       url: `http://localhost:3000/user/${id}`,
       method: "GET",
     });
-    console.log("response", response.data.user);
+    console.log("response", response?.data?.user);
     setTutor(response.data.user);
   };
 
   const fetchReviews=async(req,res)=>{
     try{
       const response = await axios({
-        url:`http://localhost:3000/user/fetchreviews/646c54e8d8d44519831505ba`,
+        url:`http://localhost:3000/user/fetchfeedback/${id}`,
         method:"GET"
       })
-      console.log("rerponse",response.data.reviews);
+      console.log("rerponse",response?.data?.feedback);
+      setTutorFeedback(response?.data?.feedback);
     }
     catch(err){
-
+      console.log("error",err);
     }
   }
   // console.log("tutorprofile", tutor.tutorForm.subjects);
@@ -104,13 +106,13 @@ function TutorProfile() {
               </h1>
               <div className="flex gap-4 my-6">
                 <h1 className="text-md font-[Quicksand]">Languages </h1>
-                <div>
+                <div className="flex flex-wrap">
                   {tutor &&
                     tutor.tutorForm.language.map((language, index) => {
                       return (
                         <span
                           key={index}
-                          className="text-md py-2 px-4 border-2 rounded-full mx-2"
+                          className="text-md py-2 px-4 border-2 rounded-full mx-2 my-1"
                         >
                           {language}
                         </span>
@@ -124,24 +126,38 @@ function TutorProfile() {
             </div>
             <div className=" py-4">
               <h1 className="font-bold font-[Quicksand]">REVIEWS</h1>
-              <div className="p-4 rounded-md bg-white my-4 border border-1">
-                    <div className="row1 flex justify-between">
-                        <div>Student name</div>
-                        <div className="text-xs">⭐⭐⭐⭐</div>
+              {
+                tutorFeedback.map((feedback)=>{
+                  return(
+                    <div className="p-4 rounded-md bg-white my-4 border border-1">
+                      <div className="row1 flex justify-between">
+                          <div className="flex gap-4 items-center">
+                            <img src={`http://localhost:3000/assets/${feedback?.studentProfile}`}
+                                alt={feedback?.studentName?.toString()[0]?.toUpperCase()}
+                                className="rounded-full h-10 w-10 object-cover"
+                            />
+                            <div className="font-semibold">{feedback?.studentName}
+                                <div className="text-gray-600 text-sm font-normal">Subjects :
+                                  {
+                                    feedback?.subjects?.map((sub,index)=>{
+                                      return (
+                                        index==0?<span className="ml-2">{sub}</span>:<span className="ml-1">,{sub}</span>)
+                                    })
+                                  }
+                                </div>
+                            </div>
+                          </div>
+                          <div className="text-xs">
+                            <Rating name="read-only" value={feedback.rating} readOnly size="small"/>
+                          </div>
+                      </div>
+                      <div className="row2 my-4 ml-14 text-sm">
+                          <p>{feedback?.review}</p>
+                      </div>
                     </div>
-                    <div className="row2 my-4">
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laboriosam adipisci, quas voluptatem vero temporibus laudantium.</p>
-                    </div>
-              </div>
-              <div className="p-4 rounded-md bg-white my-4 border border-1">
-                    <div className="row1 flex justify-between">
-                        <div>Student name</div>
-                        <div className="text-xs">⭐⭐⭐⭐</div>
-                    </div>
-                    <div className="row2 my-4">
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laboriosam adipisci, quas voluptatem vero temporibus laudantium.</p>
-                    </div>
-              </div>
+                  )
+                })
+              }
             </div>
           </div>
         </div>

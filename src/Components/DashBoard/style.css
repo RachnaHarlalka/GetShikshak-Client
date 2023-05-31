@@ -14,7 +14,7 @@
 }
 
 #dashboard-left-sub-div{
-    width: 250px;   
+    width: 16%;   
     padding: 2px;
 }
 
@@ -24,7 +24,7 @@
     /* margin: 5px; */
     display: flex;
     padding: 5px 0px;
-    width: 100%;
+    width: 84%;
     /* border: 1px solid black; */
 }
 

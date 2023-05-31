@@ -1,6 +1,7 @@
 import React from "react";
 import './card.css'
 import { useNavigate } from "react-router-dom";
+import Rating from '@mui/material/Rating';
 
 
 export default function Card(props) {
@@ -32,11 +33,24 @@ export default function Card(props) {
       )
       })}
       </div>
-      <p className="text-white text-sm">
+      <p className="text-white bg-white text-sm">
         <button>
            <span>₹{props.rate}/hr</span>
-           <span className="star">★★★★★</span>
+           {/* <span className="star">
+            
+           </span> */}
+          {console.log("rating ",props?.rating)}
+           {/* <Rating name="read-only" value={props.rating} readOnly size="small"/> */}
 
+           {/* {props.rating==="undefined"?  */}
+          {/* <Rating name="half-rating-read" value={props.rating} precision={0.5} readOnly  size="small"/> */}
+            <Rating name="half-rating-read" precision={0.5} size="small" value={props?.rating} 
+              sx={{'& .MuiRating-iconEmpty': {
+              color: 'gray',
+            }}}
+            readOnly
+          />
+          
         </button>
       </p>
     </div>

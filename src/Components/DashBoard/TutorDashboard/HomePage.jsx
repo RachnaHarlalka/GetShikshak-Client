@@ -1,7 +1,7 @@
 import './homePage.css';
 import {MdWavingHand} from 'react-icons/md';
 // import {IoCloseCircleOutline} from 'react-icons/io';
-import {MdOutlineStar} from 'react-icons/md';
+import {MdOutlineStar,MdOutlineError} from 'react-icons/md';
 import { useEffect, useState } from 'react';
 import EditButton from '../EditButton';
 import {TiPin} from 'react-icons/ti';
@@ -106,7 +106,7 @@ function HomePage({fetchedData}){
                     
                     <div id='notification-listing-div'>
                         {notifications?.length>0?notifications:
-                        <div style={{ position:"relative" ,top:"200px", textAlign:"center"}}>
+                        <div style={{ position:"relative" ,top:"200px", textAlign:"center", border:"none",backgroundColor:"transparent"}}>
                             NO NEW REQUESTS
                         </div>
                         }
@@ -125,7 +125,11 @@ function HomePage({fetchedData}){
                         <div className='row-div margin-buttom-div' >
                             <div className='display-type-flex width-100' id="request-details-div">
                                 <div className='tutor-sub-container-div' id="student-profile-div">
-                                        STUDENT PROFILE PIC
+                                    <div id='profile-pic-section'>
+                                        <div id='profile-pic' style={{width:"100%"}}>
+                                            <img id="profile-image" alt="image" src={`http://localhost:3000/assets/${currentNotification?.studentId?.profilePic}`}/>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div className='tutor-sub-container-div' id='content-of-request-div'>
                                     <div id='content-heading' className='request-content-sub-div'>
@@ -245,7 +249,7 @@ function HomePage({fetchedData}){
                 <div className='row-div mb-12' id="first-row-home-page">
                     <div id='welcome-greeting-div' className="tutor-sub-container-div">
                         <span id='welcome-msg'>Welcome</span>
-                        <span id='user-name'>{userData.name.split(" ")[0]}
+                        <span id='user-name'>{userData?.name?.split(" ")[0]}
                             {/* <span id='tutor-home-page-waving-hand'><MdWavingHand/></span> */}
                             {userData?.tutorForm?.isProfileVerified==="accepted" 
                             ?
@@ -253,26 +257,37 @@ function HomePage({fetchedData}){
                                 <span id="verified-tag"><VscVerifiedFilled color="green" /></span>
                             </Tooltip>
                             :
+                            userData?.tutorForm?.isProfileVerified === "pending"
+                            ?
                             <Tooltip title="Account Not Verified" placement="right" arrow>
                                 <span id="verified-tag"><GoUnverified color="rgb(165, 58, 58)"/></span>
                             </Tooltip>
-                         }
+                            :
+                            <Tooltip title="Account Rejected" placement="right" arrow>
+                                <span id="verified-tag"><MdOutlineError color="rgb(165, 58, 58)"/></span>
+                            </Tooltip>
+                            }
+                            
 
+                            {/*  */}
                         </span>
                         
                     </div>
                     <div id='home-page-top-sub-div'>
-                        <div className='tutor-sub-container-div' id="rating-div">
-                            <div id='rating-outer-div'>
-                                <div id='rating-label-div'>
-                                    Class Rating
-                                </div>
-                                <div id='user-rating-tag'>
-                                    <div className='star'><MdOutlineStar/></div>
-                                    <span id="rating">4.5</span>
+                        {
+                            userData?.tutorForm?.isProfileVerified === "accepted" && 
+                            <div className='tutor-sub-container-div' id="rating-div">
+                                <div id='rating-outer-div'>
+                                    <div id='rating-label-div'>
+                                        Class Rating
+                                    </div>
+                                    <div id='user-rating-tag'>
+                                        <div className='star'><MdOutlineStar/></div>
+                                        <span id="rating">{userData?.tutorForm?.avgRating}</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        }
                         <div className='tutor-sub-container-div' id="date-time-block-div">
                             <DateTime/>
                         </div>

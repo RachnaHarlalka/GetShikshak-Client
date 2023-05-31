@@ -1,6 +1,12 @@
-import '../dashboardDetails.css';
 import './AdminhomePage.css';
-import {MdWavingHand} from 'react-icons/md';
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+import Rating from '@mui/material/Rating';
+import TextField from '@mui/material/TextField';
+import {MdWavingHand,MdZoomOutMap} from 'react-icons/md';
 import DateTime from '../DateTime';
 import {MdNotificationsActive} from 'react-icons/md';
 import {AiFillStar} from 'react-icons/ai';
@@ -15,19 +21,35 @@ import { authTokenAtom } from '../../../Atom';
 // import name from '../../../assets/HeroPic.png'
 
 function HomePage(props){
-    console.log("Homepage Rendered");
-    const studentCount=props.students.length;
+    // console.log("Homepage Rendered");
+    const studentCount=props?.students?.length;
     const authToken = useRecoilValue(authTokenAtom)
-    const tutorCount=props.tutors.length;
-    const admin=props.admin;
-    console.log(admin && admin[0]?.name)
-    // console.log("admin",props.admin);
-    // console.log(props.students.length)
+    const tutorCount=props?.tutors?.length;
+    const admin=props?.admin;
 
     const [displayType, setDisplayType] = useState("none");
     const [currentNotification, setCurrentNotification] = useState(null);
     const [verificationRequests,setVerificationRequest] = useState(null);
     const [activeNotification, setActiveNotification] = useState(null);
+    const [open, setOpen] =useState(false);
+    const [revertMsg, setRevertMsg] = useState("");
+    
+    // React.useEffect(()=>{
+    //     setOpen(displayState);
+    // },[displayState])
+    
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '46%',
+        transform: 'translate(-40%, -70%)',
+        width: 500,
+        bgcolor: 'background.paper',
+        // border: '2px solid #000',
+        // boxShadow: 24,
+        p: 4,
+      };
+
 
     const fetchData= async()=>{
         let response = await axios(
@@ -39,7 +61,7 @@ function HomePage(props){
                 }
             }
         )
-        console.log("In Response ",response.data.tutors);
+        // console.log("In Response ",response.data.tutors);
         setVerificationRequest(response.data.tutors);
         // console.log("in class requests ",classRequests);
     }
@@ -49,56 +71,45 @@ function HomePage(props){
     useEffect(()=>{
         fetchData();
     },[])
-
-    // const verificationRequests = [
-    //     {
-    //         id:"12345",
-    //         name:"New Tutor",
-    //         email:"newtutor@gmail.com",
-    //         role:"tutor",
-    //         tutorForm:{
-    //                 subjects:["Eng","Hindi","Maths"],
-    //                 mode:["online", "offline","can travel"],
-    //                 language:["English","Assamese","Hindi","bengali"],
-    //                 aboutClass:"This is about class",
-    //                 aboutYou:"This is about You",
-    //                 city:"Assam",
-    //                 phone:"9872171717",
-    //                 rate:"1000",
-    //                 title:"This is ad title"
-    //         },
-    //         profilePic:""
-    //     },
-    //     {
-    //         id:"12345",
-    //         name:"New Tutor2",
-    //         email:"newtutor2@gmail.com",
-    //         role:"tutor",
-    //         tutorForm:{
-    //                 subjects:["Maths"],
-    //                 mode:["can travel"],
-    //                 language:["English"],
-    //                 aboutClass:"This is about class",
-    //                 aboutYou:"This is about You",
-    //                 city:"Assam",
-    //                 phone:"9872171717",
-    //                 rate:"1000",
-    //                 title:"This is ad title"
-    //         },
-    //         profilePic:""
-    //     },
-    // ]
-
    
-    const handleVerificationRequest=async(status)=>{
+    const handleVerificationRequest=(status)=>{
+        if(status === "reverted"){
+            // setShowButtons("none");
+            console.log("Clicked on revert")
+            setOpen(true);
+        }
+        else{
+            sendVerificationUpdate(status);
+        }
+        
+    }
+
+    function handleSendRevertMsg(){
+        console.log("Revert Msg ",revertMsg);
+        sendVerificationUpdate("reverted");
+        setOpen(false);
+    }
+
+    function handleClose(){
+        setOpen(false);
+    }
+
+    const sendVerificationUpdate = async (status) =>{
         try{
             const response = await axios({
                 url:"http://localhost:3000/admin/updateverificationrequest",
                 method:"PATCH",
-                data:{
-                    updatedStatus:status,
-                    reqId:currentNotification._id
-                },
+                data:status === "reverted"?
+                    {
+                      updatedStatus:status,
+                      revertMsg: revertMsg,
+                      reqId:currentNotification._id
+                    } 
+                    :
+                    {
+                      updatedStatus:status,
+                      reqId:currentNotification._id
+                    },
                 headers:{
                     Authorization:`Bearer ${authToken}`
                 }
@@ -145,12 +156,48 @@ function HomePage(props){
 
                 <div id='notification-listing-div'>
                     {notifications?.length>0?notifications:
-                        <div style={{ position:"relative" ,top:"200px", textAlign:"center"}}>
+                        <div style={{ position:"relative" ,top:"200px", textAlign:"center",border:"none",backgroundColor:"transparent"}}>
                             NO NEW REQUESTS
                         </div>
                     }
                 </div>
             </div>
+        )
+    }
+
+    function modalBox(){
+        return(
+            <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            >
+                <Box sx={style}>
+                <Typography id="modal-modal-title" variant="h6" component="h2" sx={{textAlign:"center",marginBottom:"20px"}}>
+                    Verification Request Revert Reason
+                    {/* <span style={{fontSize:"small",display:"block"}}>Share your experience regarding this class</span> */}
+                </Typography>
+                <Box 
+                    sx={{
+                        width: 500,
+                        maxWidth: '100%',
+                    }}
+                    >
+                    <TextField fullWidth label="Write reason here" id="fullWidth"
+                        multiline
+                        rows={7} 
+                        onChange={(e)=>{
+                            setRevertMsg(e.target.value)
+                        }}
+                    />
+                    <div className='flex justify-end py-5'>
+                        <Button variant="contained" sx={{ padding:"5px 10px", backgroundColor:"var(--primary-color)", marginRight:"20px"}} onClick={handleClose} >CLOSE</Button>
+                        <Button variant="contained" sx={{ padding:"5px 10px", backgroundColor:"var(--primary-color)"}} onClick={(e)=>{handleSendRevertMsg()}}>SEND REVERT REASON</Button>
+                    </div>
+                </Box>
+                </Box>
+            </Modal>
         )
     }
 
@@ -161,10 +208,10 @@ function HomePage(props){
                     <div className='row-div margin-buttom-div' id="crosss-div">
                             <RxCrossCircled size="1.4rem" color="red" className="cursor-type-pointer" onClick={()=>{closeNotificationDetailsPage()}}/>
                     </div>
-                    <div style={{overflowY:"auto"}}>
+                    <div style={{overflowY:"auto",padding:"0px 5px"}}>
                         <div className='row-div margin-buttom-div' >
                             <div className='display-type-flex width-100' id="request-details-div">
-                                <div className='' id="student-profile-div">
+                                <div className='' id="tutor-profile-div">
                                     <div id='profile-pic-section'>
                                         <div id='profile-pic' style={{width:"100%"}}>
                                             <img id="profile-image" alt="image" src={`http://localhost:3000/assets/${currentNotification?.profilePic}`}/>
@@ -309,22 +356,24 @@ function HomePage(props){
                         </div>
                 </div>
                         
-                    <div className='row-div' style={{padding:"10px 10px"}}>
-                        <div className='width-100 display-type-flex' id='accept-reject-div'>
-                            <div className='content-div'>
-                                    <button className='accept-reject-button' id='accept-button' onClick={()=>{
-                                        handleVerificationRequest("accepted")
-                                    }}>ACCEPT</button>
-                                    <button className='accept-reject-button' id='reject-button' onClick={()=>{
-                                        handleVerificationRequest("rejected")
-                                    }}>REJECT</button>
-                                    <button className='accept-reject-button' id='revert-button' onClick={()=>{
-                                        handleVerificationRequest("reverted")
-                                    }}>REVERT</button>
+                <div className='row-div' style={{padding:"10px 10px"}} >
+                    <div className='width-100 display-type-flex' id='accept-reject-div' style={{display:"flex"}}>
+                        <div className='content-div'>
+                                <button className='accept-reject-button' id='accept-button' onClick={()=>{
+                                    handleVerificationRequest("accepted")
+                                }}>ACCEPT</button>
+                                <button className='accept-reject-button' id='reject-button' onClick={()=>{
+                                    handleVerificationRequest("rejected")
+                                }}>REJECT</button>
+                                <button className='accept-reject-button' id='revert-button' onClick={()=>{
+                                    handleVerificationRequest("reverted")
+                                }}>REVERT</button>
 
-                            </div>  
+                        </div>  
                     </div>
                 </div>
+                {modalBox()}
+                
             </div>
         )
     }
@@ -349,7 +398,6 @@ function HomePage(props){
     }
 
     function closeNotificationDetailsPage(){
-        console.log('clicked on cross');
         setDisplayType("none");
         deactivateNotification();
     }
@@ -413,7 +461,7 @@ function HomePage(props){
                         </div> */}
                     </div>
                 </div>
-                {currentNotification ?notificationDetailsPage():console.log("nothing")}
+                {currentNotification ?notificationDetailsPage():null}
             </div>
             {notificationList()}
         </div>

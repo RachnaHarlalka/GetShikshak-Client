@@ -34,8 +34,8 @@ export default function TutorCard({ tutor }) {
           <h3 className="text-center text-2xl text-gray-900 font-bold leading-8 ">
             {tutor?.name}
           </h3>
-          <div className="text-center text-gray-400 text-xs font-semibold">
-            <p>4.5⭐</p>
+          <div className="text-center text-gray-400 font-semibold flex items-center justify-center ">
+            {tutor?.tutorForm?.avgRating}<span className="text-xs ml-2">⭐</span>
           </div>
           <div className="flex justify-center">
             <table className="text-sm my-3 ">

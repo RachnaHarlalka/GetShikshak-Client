@@ -5,6 +5,8 @@ import axios from "axios";
 import ListingItems from "../ListingItems";
 import { useRecoilValue } from "recoil";
 import { authTokenAtom } from "../../../Atom";
+
+
 function AdminDashboard() {
   const [pageId, setPageId] = useState(0);
   const[students,setStudents]=useState([]);
@@ -12,14 +14,14 @@ function AdminDashboard() {
   const[admin,setAdmin]=useState(null);
   // const authToken = JSON.parse(sessionStorage.getItem("token"));
   const authToken = useRecoilValue(authTokenAtom);
-  console.log(authToken);
+  // console.log(authToken);
 
   const fetchStudent=async()=>{
     const response = await axios({
         url:"http://localhost:3000/user/getstudents",
         method:"GET"
     })
-    console.log("student",response.data.filteredStudents);
+    // console.log("student",response.data.filteredStudents);
     const fetchedStudent=response.data.filteredStudents;
     setStudents(fetchedStudent);
 
@@ -30,14 +32,12 @@ function AdminDashboard() {
         url:"http://localhost:3000/user/gettutors",
         method:"GET"
     })
-    console.log("tutor",response.data.filteredTutors);
+    // console.log("tutor",response.data.filteredTutors);
     const fetchedTutors=response.data.filteredTutors;
     setTutors(fetchedTutors);
   }
 
-  console.log("students",students);
   const fetchAdmin=async()=>{
-    console.log("inside fatch admin")
     const response = await axios({
         url:"http://localhost:3000/dashboard/getadmin",
         method:"GET",
@@ -50,7 +50,7 @@ function AdminDashboard() {
     //     "Content-Type":"application/json",
     //     "Authorization":`Bearer ${authToken}`
     //   }
-    console.log("admin",response.data.admin);
+    // console.log("admin",response.data.admin);
     const fetchedAdmin=response.data.admin;
     setAdmin(fetchedAdmin);
   }
@@ -61,7 +61,6 @@ function AdminDashboard() {
     fetchAdmin();
   },[])
   function handleClick(id) {
-    console.log(id);
     switch (id) {
       case "0":
         setPageId(0);

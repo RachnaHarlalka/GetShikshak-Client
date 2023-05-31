@@ -4,25 +4,27 @@ import '../style.css';
 import HomePage from './HomePage';
 import EditButton from '../EditButton';
 import axios from 'axios';
-import {useRecoilValue} from 'recoil';
-import {authTokenAtom} from '../../../Atom'
+import {useRecoilState, useRecoilValue} from 'recoil';
+import {authTokenAtom, studentsClassesAtom} from '../../../Atom'
 import AccountSettings from '../AccountSettings';
 import ListingItems from '../ListingItems';
 import {useLottie} from 'lottie-react';
 import LoadingLottie from '../../../../src/assets/lf30_ykdoon9j.json';
+import ProfileDetails from './ProfileDetails';
 
 function StudentDashboard(){
-    console.log("DashBoard Rendered");
+    // console.log("DashBoard Rendered");
     
     const [pageId,setPageId]=useState(0);
     // const [authToken,setAuthToken] = useRecoilState(authTokenAtom);
     // const authToken = JSON.parse(sessionStorage.getItem("token"));
     const token = useRecoilValue(authTokenAtom);
-    console.log("token inside dasg",token);
-    // const authToken = useRecoilValue(authTokenAtom);
-    // console.log("token inside dashboard",token);
+    const [myClasses, setMyClasses ] = useRecoilState(studentsClassesAtom);
 
-    const [fetchedResponse,setFetchedResponse] = useState([]);
+    const [userData,setUserData] = useState([]);
+    const [allClassRequests, setAllClassRequests] = useState([]);
+    // const [myClasses, setMyClasses] = useState([]);
+    const [myTutors, setMyTutors] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
     const options = {
@@ -43,20 +45,76 @@ function StudentDashboard(){
                 }
             }
         )
-        setFetchedResponse(response.data.user);
+        setUserData(response.data.user);
+    }
+
+    const fetchAllClassRequest = async()=>{
+        let response = await axios(
+            {
+                url:"http://localhost:3000/dashboard/classrequest",
+                method:"GET",
+                headers:{
+                    "Authorization" : `Bearer ${token}`
+                }
+            }
+        )
+        console.log("All class ", response.data);
+        const filteredData = response?.data?.map((classObj,index)=>{
+            return(
+                {
+                    ["tutor name"]: classObj.tutorId.name,
+                    subjects: classObj.subjects,
+                    mode: classObj.mode,
+                    fee: classObj.tutorId.tutorForm.rate,
+                    status: classObj.isAccepted
+                }
+            )
+        })
+
+        const acceptedClasses = response?.data?.map((classObj,index)=>{
+            return(
+                {
+                    ["class id"]: classObj._id,
+                    ["tutor name"]: classObj.tutorId.name,
+                    subjects: classObj.subjects,
+                    mode: classObj.mode,
+                    fee: classObj.tutorId.tutorForm.rate,
+                    status: classObj.isAccepted,
+                    feedback: "feedback",
+                }
+            )
+        }).filter((classObj)=>{
+            return (classObj.status === "accepted");
+        })
+
+        const tutorsList = response?.data?.filter((classObj)=>{
+            return (classObj.isAccepted === "accepted")
+        }).map((classObj)=>{
+            return(
+                {
+                    ["tutor name"]: classObj.tutorId.name,
+                    email: classObj.tutorId.email,
+                    phone: classObj.tutorId.phone,
+                    ["account status"]: classObj.tutorId.isAccountActive
+                }
+            )
+        })
+
+        setAllClassRequests(filteredData);
+        setMyClasses(acceptedClasses);
+        setMyTutors(tutorsList);
+        console.log("Tutors ",myTutors);
         setIsLoading(false);
-        // console.log("In Home ",fetchedResponse);
-        //JSON.parse(JSON.stringify(
-        //console.log(fetchedResponse);
     }
 
     useEffect(()=>{
         fetchData();
+        fetchAllClassRequest();
     },[])
 
 
     function handleClick(id){
-        console.log(id);
+        // console.log(id);
         switch(id){
             case "0": setPageId(0);break;
             case "1": setPageId(1);break;
@@ -66,60 +124,14 @@ function StudentDashboard(){
             default: console.log("Default of Handle Click");
         }
     }   
-    
-    
-    const classRequest = [
-        {
-            tutorId:"",
-            tutor:"Tutor Name",
-            subjects:["GK","EVS","Maths"],
-            language:["Assamse","Hindi"],
-            mode:["Online"],
-            fee:"200",
-            status:"accepted",
-            feedback:"",
-        },
-        {
-            tutorId:"",
-            tutor:"Tutor Name",
-            subjects:["GK","EVS","Maths"],
-            language:["Assamse","Hindi"],
-            mode:["Offline"],
-            fee:"200",
-            status:"accepted",
-            feedback:"",
-        },
-        {
-            tutorId:"",
-            tutor:"Tutor Name",
-            subjects:["GK","EVS","Maths"],
-            language:["Assamse","Hindi"],
-            mode:["Offline"],
-            fee:"200",
-            status:"accepted",
-            feedback:"",
-        },
-        {
-            tutorId:"",
-            tutor:"Tutor Name",
-            subjects:["GK","EVS","Maths"],
-            language:["Assamse","Hindi"],
-            mode:["Offline"],
-            fee:"200",
-            status:"accepted",
-            feedback:"",
-        },
-
-    ]
 
     function renderPage(id) {
-        // console.log("inside renderpage");   
         switch(id) {
-            case 0: return <HomePage fetchedData={fetchedResponse}/>;
-            // case 1: return <ProfileDetails fetchedData={fetchedResponse}/>;
-            // case 2: return <ListingItems pageheading={"Students List"} receivedData={newStudentData}/>;
-            case 3: return <ListingItems pageheading={"My Classes"} receivedData={classRequest}/>;
-            case 4: return <AccountSettings/>;
+            case 0: return <HomePage fetchedData={userData} allClassRequests={allClassRequests}/>;
+            case 1: return <ProfileDetails fetchedData={userData}/>;
+            case 2: return <ListingItems pageheading={"Tutors List"} receivedData={myTutors} listName={"Tutors"}/>;
+            case 3: return <ListingItems pageheading={"Classes List"} receivedData={myClasses} listName={"Classes"}/>;
+            case 4: return <AccountSettings status={userData.isAccountActive}/>;
             default: console.log("Default");
         }
     }
@@ -142,7 +154,7 @@ function StudentDashboard(){
                             <div id='profile-pic-section'>
                                 <div id='profile-pic'>
                                     {/* <FcManager/> */}
-                                    <img id="profile-image" alt="image" src={`http://localhost:3000/assets/${fetchedResponse?.profilePic}`}/>
+                                    <img id="profile-image" alt="image" src={`http://localhost:3000/assets/${userData?.profilePic}`}/>
                                     <div id="edit-profile-button">
                                         <EditButton bgcolor="lightgray"/>
                                     </div>
