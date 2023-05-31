@@ -28,61 +28,6 @@ function AllRoutes() {
 
   // console.log("authtoken wow", authToken,userData);
   return (
-    // <Routes>
-    //   {authToken ? (
-    //     <Route path="/login" element={<Landing />} />
-    //   ) : (
-    //     <Route path="/login" element={<Login />} />
-    //   )}
-    //   {authToken ? (
-    //     <Route path="/register" element={<Landing />} />
-    //   ) : (
-    //     <Route path="/register" element={<Register />} />
-    //   )}
-    //   <Route path="/" element={<Landing />} />
-    //   <Route path="/search" element={<SearchResult />} />
-    //   <Route path="/user/:id" element={<TutorProfile />} />
-
-    //   {userData?.role === "student" ? (
-    //     <Route path="/reserveclass/:id" element={<ReserveClass />} />
-    //   ) : (
-    //     <Route path="/reserveclass/:id" element={<Landing />} />
-    //   )}
-
-    //   {userData?.role === "tutor" && userData?.isProfileCompleted===false ? (
-    //     <Route
-    //       path="/tutorcompleteprofile"
-    //       element={<TutorCompleteProfile />}
-    //     />
-    //   ) : (
-    //     <Route path="/tutorcompleteprofile" element={<Landing />} />
-    //   )}
-
-    //   {userData?.role === "student" && userData?.isProfileCompleted===false ? (
-    //     <Route
-    //       path="/studentcompleteprofile"
-    //       element={<StudentCompleteProfile />}
-    //     />
-    //   ) : (
-    //     <Route path="/studentcompleteprofile" element={<Landing />} />
-    //   )}
-
-    //   <Route path="/noresult" element={<NoResultPage />} />
-    //   <Route path="*" element={<NotFound />} />
-
-    //   {authToken ? (userData?.isProfileCompleted===true &&
-    //     (userData?.role === "student" ? (
-    //       <Route path="/dashboard" element={<StudentDashboard />} />
-    //     ) : userData?.role === "tutor" ? (
-    //       <Route path="/dashboard" element={<TutorDashboard />} />
-    //     ) : userData?.role === "admin" ? (
-    //       <Route path="/dashboard" element={<AdminDashboard />} />
-    //     ) : (
-    //       <Route path="/dashboard" element={<NoResultPage />} />
-    //     ))):(
-    //       <Route path="/dashboard" element={<NoResultPage />} />
-    //     )}
-    // </Routes>
     <Routes>
       <Route path="/search" element={<SearchResult />} />
       <Route path="/user/:id" element={<TutorProfile />} />

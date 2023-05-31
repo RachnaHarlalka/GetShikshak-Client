@@ -12,6 +12,7 @@ function ForgotPassword() {
   const [newPassword, setNewPassword] = useState("");
 console.log("user di",userId);
 console.log("token",token);
+
   const handleChange = (e) => {
     console.log("indise handle chang", e.target.value);
     setNewPassword(e.target.value);
