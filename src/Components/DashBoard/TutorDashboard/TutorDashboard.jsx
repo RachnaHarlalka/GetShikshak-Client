@@ -62,7 +62,7 @@ function TutorDashboard(){
         )
         setUserData(response.data.user);
         setIsLoading(false);
-        // console.log("In Home ",userData);
+        console.log("In Home ",userData);
         //JSON.parse(JSON.stringify(
         //console.log(userData);
     }
@@ -86,13 +86,50 @@ function TutorDashboard(){
     }    
 
     function renderPage(id) {
+        //);
         // console.log("inside renderpage");   
         switch(id) {
             case 0: return <HomePage fetchedData={userData}/>;
             case 1: return <ProfileDetails fetchedData={userData}/>;
-            case 2: return <ListingItems pageheading={"Students List"} receivedData={students}/>;
-            case 3: return <ListingItems pageheading={"Class List"} receivedData={classes}/>;
-            case 4: return <AccountSettings status={userData.isAccountActive}/>;
+            case 2: if(userData?.tutorForm?.isProfileVerified === "accepted"){
+                        return (<ListingItems pageheading={"Students List"} receivedData={students}/>)
+                    }
+                    else{ 
+                        return (
+                            <div style={{display:"flex", justifyContent:"center",alignItems:"center",height:"100%"}}>
+                                <h1 style={{fontSize:"x-large",textAlign:"center",backgroundColor:"lightcyan",padding:"20px",borderRadius:"5px"}}>
+                                    {userData?.tutorForm?.isProfileVerified === "pending" ?
+                                        <>
+                                            <span>Account Verification {userData?.tutorForm?.isProfileVerified.toUpperCase()}</span>
+                                            <span style={{display:"block"}}>No Students Yet</span>
+                                        </>
+                                        :
+                                        <span>Account {userData?.tutorForm?.isProfileVerified.toUpperCase()}</span>
+                                    }
+                                </h1>
+                            </div>
+                        )
+                    } 
+            case 3: if(userData?.tutorForm?.isProfileVerified === "accepted"){
+                        return (<ListingItems pageheading={"Students List"} receivedData={classes}/>)
+                    }
+                    else{ 
+                        return (
+                            <div style={{display:"flex", justifyContent:"center",alignItems:"center",height:"100%"}}>
+                                <h1 style={{fontSize:"x-large",textAlign:"center",backgroundColor:"lightcyan",padding:"20px",borderRadius:"5px"}}>
+                                    {userData?.tutorForm?.isProfileVerified === "pending" ?
+                                        <>
+                                            <span>Account Verification {userData?.tutorForm?.isProfileVerified.toUpperCase()}</span>
+                                            <span style={{display:"block"}}>No Classes Yet</span>
+                                        </>
+                                        :
+                                        <span>Account {userData?.tutorForm?.isProfileVerified.toUpperCase()}</span>
+                                    }
+                                </h1>
+                            </div>
+                        )
+                    }
+            case 4: return <AccountSettings status={userData.isAccountActive} userRole={userData.role}/>;
             default: console.log("Default");
         }
     }
