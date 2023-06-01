@@ -113,7 +113,7 @@ function NavComponent({children}) {
             <Link className="flex justify-center items-center" to="/">
               <GiBookCover size="2em" color="var(--primary-color)" />
               <span className="mx-1 text-primary-color font-bold">
-                GetShiksha
+                TeachConnect
               </span>
             </Link>
           </span>

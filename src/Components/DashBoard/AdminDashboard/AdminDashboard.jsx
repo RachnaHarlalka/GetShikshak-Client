@@ -5,6 +5,9 @@ import axios from "axios";
 import ListingItems from "../ListingItems";
 import { useRecoilValue } from "recoil";
 import { authTokenAtom } from "../../../Atom";
+import { GiBookCover } from "react-icons/gi";
+import {Link} from "react-router-dom"
+
 
 
 function AdminDashboard() {
@@ -101,13 +104,22 @@ function AdminDashboard() {
     <div id="dashboard-div">
       <div className="dashboard-sub-div" id="dashboard-left-sub-div">
         <div id="dashboard-left-sub-container-div">
-          <div id="logo">GETSHIKSHAK</div>
+          {/* <div id="logo"> */}
+          <span className="logoName tracking-wider ">
+            <Link className="flex justify-center items-center py-4" to="/">
+              <GiBookCover size="3em" color="white" />
+              <span className="mx-1 text-white text-lg font-bold">
+                TeachConnect
+              </span>
+            </Link>
+          </span>
+          {/* </div> */}
 
           <div id="dashboard-profile-section">
             <div id="profile-pic-section">
-              <div id="profile-pic" >
+              <div className="w-[40%] h-[60%] text-4xl">
                 {/* <FcManager/> */}
-                <div id="profile-image" className="flex justify-center items-center bg-white">
+                <div className="flex justify-center items-center bg-white h-[100px] w-[100px] rounded-full">
                 {currentUser?.name?.toString()[0]?.toUpperCase()}
                 </div>
                 {/* <img

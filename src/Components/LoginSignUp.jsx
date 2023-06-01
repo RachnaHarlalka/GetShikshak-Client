@@ -264,7 +264,7 @@ function LoginSignUp(props) {
           </>
         ) : null}
         {props.type==="login"?(
-          <div className="mt-2 mb-4"><span  className=" text-red-500 text-sm font-semibold">Forgot password ?</span><span className="underline mx-3 text-gray-500"><NavLink to="/password-reset">Click Here</NavLink></span></div>
+          <div className="mt-2 mb-4"><span  className=" text-red-500 text-sm font-semibold"><NavLink to="/password-reset">Forgot password ?</NavLink></span><span className="underline mx-3 text-gray-500"></span></div>
         ):null}
         <ButtonComponent
           type="submit"

@@ -18,6 +18,7 @@ import PrivateRoute from "./Components/PrivateRoute";
 import PasswordReset from "./Components/PasswordReset.jsx";
 import ForgotPassword from "./Components/DashBoard/ForgotPassword.jsx";
 
+
 function AllRoutes() {
 
   console.log("inside all routes")
@@ -45,7 +46,7 @@ function AllRoutes() {
           path="/tutorcompleteprofile"
           element={<TutorCompleteProfile />}
         />
-        <Route path="/" element={<Landing />} />
+        {/* <Route path="/" element={<Landing />} /> */}
       </Route>
 
       <Route element={<PrivateRoute allowedRole="student"/>}>
@@ -55,16 +56,12 @@ function AllRoutes() {
           element={<StudentCompleteProfile />}
         />
         <Route path="/reserveclass/:id" element={<ReserveClass />} />
-        <Route path="/" element={<Landing />} />
+        {/* <Route path="/" element={<Landing />} /> */}
       </Route>
       <Route element={<PrivateRoute allowedRole="admin" />}>
         <Route path="/admindashboard" element={<AdminDashboard />} />
-        <Route path="/" element={<Landing />} />
+        {/* <Route path="/" element={<Landing />} /> */}
       </Route>
-
-      
-
-      
     </Routes>
   );
 }

@@ -270,7 +270,7 @@ function HomePage({ fetchedData }) {
                     </div>
                     <div id='home-page-top-sub-div'>
                         {
-                            userData?.tutorForm?.isProfileVerified === "accepted" && 
+                            userData?.tutorForm?.isProfileVerified === "accepted"  && userData?.tutorForm?.avgRating && 
                             <div className='tutor-sub-container-div' id="rating-div">
                                 <div id='rating-outer-div'>
                                     <div id='rating-label-div'>

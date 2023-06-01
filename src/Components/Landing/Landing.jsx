@@ -4,6 +4,7 @@ import TutorCarousal from '../TutorCardSection/TutorCarousal'
 import { useEffect, useState } from "react";
 import axios from "axios";
 import NoResultPage from "../NoResultPage";
+import NavComponent from "../Nav/NavComponent";
 
 function Landing(){
     const [tutors,setTutors]=useState([]);
@@ -26,7 +27,7 @@ function Landing(){
     // console.log("Tutors landing",response.data.tutors)
     return(
         <div>
-            {console.log("Hello")}
+            <NavComponent/>
             <HeroSection/>
             <div className="bg-gray-100">
             {tutors?.length>0 ? (<TutorCarousal tutors={tutors}/>):(<NoResultPage/>)}

@@ -24,8 +24,8 @@ export default function ListingItems({pageheading,receivedData,listName}) {
 
     // setCurrentData(receivedData);
 
-    const colHeading = receivedData.length>0 ?(
-        Object.keys(receivedData[0]).filter((data)=>{
+    const colHeading = receivedData?.length>0 ?(
+        Object.keys(receivedData[0])?.filter((data)=>{
             return (data !== "tutorId");
         })
     ):[];
@@ -145,9 +145,9 @@ export default function ListingItems({pageheading,receivedData,listName}) {
     <div id='listing-items-root-div'>
         <div id='list-heading' className='flex justify-between'>
                 {pageheading}
-                <h1>{pageheading.split(" ")[0]} Count : {receivedData.length}</h1>
+                <h1>{pageheading.split(" ")[0]} Count : {receivedData?.length}</h1>
         </div>
-        {(receivedData && receivedData.length>0 )?(
+        {(receivedData?.length>0 )?(
             <div id='items-list'>
                 <Box sx={{ width: '100%'}} color="black">
                     <Paper sx={{ width: '100%'}}>

@@ -1,6 +1,7 @@
 import { useSnackbar } from "notistack";
 import { useState } from "react";
 import axios from "axios";
+import NavComponent from "./Nav/NavComponent";
 
 function PasswordReset() {
 
@@ -41,6 +42,7 @@ function PasswordReset() {
 
   return (
     <>
+    <NavComponent/>
       <div className="w-full h-[90vh] flex justify-center items-center bg-gray-100">
         <form className="bg-white w-1/3 shadow-md rounded p-8 mb-4">
           <div className="flex justify-center"><h1 className="mb-4 text-xl font-bold">Enter you email to reset password</h1></div>

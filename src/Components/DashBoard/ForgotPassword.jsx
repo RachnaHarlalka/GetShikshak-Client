@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
+import NavComponent from "../Nav/NavComponent";
 
 function ForgotPassword() {
   let [searchParams, setSearchParams] = useSearchParams();
@@ -64,6 +65,7 @@ console.log("token",token);
   }
   return (
     <>
+    <NavComponent/>
       <div className="w-full h-[90vh] flex justify-center items-center bg-gray-100">
         <form className="bg-white w-1/3 shadow-md rounded p-8 mb-4">
           <div className="flex justify-center">
@@ -74,7 +76,7 @@ console.log("token",token);
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="password"
             >
-              Your password
+              Your new password
             </label>
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"

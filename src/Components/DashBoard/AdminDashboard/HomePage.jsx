@@ -25,7 +25,7 @@ function HomePage(props) {
   const studentCount = props?.students?.length;
   const authToken = useRecoilValue(authTokenAtom);
   const tutorCount = props?.tutors?.length;
-  const currentUser = props?.fetchedUser;
+  const currentUser = props?.currentUser;
   console.log(currentUser && currentUser[0]?.name);
   // console.log("currentUser",props.admin);
   // console.log(props.students.length)
@@ -74,6 +74,7 @@ function HomePage(props) {
     useEffect(()=>{
         fetchData();
     },[])
+    
    
     const handleVerificationRequest=(status)=>{
         if(status === "reverted"){
@@ -98,116 +99,49 @@ function HomePage(props) {
     }
 
     const sendVerificationUpdate = async (status) =>{
-        try{
-            const response = await axios({
-                url:"http://localhost:3000/admin/updateverificationrequest",
-                method:"PATCH",
-                data:status === "reverted"?
-                    {
-                      updatedStatus:status,
-                      revertMsg: revertMsg,
-                      reqId:currentNotification._id
-                    } 
-                    :
-                    {
-                      updatedStatus:status,
-                      reqId:currentNotification._id
-                    },
-                headers:{
-                    Authorization:`Bearer ${authToken}`
-                }
-            })
-            console.log("response",response.data.updatedVerificationrequest);
-            closeNotificationDetailsPage();
-            const updatedVerificationRequest=verificationRequests.filter((req)=>{
-                return req._id!==currentNotification._id;
-            })
-            setVerificationRequest(updatedVerificationRequest);
+      try {
+        const response = await axios({
+          url: "http://localhost:3000/admin/updateverificationrequest",
+          method: "PATCH",
+          data:status === "reverted"?
+          {
+            updatedStatus:status,
+            revertMsg: revertMsg,
+            reqId:currentNotification._id
+          } 
+          :
+          {
+            updatedStatus:status,
+            reqId:currentNotification._id
+          },
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        });
+        if (response.status === 400) {
+          enqueueSnackbar(response?.data?.error, { variant: "error" });
         }
-        catch(err){
-
+        if (response.status === 201) {
+          console.log("response", response?.data?.updatedVerificationrequest);
+          enqueueSnackbar(`Request ${status} successfully`, {
+            variant: "success",
+          });
+          closeNotificationDetailsPage();
+          const updatedVerificationRequest = verificationRequests.filter(
+            (req) => {
+              return req._id !== currentNotification._id;
+            }
+          );
+          setVerificationRequest(updatedVerificationRequest);
         }
-        console.log("status",status);
-        console.log("curren",currentNotification);
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  // const verificationRequests = [
-  //     {
-  //         id:"12345",
-  //         name:"New Tutor",
-  //         email:"newtutor@gmail.com",
-  //         role:"tutor",
-  //         tutorForm:{
-  //                 subjects:["Eng","Hindi","Maths"],
-  //                 mode:["online", "offline","can travel"],
-  //                 language:["English","Assamese","Hindi","bengali"],
-  //                 aboutClass:"This is about class",
-  //                 aboutYou:"This is about You",
-  //                 city:"Assam",
-  //                 phone:"9872171717",
-  //                 rate:"1000",
-  //                 title:"This is ad title"
-  //         },
-  //         profilePic:""
-  //     },
-  //     {
-  //         id:"12345",
-  //         name:"New Tutor2",
-  //         email:"newtutor2@gmail.com",
-  //         role:"tutor",
-  //         tutorForm:{
-  //                 subjects:["Maths"],
-  //                 mode:["can travel"],
-  //                 language:["English"],
-  //                 aboutClass:"This is about class",
-  //                 aboutYou:"This is about You",
-  //                 city:"Assam",
-  //                 phone:"9872171717",
-  //                 rate:"1000",
-  //                 title:"This is ad title"
-  //         },
-  //         profilePic:""
-  //     },
-  // ]
-
-  const handleVerificationRequest = async (status) => {
-    try {
-      const response = await axios({
-        url: "http://localhost:3000/admin/updateverificationrequest",
-        method: "PATCH",
-        data: {
-          updatedStatus: status,
-          tutorId: currentNotification._id,
-        },
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      });
-      if (response.status === 400) {
+      } catch (err) {
         enqueueSnackbar(response?.data?.error, { variant: "error" });
       }
-      if (response.status === 201) {
-        console.log("response", response?.data?.updatedVerificationrequest);
-        enqueueSnackbar(`Request ${status} successfully`, {
-          variant: "success",
-        });
-        closeNotificationDetailsPage();
-        const updatedVerificationRequest = verificationRequests.filter(
-          (req) => {
-            return req._id !== currentNotification._id;
-          }
-        );
-        setVerificationRequest(updatedVerificationRequest);
-      }
-    } catch (err) {
-      enqueueSnackbar(response?.data?.error, { variant: "error" });
     }
-    console.log("status", status);
-    console.log("curren", currentNotification);
-  };
+      
+  
 
+ 
   // console.log("currentNotion",currentNotification)
 
   function notificationList() {
@@ -509,23 +443,7 @@ function HomePage(props) {
     }
     // console.log('current notification is-> ',currentNotification)
   };
-  // console.log("data ",userData);
-
-  //  setAboutClass(userData?.tutorForm?.aboutYou)
-
-  const handleChangeText = (event) => {
-    switch (event.target.id) {
-      case "about":
-        setAboutYou(event.target.value);
-        break;
-      case "ads":
-        setAboutClass(event.target.value);
-        break;
-      default:
-        console.log("default");
-    }
-  };
-
+console.log("cirrentUser",currentUser?.name);
   return (
     <div id="admin-home-page-root-div">
       <div id="admin-home-page-details-div">
@@ -533,7 +451,7 @@ function HomePage(props) {
           <div id="welcome-greeting-div" className="admin-sub-container-div">
             <span id="welcome-msg">Welcome</span>
             <span id="user-name">
-              {currentUser && currentUser?.name}{" "}
+              {currentUser?.name}{" "}
               <span id="waving-hand">
                 <MdWavingHand />
               </span>
@@ -553,17 +471,13 @@ function HomePage(props) {
               <span className="font-bold text-xl">Student Count</span>
               <span className="font-bold text-6xl my-4">{studentCount}</span>
             </div>
-            {/* <div className='flex flex-col justify-center items-center shadow-md bg-green-100 w-[50vw]'>
-                            <span className='font-bold text-xl'>New Tutor Verification Request</span>
-                            <span className='font-bold text-6xl my-4'>{verificationRequests?.length}</span>
-                        </div> */}
-                    </div>
-                </div>
-                {currentNotification ?notificationDetailsPage():null}
-            </div>
-            {notificationList()}
+          </div>
         </div>
+              {currentNotification ?notificationDetailsPage():null}
+        </div>
+            {notificationList()}
+      </div>
     )
 }
 
-export default HomePage;
+export default HomePage
