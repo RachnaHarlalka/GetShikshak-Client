@@ -8,7 +8,7 @@
 
 #admin-home-page-details-div{
     position: relative;
-    width: 77.6%;
+    width: 80%;
     margin-right: 5px;
     /* background-color: gray; */
 }
@@ -144,7 +144,7 @@
     display: flex;
 }
 
-#student-profile-div{
+#tutor-profile-div{
     width: 150px;
     height: 150px;
 }
@@ -237,11 +237,11 @@
     width: 100%;
     padding: 10px;
 }
-
+/* 
 #content-heading{
     text-transform: uppercase;
     font-weight: bold;
-}
+} */
 
 #class-options{
     
@@ -255,7 +255,7 @@
     display: flex;
     flex-direction: column;
     /* align-items: center; */
-    width: 250px;
+    width: 20%;
     /* display: none; */
     margin: 0px;
     background-color: rgb(243 244 246);
@@ -381,7 +381,7 @@
 }
 
 #rating-outer-div{
-    border: 1px solid lightgray;
+    /* border: 1px solid lightgray; */
     display: flex;
     flex-direction: column;
     justify-content: space-between;

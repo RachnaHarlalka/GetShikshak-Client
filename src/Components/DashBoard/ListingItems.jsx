@@ -11,34 +11,44 @@ import Button from '@mui/material/Button';
 import { useState } from 'react';
 import './listingitems.css';
 import FeedbackModal from './FeedbackModal';
-import { boolean } from 'yup';
 
-export default function ListingItems({pageheading,receivedData}) {
-    console.log("List Rendered");
+export default function ListingItems({pageheading,receivedData,listName}) {
+    // console.log("List Rendered");
     console.log("receivedData",receivedData);
-    console.log("page hedaer",pageheading);
+    // console.log("page hedaer",pageheading);
     const [showModal, setShowModal] = useState(false);
+    const [includeFeedback,setIncludeFeedback] = useState(false);
+    const [currentClassId, setCurrentClassId] = useState(null);
 
     // const [currentData,setCurrentData] = useState();
 
     // setCurrentData(receivedData);
 
-    const colHeading = Object.keys(receivedData[0]).filter((data)=>{
-        return (data !== "tutorId");
-    });
+    const colHeading = receivedData?.length>0 ?(
+        Object.keys(receivedData[0])?.filter((data)=>{
+            return (data !== "tutorId");
+        })
+    ):[];
+
+    // console.log(receivedData[0]?.['account-status']);
 
     // if(colHeading.includes("tutorId"))
     //     colHeading.shift();
 
     
-      const handleModal = () => setShowModal((prev)=>{
-        return !prev;
-      });
-
-    
+      const handleModal = (classId) =>{
+        if(currentClassId === null)
+            setCurrentClassId(classId); 
+        else
+            setCurrentClassId(null); 
+        setShowModal((prev)=>{
+            return !prev;
+        })
+      } 
+      
 
     // console.log("List Rendered");
-    console.log("Data Received",colHeading);
+    // console.log("Data Received",colHeading);
 
     
 
@@ -59,14 +69,13 @@ export default function ListingItems({pageheading,receivedData}) {
     function generateTableRow(itemObj){
         let row=[];
         for(let item in itemObj){
-           if(item=="profilePic"){
-                row.push(<TableCell sx={{borderRight:"1px solid black", display:"flex",justifyContent:"center"}} align="center" className=''>
-                    <img src={`http://localhost:3000/assets/${itemObj[item]}`} alt="" style={{objectFit:"cover"}} className='w-16 h-16 '/>
+           if(item==="profilePic"){
+                row.push(<TableCell sx={{display:"flex",justifyContent:"center",alignItems:"center"}} align="center" className=''>
+                    <img src={`http://localhost:3000/assets/${itemObj[item]}`} alt="" style={{objectFit:"cover"}} className='w-16 h-26 '/>
                 </TableCell>)
-                console.log("inside profile pic",itemObj[item])
             }
             // else if(Array.isArray(itemObj[item])){
-            if(item === "tutorId"){
+            else if(item === "tutorId"){
                 continue;
             }
             else if(Array.isArray(itemObj[item])){
@@ -76,7 +85,6 @@ export default function ListingItems({pageheading,receivedData}) {
                 row.push(<TableCell align="center">{newItem}</TableCell>)
             }
             else if(itemObj[item] === "pending"){
-                console.log(itemObj[item]," Item");
                 row.push(
                     <TableCell align="center">
                         <span className='text-yellow-500 font-bold'>{itemObj[item].toUpperCase()}</span>
@@ -84,7 +92,6 @@ export default function ListingItems({pageheading,receivedData}) {
                 )
             }
             else if(itemObj[item] === "accepted"){
-                console.log(itemObj[item]," Item");
                 row.push(
                     <TableCell align="center">
                         <span className='text-green-600 font-bold'>{itemObj[item].toUpperCase()}</span>
@@ -92,7 +99,6 @@ export default function ListingItems({pageheading,receivedData}) {
                 )
             }
             else if(itemObj[item] === "rejected"){
-                console.log(itemObj[item]," Item");
                 row.push(
                     <TableCell align="center">
                         <span className='text-red-600 font-bold'>{itemObj[item].toUpperCase()}</span>
@@ -102,14 +108,15 @@ export default function ListingItems({pageheading,receivedData}) {
             else if(item === "feedback"){
                 row.push(
                     <TableCell sx={{}} align="center">
-                        {<Button variant="contained" sx={{fontSize:"10px", textTransform:"none", padding:"2px 5px", backgroundColor:"var(--primary-color)"}} onClick={handleModal}>Share Feedback</Button>}
+                        {<Button variant="contained" sx={{fontSize:"10px", textTransform:"none", padding:"2px 5px", backgroundColor:"var(--primary-color)"}} onClick={()=>{handleModal(itemObj["class id"])}}>Share Feedback</Button>}
+                        {includeFeedback === false?setIncludeFeedback(true):null}
                     </TableCell>)
             }
             else if(typeof itemObj[item]==="object"){
                 console.log("Inside object item",item);
                 continue;
             }
-            else if((typeof itemObj[item]) === "boolean"){
+            else if(typeof itemObj[item] === "boolean"){
                 const bool = itemObj[item]?"Active":"In-Active";
                 const textColor = itemObj[item]?"green":"red";
                 row.push(<TableCell sx={{borderRight:"1px solid black",textTransform:'uppercase',fontWeight:"bold",color:textColor }} align="center">{bool}</TableCell>)
@@ -126,6 +133,7 @@ export default function ListingItems({pageheading,receivedData}) {
                 <TableRow
                     key={index}
                 >
+                    
                     {generateTableRow(item)}
                 </TableRow>
             )
@@ -137,25 +145,33 @@ export default function ListingItems({pageheading,receivedData}) {
     <div id='listing-items-root-div'>
         <div id='list-heading' className='flex justify-between'>
                 {pageheading}
-                <h1>{pageheading.split(" ")[0]} Count : {receivedData.length}</h1>
+                <h1>{pageheading.split(" ")[0]} Count : {receivedData?.length}</h1>
         </div>
-        <div id='items-list'>
-        <Box sx={{ width: '100%'}} color="black">
-        <Paper sx={{ width: '100%'}}>
-            <TableContainer component={Paper} style={{ maxHeight: '467px'}}>
-                <Table aria-label="simple table" stickyHeader size="small" sx={{borderRadius:"none"}}>
-                    <TableHead>
-                        {generateColHeading()}
-                    </TableHead>
-                    <TableBody>
-                        {generateTableBody()}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </Paper>
-        </Box>
-        <FeedbackModal displayState={showModal} handleModal={handleModal}/>
-        </div>
+        {(receivedData?.length>0 )?(
+            <div id='items-list'>
+                <Box sx={{ width: '100%'}} color="black">
+                    <Paper sx={{ width: '100%'}}>
+                        <TableContainer component={Paper} style={{ maxHeight: '467px'}}>
+                            <Table aria-label="simple table" stickyHeader size="small" sx={{borderRadius:"none"}}>
+                                <TableHead>
+                                    {generateColHeading()}
+                                </TableHead>
+                                <TableBody>
+                                    {generateTableBody()}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </Paper>
+                </Box>
+                {includeFeedback && <FeedbackModal displayState={showModal} handleModal={handleModal} classId={currentClassId}/>}
+            </div>
+        ):(
+            <div style={{display:"flex", justifyContent:"center",alignItems:"center",height:"300px"}}>
+                <h1 style={{fontSize:"x-large",textAlign:"center",backgroundColor:"lightcyan",padding:"20px",borderRadius:"5px"}}>
+                    <span>No {listName} Yet</span>
+                </h1>
+            </div>
+        )}
     </div>
   );
 }

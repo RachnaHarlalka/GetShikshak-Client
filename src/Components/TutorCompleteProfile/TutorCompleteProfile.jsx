@@ -12,6 +12,8 @@ import { useRecoilState } from "recoil";
 import { tutorFormDataAtom, userDataAtom } from "../../Atom";
 import { Stepper, StepLabel, Step } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useSnackbar } from "notistack";
+
 import {
   subjectSchema,
   titleSchema,
@@ -41,6 +43,7 @@ const steps = [1, 2, 3, 4, 5, 6,7];
 function TutorCompleteProfile() {
   const [tutorFormData, setTutorFormData] = useRecoilState(tutorFormDataAtom);
   const [userData,setUserData]=useRecoilState(userDataAtom)
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const navigate = useNavigate();
   // const [authToken, setAuthToken] = useRecoilState(authTokenAtom);
   // console.log("tokeninside",));
@@ -111,8 +114,8 @@ function TutorCompleteProfile() {
         // storedData.method();
 
         // console.log("respose by login",response);
-        // enqueueSnackbar(response.data.message, { variant: "success" });
-        navigate("/dashboard")
+        enqueueSnackbar(response.data.message, { variant: "success" });
+        navigate("/tutordashboard")
       }
     } catch (err) {
       console.log("form submit error", err);
@@ -127,6 +130,7 @@ function TutorCompleteProfile() {
         subjects: formikSubjectInfo.values.subjects,
         title: formikTitleInfo.values.title,
         aboutYou: formikAboutYouInfo.values.aboutYou,
+        education:formikAboutYouInfo.values.education,
         aboutClass: formikAboutClassInfo.values.aboutClass,
         city: formikClassDetailsInfo.values.city,
         mode: formikClassDetailsInfo.values.mode,
@@ -136,7 +140,9 @@ function TutorCompleteProfile() {
         profilePic:formikDocumentsInfo.values.profilePic,
         identity:formikDocumentsInfo.values.identity,
         lastEducationalCertificate:formikDocumentsInfo.values.lastEducationalCertificate,
-        isProfileCompleted:true
+        isProfileCompleted:true,
+        isProfileVerified:"pending",
+        avgRating:0,
       };
     });
     handleNext();
@@ -177,6 +183,7 @@ function TutorCompleteProfile() {
   const formikAboutYouInfo = useFormik({
     initialValues: {
       aboutYou: "",
+      education:""
     },
 
     validationSchema: aboutYouSchema,

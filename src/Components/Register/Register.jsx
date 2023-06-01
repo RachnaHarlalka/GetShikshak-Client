@@ -4,6 +4,7 @@ import LoginSignUp from "../LoginSignUp";
 import loginLoti from "../../assets/login-loty.json";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import NavComponent from "../Nav/NavComponent";
 
 function Register() {
   const options = {
@@ -13,6 +14,7 @@ function Register() {
   const { View } = useLottie(options);
   return (
     <>
+    <NavComponent/>
       <div className=" h-[105vh]">
         <div className="container mx-auto py-12 lg:w-[70vw]">
           <div className="flex shadow-xl flex-col items-center justify-around lg:justify-center lg:flex-row">

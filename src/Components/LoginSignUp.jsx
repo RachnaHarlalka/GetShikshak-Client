@@ -4,7 +4,7 @@ import { MdOutlineEmail } from "react-icons/md";
 import { ImGoogle3 } from "react-icons/im";
 import InputBox from "./InputBox";
 import { useFormik, Field } from "formik";
-import { useNavigate,useLocation,Link } from "react-router-dom";
+import { useNavigate,useLocation,Link,NavLink } from "react-router-dom";
 import { RegisterSchema, LoginSchema } from "../schemas/formValidation";
 import { useSnackbar } from "notistack";
 import { useRecoilState } from "recoil";
@@ -49,12 +49,12 @@ function LoginSignUp(props) {
               "content-type": "application/json",
             },
           });
-          if (response.status === 201) {
-            enqueueSnackbar(response.data.message, { variant: "success" });
+          if (response?.status === 201) {
+            enqueueSnackbar(response?.data?.message, { variant: "success" });
             navigate("/login");
           }
         } catch (err) {
-          enqueueSnackbar(err.response.data.error, { variant: "error" });
+          enqueueSnackbar(err?.response?.data?.error, { variant: "error" });
         }
       },
     });
@@ -72,20 +72,22 @@ function LoginSignUp(props) {
               "content-type": "application/json",
             },
           });
-          if (response.status === 201) {
-            if (response.data.token) {
+          console.log("user response above",response)
+          if (response?.status === 201) {
+            if (response?.data?.token) {
               const user = response.data.user;
-              let sessiontoken = JSON.stringify(response.data.token);
-              const sessionUser = JSON.stringify(response.data.user);
+              console.log("user in login",user);
+              let sessiontoken = JSON.stringify(response?.data?.token);
+              const sessionUser = JSON.stringify(response?.data?.user);
               sessionStorage.setItem("token", sessiontoken);
               sessionStorage.setItem("user",sessionUser);
-              enqueueSnackbar(response.data.message, { variant: "success" });
+              enqueueSnackbar(response?.data?.message, { variant: "success" });
 
               setUserData({
                 ...user,
-                isProfileVerified: user.tutorForm.isProfileVerified
+                isProfileVerified: user?.tutorForm?.isProfileVerified
               })
-              setAuthAtom(response.data.token);
+              setAuthAtom(response?.data?.token);
               // navigate("/studentcompleteprofile");
               if(user?.role==="student" && user?.isProfileCompleted===false){
                 
@@ -102,7 +104,7 @@ function LoginSignUp(props) {
             }
           }
         } catch (err) {
-          enqueueSnackbar(err.response.data.error, { variant: "error" });
+          enqueueSnackbar(err?.response?.data?.error, { variant: "error" });
         }
       },
     });
@@ -113,7 +115,7 @@ function LoginSignUp(props) {
       <h1 className="text-[30px] font-bold">{props.title}</h1>
       <h4 className="my-1 mb-3">
         {props.additionalText}
-        <span className="cursor-pointer font-bold text-red-700 mx-2 underline">
+        <span className="cursor-pointer font-bold text-blue-600 mx-2 underline">
           {props.redirectingBtn}
         </span>
       </h4>
@@ -261,6 +263,9 @@ function LoginSignUp(props) {
             ) : null}
           </>
         ) : null}
+        {props.type==="login"?(
+          <div className="mt-2 mb-4"><span  className=" text-red-500 text-sm font-semibold"><NavLink to="/password-reset">Forgot password ?</NavLink></span><span className="underline mx-3 text-gray-500"></span></div>
+        ):null}
         <ButtonComponent
           type="submit"
           icon={<MdOutlineEmail size="2rem" />}

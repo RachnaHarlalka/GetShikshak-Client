@@ -1,215 +1,289 @@
-import { useState,useEffect } from 'react';
-import '../style.css';
+import { useState, useEffect } from "react";
+import "../style.css";
 // import ProfileDetails from './ProfileDetails';
-import HomePage from './HomePage';
-import EditButton from '../EditButton';
-import axios from 'axios';
-import {useRecoilValue} from 'recoil';
-import {authTokenAtom} from '../../../Atom'
-import AccountSettings from '../AccountSettings';
-import ListingItems from '../ListingItems';
-import {useLottie} from 'lottie-react';
-import LoadingLottie from '../../../../src/assets/lf30_ykdoon9j.json';
+import HomePage from "./HomePage";
+import EditButton from "../EditButton";
+import axios from "axios";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { authTokenAtom, studentsClassesAtom } from "../../../Atom";
+import AccountSettings from "../AccountSettings";
+import ListingItems from "../ListingItems";
+import { useLottie } from "lottie-react";
+import LoadingLottie from "../../../../src/assets/lf30_ykdoon9j.json";
+import ProfileDetails from "./ProfileDetails";
+import { GiBookCover } from "react-icons/gi";
+import {Link} from "react-router-dom"
 
-function StudentDashboard(){
-    console.log("DashBoard Rendered");
-    
-    const [pageId,setPageId]=useState(0);
-    // const [authToken,setAuthToken] = useRecoilState(authTokenAtom);
-    // const authToken = JSON.parse(sessionStorage.getItem("token"));
-    const token = useRecoilValue(authTokenAtom);
-    console.log("token inside dasg",token);
-    // const authToken = useRecoilValue(authTokenAtom);
-    // console.log("token inside dashboard",token);
+function StudentDashboard() {
+  // console.log("DashBoard Rendered");
 
-    const [fetchedResponse,setFetchedResponse] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+  const [pageId, setPageId] = useState(0);
+  // const [authToken,setAuthToken] = useRecoilState(authTokenAtom);
+  // const authToken = JSON.parse(sessionStorage.getItem("token"));
+  const token = useRecoilValue(authTokenAtom);
+  const [myClasses, setMyClasses] = useRecoilState(studentsClassesAtom);
 
-    const options = {
-        animationData: LoadingLottie,
-        loop: true,
+  const [userData, setUserData] = useState([]);
+  const [allClassRequests, setAllClassRequests] = useState([]);
+  // const [myClasses, setMyClasses] = useState([]);
+  const [myTutors, setMyTutors] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const options = {
+    animationData: LoadingLottie,
+    loop: true,
+  };
+
+  const { view } = useLottie(options);
+
+  const fetchData = async () => {
+    let response = await axios({
+      url: "http://localhost:3000/dashboard/userdata",
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    setUserData(response.data.user);
+  };
+
+  const fetchAllClassRequest = async () => {
+    let response = await axios({
+      url: "http://localhost:3000/dashboard/classrequest",
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log("All class ", response.data);
+    const filteredData = response?.data?.map((classObj, index) => {
+      return {
+        ["tutor name"]: classObj.tutorId.name,
+        subjects: classObj.subjects,
+        mode: classObj.mode,
+        fee: classObj.tutorId.tutorForm.rate,
+        status: classObj.isAccepted,
+      };
+    });
+
+    const acceptedClasses = response?.data
+      ?.map((classObj, index) => {
+        return {
+          ["class id"]: classObj._id,
+          ["tutor name"]: classObj.tutorId.name,
+          subjects: classObj.subjects,
+          mode: classObj.mode,
+          fee: classObj.tutorId.tutorForm.rate,
+          status: classObj.isAccepted,
+          feedback: "feedback",
+        };
+      })
+      .filter((classObj) => {
+        return classObj.status === "accepted";
+      });
+
+    const tutorsList = response?.data
+      ?.filter((classObj) => {
+        return classObj.isAccepted === "accepted";
+      })
+      .map((classObj) => {
+        return {
+          ["tutor name"]: classObj.tutorId.name,
+          email: classObj.tutorId.email,
+          phone: classObj.tutorId.phone,
+          ["account status"]: classObj.tutorId.isAccountActive,
+        };
+      });
+
+    setAllClassRequests(filteredData);
+    setMyClasses(acceptedClasses);
+    setMyTutors(tutorsList);
+    console.log("Tutors ", myTutors);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    fetchData();
+    fetchAllClassRequest();
+  }, []);
+
+  function handleClick(id) {
+    // console.log(id);
+    switch (id) {
+      case "0":
+        setPageId(0);
+        break;
+      case "1":
+        setPageId(1);
+        break;
+      case "2":
+        setPageId(2);
+        break;
+      case "3":
+        setPageId(3);
+        break;
+      case "4":
+        setPageId(4);
+        break;
+      default:
+        console.log("Default of Handle Click");
     }
+  }
 
-    const {view} = useLottie(options);
-
-
-    const fetchData= async()=>{
-        let response = await axios(
-            {
-                url:"http://localhost:3000/dashboard/userdata",
-                method:"GET",
-                headers:{
-                    "Authorization": `Bearer ${token}`
-                }
-            }
-        )
-        setFetchedResponse(response.data.user);
-        setIsLoading(false);
-        // console.log("In Home ",fetchedResponse);
-        //JSON.parse(JSON.stringify(
-        //console.log(fetchedResponse);
+  function renderPage(id) {
+    switch (id) {
+      case 0:
+        return (
+          <HomePage
+            fetchedData={userData}
+            allClassRequests={allClassRequests}
+          />
+        );
+      case 1:
+        return <ProfileDetails fetchedData={userData} />;
+      case 2:
+        return (
+          <ListingItems
+            pageheading={"Tutors List"}
+            receivedData={myTutors}
+            listName={"Tutors"}
+          />
+        );
+      case 3:
+        return (
+          <ListingItems
+            pageheading={"Classes List"}
+            receivedData={myClasses}
+            listName={"Classes"}
+          />
+        );
+      case 4:
+        return <AccountSettings status={userData.isAccountActive} />;
+      default:
+        console.log("Default");
     }
+  }
 
-    useEffect(()=>{
-        fetchData();
-    },[])
+  return (
+    <div id="dashboard-div">
+      {isLoading ? (
+        <div>{view}</div>
+      ) : (
+        <>
+          <div className="dashboard-sub-div" id="dashboard-left-sub-div">
+            <div id="dashboard-left-sub-container-div">
+              <span className="logoName tracking-wider ">
+                <Link className="flex justify-center items-center py-4" to="/">
+                  <GiBookCover size="3em" color="white" />
+                  <span className="mx-1 text-white text-lg font-bold">
+                    TeachConnect
+                  </span>
+                </Link>
+              </span>
 
+              <div id="dashboard-profile-section">
+                <div id="profile-pic-section">
+                  <div id="profile-pic">
+                    {/* <FcManager/> */}
+                    <img
+                      id="profile-image"
+                      alt="image"
+                      src={`http://localhost:3000/assets/${userData?.profilePic}`}
+                    />
+                    <div id="edit-profile-button">
+                      <EditButton bgcolor="lightgray" />
+                    </div>
+                  </div>
+                </div>
+                <div id="profile-info-section">
+                  {/* <p id='user-name'>{newTutorData.name}</p> */}
+                  {/*  */}
+                </div>
+              </div>
 
-    function handleClick(id){
-        console.log(id);
-        switch(id){
-            case "0": setPageId(0);break;
-            case "1": setPageId(1);break;
-            case "2": setPageId(2);break;
-            case "3": setPageId(3);break;
-            case "4": setPageId(4);break;
-            default: console.log("Default of Handle Click");
-        }
-    }   
-    
-    
-    const classRequest = [
-        {
-            tutorId:"",
-            tutor:"Tutor Name",
-            subjects:["GK","EVS","Maths"],
-            language:["Assamse","Hindi"],
-            mode:["Online"],
-            fee:"200",
-            status:"accepted",
-            feedback:"",
-        },
-        {
-            tutorId:"",
-            tutor:"Tutor Name",
-            subjects:["GK","EVS","Maths"],
-            language:["Assamse","Hindi"],
-            mode:["Offline"],
-            fee:"200",
-            status:"accepted",
-            feedback:"",
-        },
-        {
-            tutorId:"",
-            tutor:"Tutor Name",
-            subjects:["GK","EVS","Maths"],
-            language:["Assamse","Hindi"],
-            mode:["Offline"],
-            fee:"200",
-            status:"accepted",
-            feedback:"",
-        },
-        {
-            tutorId:"",
-            tutor:"Tutor Name",
-            subjects:["GK","EVS","Maths"],
-            language:["Assamse","Hindi"],
-            mode:["Offline"],
-            fee:"200",
-            status:"accepted",
-            feedback:"",
-        },
-
-    ]
-
-    function renderPage(id) {
-        // console.log("inside renderpage");   
-        switch(id) {
-            case 0: return <HomePage fetchedData={fetchedResponse}/>;
-            // case 1: return <ProfileDetails fetchedData={fetchedResponse}/>;
-            // case 2: return <ListingItems pageheading={"Students List"} receivedData={newStudentData}/>;
-            case 3: return <ListingItems pageheading={"My Classes"} receivedData={classRequest}/>;
-            case 4: return <AccountSettings/>;
-            default: console.log("Default");
-        }
-    }
-
-
-    return(
-        <div id='dashboard-div'>
-            {isLoading?(
-            <div>
-                {view}
-            </div>
-            ):(
-                <>
-                <div className='dashboard-sub-div' id='dashboard-left-sub-div'>
-                    <div id="dashboard-left-sub-container-div">
-
-                        <div id="logo">GETSHIKSHAK</div>
-
-                        <div id='dashboard-profile-section'>
-                            <div id='profile-pic-section'>
-                                <div id='profile-pic'>
-                                    {/* <FcManager/> */}
-                                    <img id="profile-image" alt="image" src={`http://localhost:3000/assets/${fetchedResponse?.profilePic}`}/>
-                                    <div id="edit-profile-button">
-                                        <EditButton bgcolor="lightgray"/>
-                                    </div>
-                                </div>
-                                
-                            </div>
-                            <div id='profile-info-section'>
-                                {/* <p id='user-name'>{newTutorData.name}</p> */}
-                                {/*  */}
-                            </div>
-                        </div>
-
-                        <div id="dashboard-menu-section">
-                            <div id='dashboard-menu-top-div'>
-                                <button className='dashboard-menu-options' onClick={(e)=>{handleClick(e.target.id)}} id={0}>
-                                    {/* <d className='menu-option-label-outer-div'>
+              <div id="dashboard-menu-section">
+                <div id="dashboard-menu-top-div">
+                  <button
+                    className="dashboard-menu-options"
+                    onClick={(e) => {
+                      handleClick(e.target.id);
+                    }}
+                    id={0}
+                  >
+                    {/* <d className='menu-option-label-outer-div'>
                                         <div className='menu-option-label-icon'>
                                             <AiOutlineHome/>
                                         </div> */}
-                                        Home
-                                        {/* {fetchedResponse || "Showed"} */}
-                                    {/* <Link to="/">Profile Section</Link> */}
-                                </button>
-                                <button className='dashboard-menu-options' onClick={(e)=>{handleClick(e.target.id)}} id={1}>
-                                    {/* <div className='menu-option-label-outer-div'>
+                    Home
+                    {/* {fetchedResponse || "Showed"} */}
+                    {/* <Link to="/">Profile Section</Link> */}
+                  </button>
+                  <button
+                    className="dashboard-menu-options"
+                    onClick={(e) => {
+                      handleClick(e.target.id);
+                    }}
+                    id={1}
+                  >
+                    {/* <div className='menu-option-label-outer-div'>
                                         <div className='menu-option-label-icon'>
                                             <AiOutlineProfile/>
                                         </div> */}
-                                        Profile
-                                    {/* <Link to="/">Profile Section</Link> */}
-                                </button>
-                                <button className='dashboard-menu-options' onClick={(e)=>{handleClick(e.target.id)}} id={2}>
-                                    {/* <div className='menu-option-label-icon'>
+                    Profile
+                    {/* <Link to="/">Profile Section</Link> */}
+                  </button>
+                  <button
+                    className="dashboard-menu-options"
+                    onClick={(e) => {
+                      handleClick(e.target.id);
+                    }}
+                    id={2}
+                  >
+                    {/* <div className='menu-option-label-icon'>
 
                                     </div> */}
-                                    My Tutors
-                                </button>
-                                <button className='dashboard-menu-options' onClick={(e)=>{handleClick(e.target.id)}} id={3}>
-                                    {/* <div className='menu-option-label-icon'>
+                    My Tutors
+                  </button>
+                  <button
+                    className="dashboard-menu-options"
+                    onClick={(e) => {
+                      handleClick(e.target.id);
+                    }}
+                    id={3}
+                  >
+                    {/* <div className='menu-option-label-icon'>
 
                                     </div> */}
-                                    My Classes
-                                </button>
-                                <button className='dashboard-menu-options' onClick={(e)=>{handleClick(e.target.id)}} id={4}>
-                                    {/* <div className='menu-option-label-icon'>
+                    My Classes
+                  </button>
+                  <button
+                    className="dashboard-menu-options"
+                    onClick={(e) => {
+                      handleClick(e.target.id);
+                    }}
+                    id={4}
+                  >
+                    {/* <div className='menu-option-label-icon'>
 
                                     </div> */}
-                                    Settings
-                                </button>
-                            </div>
-                            <div id="dashboard-menu-bottom-div">
-                                <button className='btn-class' id='log-out-btn'>Log out</button>
-                            </div>
-                        </div>
-
-                    </div>
-                    </div>
-                    <div className='dashboard-sub-div' id='dashboard-right-sub-div'>
-                    <div id="dashboard-details-container-div">
-                        {renderPage(pageId)}
-                    </div>
-                    </div>
-                </>
-
-            )}
-        </div>
-    )
+                    Settings
+                  </button>
+                </div>
+                <div id="dashboard-menu-bottom-div">
+                  <button className="btn-class" id="log-out-btn">
+                    Log out
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="dashboard-sub-div" id="dashboard-right-sub-div">
+            <div id="dashboard-details-container-div">{renderPage(pageId)}</div>
+          </div>
+        </>
+      )}
+    </div>
+  );
 }
 
 export default StudentDashboard;

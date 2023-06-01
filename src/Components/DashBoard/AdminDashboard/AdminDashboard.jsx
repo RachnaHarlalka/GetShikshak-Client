@@ -5,21 +5,26 @@ import axios from "axios";
 import ListingItems from "../ListingItems";
 import { useRecoilValue } from "recoil";
 import { authTokenAtom } from "../../../Atom";
+import { GiBookCover } from "react-icons/gi";
+import {Link} from "react-router-dom"
+
+
+
 function AdminDashboard() {
   const [pageId, setPageId] = useState(0);
   const[students,setStudents]=useState([]);
   const[tutors,setTutors]=useState([]);
-  const[admin,setAdmin]=useState(null);
+  const[currentUser,setCurrentUser]=useState(null);
   // const authToken = JSON.parse(sessionStorage.getItem("token"));
   const authToken = useRecoilValue(authTokenAtom);
-  console.log(authToken);
+  // console.log(authToken);
 
   const fetchStudent=async()=>{
     const response = await axios({
         url:"http://localhost:3000/user/getstudents",
         method:"GET"
     })
-    console.log("student",response.data.filteredStudents);
+    // console.log("student",response.data.filteredStudents);
     const fetchedStudent=response.data.filteredStudents;
     setStudents(fetchedStudent);
 
@@ -30,16 +35,16 @@ function AdminDashboard() {
         url:"http://localhost:3000/user/gettutors",
         method:"GET"
     })
-    console.log("tutor",response.data.filteredTutors);
+    // console.log("tutor",response.data.filteredTutors);
     const fetchedTutors=response.data.filteredTutors;
     setTutors(fetchedTutors);
   }
 
   console.log("students",students);
-  const fetchAdmin=async()=>{
+  const fetchCurrentUser=async()=>{
     console.log("inside fatch admin")
     const response = await axios({
-        url:"http://localhost:3000/dashboard/getadmin",
+        url:"http://localhost:3000/dashboard/userdata",
         method:"GET",
         headers:{
             "Authorization":`Bearer ${authToken}`
@@ -50,18 +55,17 @@ function AdminDashboard() {
     //     "Content-Type":"application/json",
     //     "Authorization":`Bearer ${authToken}`
     //   }
-    console.log("admin",response.data.admin);
-    const fetchedAdmin=response.data.admin;
-    setAdmin(fetchedAdmin);
+    console.log("admin response",response.data.user);
+    const fetchedData=response.data.user;
+    setCurrentUser(fetchedData);
   }
 
   useEffect(()=>{
     fetchStudent();
     fetchTutor();
-    fetchAdmin();
+    fetchCurrentUser();
   },[])
   function handleClick(id) {
-    console.log(id);
     switch (id) {
       case "0":
         setPageId(0);
@@ -85,7 +89,7 @@ function AdminDashboard() {
   function renderPage(id) {
     switch (id) {
       case 0:
-        return (<HomePage students={students} tutors={tutors} admin={admin}/>);
+        return (<HomePage students={students} tutors={tutors} currentUser={currentUser}/>);
       case 1:
         return (<ListingItems pageheading={"Tutors List"} receivedData={tutors}/>);
       case 2:
@@ -100,20 +104,32 @@ function AdminDashboard() {
     <div id="dashboard-div">
       <div className="dashboard-sub-div" id="dashboard-left-sub-div">
         <div id="dashboard-left-sub-container-div">
-          <div id="logo">GETSHIKSHAK</div>
+          {/* <div id="logo"> */}
+          <span className="logoName tracking-wider ">
+            <Link className="flex justify-center items-center py-4" to="/">
+              <GiBookCover size="3em" color="white" />
+              <span className="mx-1 text-white text-lg font-bold">
+                TeachConnect
+              </span>
+            </Link>
+          </span>
+          {/* </div> */}
 
           <div id="dashboard-profile-section">
             <div id="profile-pic-section">
-              <div id="profile-pic" >
+              <div className="w-[40%] h-[60%] text-4xl">
                 {/* <FcManager/> */}
-                <img
+                <div className="flex justify-center items-center bg-white h-[100px] w-[100px] rounded-full">
+                {currentUser?.name?.toString()[0]?.toUpperCase()}
+                </div>
+                {/* <img
                   id="profile-image"
                   alt="image"
                   src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cmFuZG9tJTIwcGVvcGxlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
-                />
-                <div id="edit-profile-button">
+                /> */}
+                {/* <div id="edit-profile-button">
                   <EditButton bgcolor="lightgray" />
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

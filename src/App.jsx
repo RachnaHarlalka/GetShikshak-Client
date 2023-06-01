@@ -3,7 +3,7 @@ import NavComponent from "./Components/Nav/NavComponent";
 import Landing from "./Components/Landing/Landing";
 import { authTokenAtom, userDataAtom } from "./Atom";
 import { useRecoilState } from "recoil";
-import { useEffect } from "react";
+import { Children, useEffect } from "react";
 // import Footer from "./Components/Footer/Footer";
 // import { Routes, Route } from "react-router-dom";
 // import Register from "./Components/Register/Register";
@@ -27,11 +27,7 @@ function App() {
   // const[userData,setUserData]=useRecoilState(userDataAtom);
 
   return (
-    <>
-      <NavComponent>
-        <AllRoutes />
-      </NavComponent>
-    </>
+      <AllRoutes />
   );
 }
 

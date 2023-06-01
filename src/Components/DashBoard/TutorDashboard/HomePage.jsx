@@ -1,7 +1,7 @@
-import './homePage.css';
-import {MdWavingHand} from 'react-icons/md';
+import "./homePage.css";
+import { MdWavingHand } from "react-icons/md";
 // import {IoCloseCircleOutline} from 'react-icons/io';
-import {MdOutlineStar} from 'react-icons/md';
+import {MdOutlineStar,MdOutlineError} from 'react-icons/md';
 import { useEffect, useState } from 'react';
 import EditButton from '../EditButton';
 import {TiPin} from 'react-icons/ti';
@@ -14,73 +14,66 @@ import DateTime from '../DateTime';
 import axios from 'axios';
 import Tooltip from '@mui/material/Tooltip';
 
-function HomePage({fetchedData}){
-    console.log("Homepage Rendered and the pros passed ");
+function HomePage({ fetchedData }) {
+  console.log("Homepage Rendered and the pros passed ");
 
-    const [displayType, setDisplayType] = useState("none");
-    const [currentNotification, setCurrentNotification] = useState(null);
-    const [aboutYou , setAboutYou] = useState("");
-    const [aboutClass , setAboutClass] = useState("");   
-    const [title,setTitle]=useState("");
-    const [classRequests,setClassRequests] = useState(null);
-    const [activeNotification, setActiveNotification] = useState(null);
+  const [displayType, setDisplayType] = useState("none");
+  const [currentNotification, setCurrentNotification] = useState(null);
+  const [aboutYou, setAboutYou] = useState("");
+  const [aboutClass, setAboutClass] = useState("");
+  const [title, setTitle] = useState("");
+  const [classRequests, setClassRequests] = useState(null);
+  const [activeNotification, setActiveNotification] = useState(null);
 
-    const authToken = JSON.parse(sessionStorage.getItem('token'));
+  const authToken = JSON.parse(sessionStorage.getItem("token"));
 
-    console.log("Current ",currentNotification);
+  console.log("Current ", currentNotification);
 
-    const fetchData= async()=>{
-        let response = await axios(
-            {
-                url:"http://localhost:3000/dashboard/classrequest",
-                method:"GET",
-                headers:{
-                    "Authorization": `Bearer ${authToken}`
-                }
-            }
-        )
-        console.log("hello")
+  const fetchData = async () => {
+    let response = await axios({
+      url: "http://localhost:3000/dashboard/classrequest",
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
+    console.log("hello");
 
-        console.log("In Response ",response.data);
-        setClassRequests(response.data);
-        console.log("in class requests ",classRequests);
-    }
+    console.log("In Response ", response.data);
+    setClassRequests(response.data);
+    console.log("in class requests ", classRequests);
+  };
 
-    const userData = fetchedData;
+  const userData = fetchedData;
 
-    useEffect(()=>{
-        fetchData();
-        setAboutYou(userData?.tutorForm?.aboutYou)
-        setAboutClass(userData?.tutorForm?.aboutClass)
-        setTitle(userData?.tutorForm?.title)
-    },[])
+  useEffect(() => {
+    fetchData();
+    setAboutYou(userData?.tutorForm?.aboutYou);
+    setAboutClass(userData?.tutorForm?.aboutClass);
+    setTitle(userData?.tutorForm?.title);
+  }, []);
 
-    const handleRequestStatus=async(status)=>{
-        try{
-            const response = await axios({
-                url:"http://localhost:3000/tutor/updatereservationrequest",
-                method:"PATCH",
-                data:{
-                    updatedStatus:status,
-                    reqId:currentNotification._id
-                },
-                headers:{
-                    Authorization:`Bearer ${authToken}`
-                }
-            })
-            console.log("response",response.data.updatedReservationRequest);
-            closeNotificationDetailsPage();
-            const updatedClassRequest = classRequests.filter((classRequest)=>{
-                return classRequest._id!==currentNotification._id;
-            });
-            setClassRequests(updatedClassRequest);
-        }   
-        catch(err){
-
-        }
-    }
-
-
+  const handleRequestStatus = async (status) => {
+    try {
+      const response = await axios({
+        url: "http://localhost:3000/tutor/updatereservationrequest",
+        method: "PATCH",
+        data: {
+          updatedStatus: status,
+          reqId: currentNotification._id,
+        },
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
+      console.log("response", response.data.updatedReservationRequest);
+      closeNotificationDetailsPage();
+      const updatedClassRequest = classRequests.filter((classRequest) => {
+        return classRequest._id !== currentNotification._id;
+      });
+      setClassRequests(updatedClassRequest);
+    } catch (err) {}
+  };
 
     // console.log("class requests ",classRequests);
     function notificationList(){    
@@ -106,7 +99,7 @@ function HomePage({fetchedData}){
                     
                     <div id='notification-listing-div'>
                         {notifications?.length>0?notifications:
-                        <div style={{ position:"relative" ,top:"200px", textAlign:"center"}}>
+                        <div style={{ position:"relative" ,top:"200px", textAlign:"center", border:"none",backgroundColor:"transparent"}}>
                             NO NEW REQUESTS
                         </div>
                         }
@@ -125,7 +118,11 @@ function HomePage({fetchedData}){
                         <div className='row-div margin-buttom-div' >
                             <div className='display-type-flex width-100' id="request-details-div">
                                 <div className='tutor-sub-container-div' id="student-profile-div">
-                                        STUDENT PROFILE PIC
+                                    <div id='profile-pic-section'>
+                                        <div id='profile-pic' style={{width:"100%"}}>
+                                            <img id="profile-image" alt="image" src={`http://localhost:3000/assets/${currentNotification?.studentId?.profilePic}`}/>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div className='tutor-sub-container-div' id='content-of-request-div'>
                                     <div id='content-heading' className='request-content-sub-div'>
@@ -182,50 +179,52 @@ function HomePage({fetchedData}){
         )
     }
 
-    function activateNotification(notificationDivObj){
-        if(notificationDivObj.className!=="notification"){
-            notificationDivObj.closest(".notification").style.backgroundColor="lightgray";
-            notificationDivObj.closest(".notification").style.borderLeft="5px solid purple";
-            setActiveNotification(notificationDivObj.closest('.notification'));
-        }
-        else{
-            notificationDivObj.style.backgroundColor="lightgray";
-            notificationDivObj.style.borderLeft="5px solid purple";
-            setActiveNotification(notificationDivObj);
-        }
+  function activateNotification(notificationDivObj) {
+    if (notificationDivObj.className !== "notification") {
+      notificationDivObj.closest(".notification").style.backgroundColor =
+        "lightgray";
+      notificationDivObj.closest(".notification").style.borderLeft =
+        "5px solid purple";
+      setActiveNotification(notificationDivObj.closest(".notification"));
+    } else {
+      notificationDivObj.style.backgroundColor = "lightgray";
+      notificationDivObj.style.borderLeft = "5px solid purple";
+      setActiveNotification(notificationDivObj);
     }
+  }
 
-    function deactivateNotification(){
-        activeNotification.style.backgroundColor="rgb(236, 236, 236)";
-        activeNotification.style.borderLeft="1px solid purple";
-        setActiveNotification(null);
-    }
+  function deactivateNotification() {
+    activeNotification.style.backgroundColor = "rgb(236, 236, 236)";
+    activeNotification.style.borderLeft = "1px solid purple";
+    setActiveNotification(null);
+  }
 
-    function closeNotificationDetailsPage(){
-        console.log('clicked on cross');
-        setDisplayType("none");
+  function closeNotificationDetailsPage() {
+    console.log("clicked on cross");
+    setDisplayType("none");
+    deactivateNotification();
+  }
+
+  const handleActiveNotification = (event, index) => {
+    // console.log("Called");
+    if (activeNotification == null) setDisplayType("flex");
+
+    setCurrentNotification(classRequests[index]);
+
+    if (activeNotification) {
+      if (
+        activeNotification != event.target ||
+        activeNotification != event.target.closest("notification")
+      ) {
         deactivateNotification();
+        activateNotification(event.target);
+      }
+    } else {
+      activateNotification(event.target);
     }
-
-    const handleActiveNotification = (event,index) =>{
-        // console.log("Called");
-        if(activeNotification == null)
-            setDisplayType('flex');
-                
-        setCurrentNotification(classRequests[index]);
-
-        if(activeNotification){
-            if(activeNotification != event.target || activeNotification != event.target.closest('notification') ){
-                deactivateNotification();
-                activateNotification(event.target);
-            }
-        }
-        else{
-            activateNotification(event.target);
-        }
-            // console.log('current notification is-> ',currentNotification)
-    }
-    // console.log("data ",userData);
+    // console.log('current notification is-> ',currentNotification)
+  };
+  // console.log("data ",userData);
 
     //  setAboutClass(userData?.tutorForm?.aboutYou)
 
@@ -245,7 +244,7 @@ function HomePage({fetchedData}){
                 <div className='row-div mb-12' id="first-row-home-page">
                     <div id='welcome-greeting-div' className="tutor-sub-container-div">
                         <span id='welcome-msg'>Welcome</span>
-                        <span id='user-name'>{userData.name.split(" ")[0]}
+                        <span id='user-name'>{userData?.name?.split(" ")[0]}
                             {/* <span id='tutor-home-page-waving-hand'><MdWavingHand/></span> */}
                             {userData?.tutorForm?.isProfileVerified==="accepted" 
                             ?
@@ -253,26 +252,37 @@ function HomePage({fetchedData}){
                                 <span id="verified-tag"><VscVerifiedFilled color="green" /></span>
                             </Tooltip>
                             :
+                            userData?.tutorForm?.isProfileVerified === "pending"
+                            ?
                             <Tooltip title="Account Not Verified" placement="right" arrow>
                                 <span id="verified-tag"><GoUnverified color="rgb(165, 58, 58)"/></span>
                             </Tooltip>
-                         }
+                            :
+                            <Tooltip title="Account Rejected" placement="right" arrow>
+                                <span id="verified-tag"><MdOutlineError color="rgb(165, 58, 58)"/></span>
+                            </Tooltip>
+                            }
+                            
 
+                            {/*  */}
                         </span>
                         
                     </div>
                     <div id='home-page-top-sub-div'>
-                        <div className='tutor-sub-container-div' id="rating-div">
-                            <div id='rating-outer-div'>
-                                <div id='rating-label-div'>
-                                    Class Rating
-                                </div>
-                                <div id='user-rating-tag'>
-                                    <div className='star'><MdOutlineStar/></div>
-                                    <span id="rating">4.5</span>
+                        {
+                            userData?.tutorForm?.isProfileVerified === "accepted"  && userData?.tutorForm?.avgRating && 
+                            <div className='tutor-sub-container-div' id="rating-div">
+                                <div id='rating-outer-div'>
+                                    <div id='rating-label-div'>
+                                        Class Rating
+                                    </div>
+                                    <div id='user-rating-tag'>
+                                        <div className='star'><MdOutlineStar/></div>
+                                        <span id="rating">{userData?.tutorForm?.avgRating}</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        }
                         <div className='tutor-sub-container-div' id="date-time-block-div">
                             <DateTime/>
                         </div>
