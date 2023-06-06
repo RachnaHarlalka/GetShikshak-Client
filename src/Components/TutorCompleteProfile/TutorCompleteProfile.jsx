@@ -13,6 +13,7 @@ import { tutorFormDataAtom, userDataAtom } from "../../Atom";
 import { Stepper, StepLabel, Step } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
+import Navcomponent from '../Nav/NavComponent'
 
 import {
   subjectSchema,
@@ -131,6 +132,8 @@ function TutorCompleteProfile() {
         title: formikTitleInfo.values.title,
         aboutYou: formikAboutYouInfo.values.aboutYou,
         education:formikAboutYouInfo.values.education,
+        age:formikAboutYouInfo.values.age,
+        gender:formikAboutYouInfo.values.gender,
         aboutClass: formikAboutClassInfo.values.aboutClass,
         city: formikClassDetailsInfo.values.city,
         mode: formikClassDetailsInfo.values.mode,
@@ -183,7 +186,9 @@ function TutorCompleteProfile() {
   const formikAboutYouInfo = useFormik({
     initialValues: {
       aboutYou: "",
-      education:""
+      education:"",
+      age:0,
+      gender:""
     },
 
     validationSchema: aboutYouSchema,
@@ -197,7 +202,7 @@ function TutorCompleteProfile() {
       city: "",
       mode: [],
       language: [],
-      rate: "",
+      rate: 0,
       phone: "",
     },
     validationSchema: classDetailsSchema,
@@ -251,6 +256,7 @@ function TutorCompleteProfile() {
 
   return (
     <>
+    <Navcomponent/>
       <div className="md:container md:mx-auto md:w-4/6 p-6 my-8 mx-6 rounded-md shadow-sm shadow-primary-color">
         <div className="md:w-2/3 md:container md:mx-auto">
           {/* ............................STEPPER............................... */}

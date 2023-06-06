@@ -40,7 +40,9 @@ export const aboutYouSchema=Yup.object({
         const wordCount = value.trim().split(/\s+/).length;
         return wordCount>=3;
     }),
-    education:Yup.string().required("Required!")
+    education:Yup.string().required("Required!"),
+    age:Yup.number().required("Required"),
+    gender:Yup.string().required("Required")
 })
 
 const phoneRegExp = /^(0|91)?[6-9][0-9]{9}$/
@@ -49,7 +51,7 @@ export const classDetailsSchema=Yup.object({
     city:Yup.string().required("Required Field!").min(1,"Required Field"),
     mode:Yup.array().required("Required Field!").min(1,"Required Field"),
     language:Yup.array().required("Required Field!").min(1,"Required Field"),
-    rate:Yup.string().required("Required Field!"),
+    rate:Yup.number().required("Required Field!"),
     phone:Yup.string().required("Required Field!").matches(phoneRegExp,"Phone number is not valid"),
 })
 

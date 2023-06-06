@@ -18,6 +18,7 @@ import {RxCrossCircled} from 'react-icons/rx';
 import axios from 'axios';
 import { useRecoilValue } from 'recoil';
 import { authTokenAtom } from '../../../Atom';
+import { useSnackbar } from 'notistack';
 // import name from '../../../assets/HeroPic.png'
 
 function HomePage(props) {
@@ -27,6 +28,7 @@ function HomePage(props) {
   const tutorCount = props?.tutors?.length;
   const currentUser = props?.currentUser;
   console.log(currentUser && currentUser[0]?.name);
+  const { enqueueSnackbar } = useSnackbar();
   // console.log("currentUser",props.admin);
   // console.log(props.students.length)
 
@@ -99,6 +101,7 @@ function HomePage(props) {
     }
 
     const sendVerificationUpdate = async (status) =>{
+      console.log("Inisde client");
       try {
         const response = await axios({
           url: "http://localhost:3000/admin/updateverificationrequest",
@@ -119,6 +122,7 @@ function HomePage(props) {
           },
         });
         if (response.status === 400) {
+          console.log("Inisde client 2");
           enqueueSnackbar(response?.data?.error, { variant: "error" });
         }
         if (response.status === 201) {
@@ -135,6 +139,7 @@ function HomePage(props) {
           setVerificationRequest(updatedVerificationRequest);
         }
       } catch (err) {
+        console.log("err")
         enqueueSnackbar(response?.data?.error, { variant: "error" });
       }
     }
