@@ -7,6 +7,7 @@ import axios from "axios";
 import Select from "react-select";
 import { customSelectStyles } from "./styleClasses";
 import { useSnackbar } from "notistack";
+import NavComponent from "./Components/Nav/NavComponent";
 
 function ReserveClass() {
   const [tutor, setTutor] = useState(null);
@@ -105,6 +106,7 @@ function ReserveClass() {
 
   return (
     <>
+    <NavComponent/>
       <div className=" w-4/5 container mx-auto flex my-24">
         <div className=" w-2/5  h-1/2 flex justify-center">
           <div className="bg-white w-2/3 shadow-xl p-12 rounded-xl flex flex-col items-center">
@@ -112,7 +114,7 @@ function ReserveClass() {
               <img
                 src={`http://localhost:3000/assets/${tutor?.profilePic}`}
                 alt=""
-                className="rounded-xl w-42"
+                className="rounded-xl w-42 object-cover"
               />
             </div>
             {/* {subjects} */}
@@ -134,7 +136,7 @@ function ReserveClass() {
               what you want to learn(optional).
             </label>
             <textarea
-              className="border-2 my-2"
+              className="border-2 my-2 p-2"
               name="intro"
               id=""
               cols="10"
@@ -186,11 +188,11 @@ function ReserveClass() {
             <div className="note text-red-500 my-2 font-semibold text-sm">
               Note: Your details will be shared with the tutor you select !
             </div>
-            <div className="flex justify-center">
-              <button className="text-center  w-1/3 my-5 text-white bg-primary-color p-4 rounded-lg">
-                Reserve the class
+             <div className="text-center">
+             <button className="my-5 w-1/3 text-white bg-primary-color p-4 rounded-lg">
+               <span> Reserve the class</span>
               </button>
-            </div>
+             </div>
           </form>
         </div>
       </div>

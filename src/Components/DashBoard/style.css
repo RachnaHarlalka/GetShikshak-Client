@@ -6,6 +6,9 @@
     display: flex;
     font-size: small;
     /* background-color:burlywood; */
+    /* background-color: rgb(243 244 246); */
+    background-color: rgb(247, 247, 242);
+    /* background-color: white; */
 }
 
 .dashboard-sub-div{
@@ -17,6 +20,37 @@
     width: 16%;   
     padding: 2px;
 }
+
+.div-heading{
+    position: relative;
+    font-weight: bold;
+    padding: 8px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border-bottom: 1px solid darkgray; */
+    background-color: rgb(224, 217, 217);
+    border-radius: 5px 5px 0px 0px;
+}
+
+.sub-container-div{
+    box-shadow: 0px 1px 1px 0px gray;
+    background-color: white;
+    border-radius: 5px;
+    margin: 10px;
+}
+
+.content-div{
+    /* background-color: aqua; */
+    padding: 5px 5px;
+    display: flex;
+}
+
+.medium-content-div{
+    overflow-y:auto;
+    /* background-color:cadetblue; */
+}
+
 
 #dashboard-right-sub-div{
     /* width: 1166px; */
@@ -191,22 +225,21 @@
 
 .btn-class{
     color: black;
-    /* background-color: orange; */
+    background-color: orange;
     /* box-shadow: 0px 2px 2px 1px black; */
     border-radius: 5px;
-    /* font-weight:bold; */
-    width: 70px;
+    font-weight:bold;
+    width: 100px;
+    padding: 10px;
     /* height: 50px; */
 }
 
 .btn-class:hover{
-    background-color: #E37814;
-    color: white;
+    box-shadow: 0px 2px 5px 0px black;
 }
 
-#log-out-btn{
-    /* height: 40px; */
-    border: 1px solid black;
+.btn-class:active{
+    box-shadow: none;
 }
 
 #dashboard-details-container-div{

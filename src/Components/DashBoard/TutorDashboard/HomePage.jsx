@@ -1,4 +1,5 @@
 import "./homePage.css";
+import "../style.css";
 import { MdWavingHand } from "react-icons/md";
 // import {IoCloseCircleOutline} from 'react-icons/io';
 import {MdOutlineStar,MdOutlineError} from 'react-icons/md';
@@ -82,14 +83,17 @@ function HomePage({ fetchedData }) {
                 return (
                     <div className="notification" onClick={(e)=>{handleActiveNotification(e,index)}} id={index}>
                             <TiPin/>
-                            <span id='notification-name'>{item.studentId.name}</span>
+                            <span id='notification-name' className="flex flex-col">
+                                {item.studentId.name}
+                                <span>Sub: {item?.mode}</span>
+                            </span>
                             <span id='show-notification-icon'><AiOutlineEye/></span>
                     </div>
                 )
             })
             // console.log("notifi ",notifications);
             return(
-                <div id="account-notification-div" className='tutor-sub-container-div'>
+                <div id="account-notification-div" className='sub-container-div' style={{backgroundColor:"white"}}>
                     <div className='div-heading'>
                         NEW CLASS REQUESTS
                         <span id="notification-icon">
@@ -111,20 +115,20 @@ function HomePage({ fetchedData }) {
     function notificationDetailsPage(){
         console.log(currentNotification);
         return(
-            <div id="notification-details-div" className='tutor-sub-container-div' style={{display:displayType}}>
+            <div id="notification-details-div" className='sub-container-div' style={{display:displayType , backgroundColor:"rgb(247, 247, 242)"}}>
                         <div className='row-div margin-buttom-div' id="crosss-div">
                             <RxCrossCircled size="1.4rem" color="red" className="cursor-type-pointer" onClick={()=>{closeNotificationDetailsPage()}}/>
                         </div>
                         <div className='row-div margin-buttom-div' >
                             <div className='display-type-flex width-100' id="request-details-div">
-                                <div className='tutor-sub-container-div' id="student-profile-div">
+                                <div className='sub-container-div' id="student-profile-div">
                                     <div id='profile-pic-section'>
                                         <div id='profile-pic' style={{width:"100%"}}>
                                             <img id="profile-image" alt="image" src={`http://localhost:3000/assets/${currentNotification?.studentId?.profilePic}`}/>
                                         </div>
                                     </div>
                                 </div>
-                                <div className='tutor-sub-container-div' id='content-of-request-div'>
+                                <div className='sub-container-div' id='content-of-request-div'>
                                     <div id='content-heading' className='request-content-sub-div'>
                                         {currentNotification?.studentId.name}
                                         <span style={{textTransform:"none"}}>Email: <span style={{fontWeight:"normal"}}>{currentNotification?.studentId?.email}</span></span>
@@ -137,7 +141,7 @@ function HomePage({ fetchedData }) {
                         </div>
                         <div className='row-div margin-buttom-div' id='class-options'>
                             <div className='display-type-flex' >
-                                <div className='tutor-sub-container-div' id='requested-subjects-div'>
+                                <div className='sub-container-div' id='requested-subjects-div'>
                                     <div className='div-heading'>
                                         SUBJECTS
                                     </div>
@@ -149,7 +153,7 @@ function HomePage({ fetchedData }) {
                                         }
                                     </div>
                                 </div>
-                                <div className='tutor-sub-container-div' id='requested-mode-div'>
+                                <div className='sub-container-div' id='requested-mode-div'>
                                     <div className='div-heading'>
                                         MODE OF LEARNING
                                     </div>
@@ -242,7 +246,7 @@ function HomePage({ fetchedData }) {
         <div id='home-page-root-div'>
             <div id="home-page-details-div">
                 <div className='row-div mb-12' id="first-row-home-page">
-                    <div id='welcome-greeting-div' className="tutor-sub-container-div">
+                    <div id='welcome-greeting-div' className="sub-container-div">
                         <span id='welcome-msg'>Welcome</span>
                         <span id='user-name'>{userData?.name?.split(" ")[0]}
                             {/* <span id='tutor-home-page-waving-hand'><MdWavingHand/></span> */}
@@ -252,7 +256,7 @@ function HomePage({ fetchedData }) {
                                 <span id="verified-tag"><VscVerifiedFilled color="green" /></span>
                             </Tooltip>
                             :
-                            userData?.tutorForm?.isProfileVerified === "pending"
+                            userData?.tutorForm?.isProfileVerified === "pending" || userData?.tutorForm?.isProfileVerified === "reverted"
                             ?
                             <Tooltip title="Account Not Verified" placement="right" arrow>
                                 <span id="verified-tag"><GoUnverified color="rgb(165, 58, 58)"/></span>
@@ -264,14 +268,57 @@ function HomePage({ fetchedData }) {
                             }
                             
 
-                            {/*  */}
+                            {/* 
+                            
+                                {userData?.tutorForm?.isProfileVerified === "pending" && (
+                                    <div class="tutor-sub-container-div text-red-500 font-semibold flex justify-center flex-col">
+                                    <div>:warning: Your Ads will be displayed to others only if your account is
+                                    verified by the Admin.</div>
+                                    <div>:warning:It will take 1-2 working days.</div>
+                                    </div>
+                                )}
+                                {userData?.tutorForm?.isProfileVerified === "reverted" && (
+                                    <div class="tutor-sub-container-div text-red-500 font-semibold flex justify-center flex-col">
+                                    <div>:warning: Admin has reverted your profile.</div>
+                                    <div>:warning: Please revisit your documents. </div>            </div>
+                                    )}
+                                {userData?.tutorForm?.isProfileVerified === "rejected" && (
+                                    <div class="tutor-sub-container-div text-red-500 font-semibold flex justify-center flex-col">
+                                    <div>:warning: Admin has rejected your profile.</div>
+                                    <div>:warning: You cannot enroll as teacher. </div>            
+                                    </div>
+                                )}
+
+                             */}
                         </span>
                         
                     </div>
-                    <div id='home-page-top-sub-div'>
+
+                    {userData?.tutorForm?.isProfileVerified === "pending" && (
+                        <div class="sub-container-div account-info-div">
+                            <span>⚠ Account verification pending</span>
+                            <span>⚠ Your Ads will be displayed to others only if your account is
+                            verified by the Admin.</span>
+                            <span>⚠ It may take upto 1-2 working days.</span>
+                        </div>
+                    )}
+                    {userData?.tutorForm?.isProfileVerified === "reverted" && (
+                        <div class="sub-container-div account-info-div">
+                            <span>⚠ Admin has reverted your profile.</span>
+                            <span>Reason: <span className="text-black">{userData?.tutorForm?.revertReason} multiple account exists with the same for the one user</span></span>            
+                        </div>
+                        )}
+                    {userData?.tutorForm?.isProfileVerified === "rejected" && (
+                        <div class="sub-container-div account-info-div">
+                            <span>⚠ Admin has rejected your profile.</span>
+                            <span>⚠ You cannot enroll as teacher. </span>            
+                        </div>
+                    )}
+
+                    <div id='home-page-top-sub-div' style={{justifyContent:"flex-end"}}>
                         {
-                            userData?.tutorForm?.isProfileVerified === "accepted"  && userData?.tutorForm?.avgRating && 
-                            <div className='tutor-sub-container-div' id="rating-div">
+                            userData?.tutorForm?.isProfileVerified === "accepted"  && userData?.tutorForm?.avgRating>0 && 
+                            <div className='sub-container-div' id="rating-div">
                                 <div id='rating-outer-div'>
                                     <div id='rating-label-div'>
                                         Class Rating
@@ -283,13 +330,13 @@ function HomePage({ fetchedData }) {
                                 </div>
                             </div>
                         }
-                        <div className='tutor-sub-container-div' id="date-time-block-div">
+                        <div className='sub-container-div' id="date-time-block-div">
                             <DateTime/>
                         </div>
                     </div>
                 </div>
                 <div className='row-div' id='second-row'>
-                    <div className='tutor-sub-container-div w-1/2'>
+                    <div className='sub-container-div w-1/2'>
                         <div className='div-heading'>
                             ABOUT YOU
                             <div className='edit-button-div' >
@@ -310,7 +357,7 @@ function HomePage({ fetchedData }) {
                             </textarea>
                         </div>
                     </div>
-                    <div className='tutor-sub-container-div w-1/2'>
+                    <div className='sub-container-div w-1/2'>
                         <div className='div-heading'>
                             ABOUT CLASS
                             <div className='edit-button-div' >
@@ -329,7 +376,7 @@ function HomePage({ fetchedData }) {
                             </textarea>
                         </div>
                     </div>
-                    <div className='tutor-sub-container-div w-1/2'>
+                    <div className='sub-container-div w-1/2'>
                         <div className='div-heading'>
                             AD TITLE
                             <div className='edit-button-div' >
@@ -349,8 +396,8 @@ function HomePage({ fetchedData }) {
                         </div>
                     </div>
                 </div>
-                <div className='row-div'>
-                        <div className='tutor-sub-container-div' id='language-div'>
+                <div className='row-div' id="third-row">
+                        <div className='sub-container-div' id='language-div'>
                             <div className='div-heading'>
                                 LANGUAGES    
                                 <div className="edit-button-div">
@@ -365,7 +412,7 @@ function HomePage({ fetchedData }) {
                                 }
                             </div>
                         </div>
-                        <div className='tutor-sub-container-div' id='subjects-div'>
+                        <div className='sub-container-div' id='subjects-div'>
                             <div className='div-heading'>
                                 SUBJECTS 
                                 <div className="edit-button-div">
@@ -380,7 +427,7 @@ function HomePage({ fetchedData }) {
                                 }
                             </div>
                         </div>
-                        <div className='tutor-sub-container-div' id="rate-div">
+                        <div className='sub-container-div' id="rate-div">
                             <div className='div-heading'>
                                 RATE 
                                 <div className="edit-button-div">
@@ -394,7 +441,7 @@ function HomePage({ fetchedData }) {
                                 </span>
                             </div>
                         </div>
-                        <div className='tutor-sub-container-div' id='teaching-mode-div'>
+                        <div className='sub-container-div' id='teaching-mode-div'>
                             <div className='div-heading'>
                                 TEACHING MODE
                                 <div className="edit-button-div">
@@ -410,7 +457,7 @@ function HomePage({ fetchedData }) {
                             </div>
                         </div>
                 </div>
-                {currentNotification ?notificationDetailsPage():console.log("nothing")}
+                {currentNotification ?notificationDetailsPage():null}
             </div>
             {notificationList()}
         </div>

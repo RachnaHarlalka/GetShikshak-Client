@@ -40,9 +40,11 @@ export default function TutorCard({ tutor }) {
           <h3 className="text-center text-2xl text-gray-900 font-bold leading-8 ">
             {tutor?.name}
           </h3>
-          <div className="text-center text-gray-400 font-semibold flex items-center justify-center ">
-            {tutor?.tutorForm?.avgRating}<span className="text-xs ml-2">⭐</span>
-          </div>
+          {tutor?.tutorForm?.avgRating>0 && 
+            <div className="text-center text-gray-400 font-semibold flex items-center justify-center ">
+              {tutor?.tutorForm?.avgRating}<span className="text-xs ml-2">⭐</span>
+            </div>
+          }
           <div className="flex justify-center">
             <table className="text-sm my-3 ">
               <tbody>
@@ -69,10 +71,13 @@ export default function TutorCard({ tutor }) {
             </table>
           </div>
           {userData?.role !== "admin" && userData?.role !== "tutor" && (
-            <div className="text-center my-3 text-white bg-primary-color p-4 rounded-lg">
-              <button onClick={handleClick}>Reserve a Class</button>
-            </div>
+           <div className="text-center">
+           <button onClick={handleClick} className="my-5  text-white bg-primary-color p-4 rounded-lg">
+             <span> Reserve the class</span>
+            </button>
+           </div>
           )}
+          
         </div>
       </div>
     </>

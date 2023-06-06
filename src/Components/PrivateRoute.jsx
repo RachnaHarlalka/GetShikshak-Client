@@ -8,8 +8,8 @@ const PrivateRoute=({allowedRole})=>{
     const token = useRecoilValue(authTokenAtom);
     const user=useRecoilValue(userDataAtom);
 
-    console.log("sss",allowedRole)
-    console.log("role",user?.role)
+    // console.log("sss",allowedRole)
+    // console.log("role",user?.role)
 
     return (
         user?.role===`${allowedRole}`

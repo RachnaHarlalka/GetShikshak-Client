@@ -28,7 +28,6 @@ function LoginSignUp(props) {
   let RegisterFormik, LoginFormik;
   const navigate = useNavigate();
   const location = useLocation();
-  console.log("location.state",location);
   const from = location.state?.from?.pathname || "/";
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 

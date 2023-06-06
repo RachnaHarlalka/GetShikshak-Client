@@ -4,30 +4,39 @@ import ProfileDetails from "./ProfileDetails";
 import HomePage from "./HomePage";
 import EditButton from "../EditButton";
 import axios from "axios";
-import { useRecoilValue } from "recoil";
-import { authTokenAtom } from "../../../Atom";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { authTokenAtom, userDataAtom } from "../../../Atom";
 import AccountSettings from "../AccountSettings";
 import ListingItems from "../ListingItems";
 import { GiBookCover } from "react-icons/gi";
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import { useLottie } from "lottie-react";
 import LoadingLottie from "../../../../src/assets/lf30_ykdoon9j.json";
+import { useSnackbar } from "notistack";
+
 
 function TutorDashboard() {
-  console.log("DashBoard Rendered");
+  // console.log("DashBoard Rendered");
 
+  const setCurrentUser = useSetRecoilState(userDataAtom);
+  const [authToken, setAuthToken] = useRecoilState(authTokenAtom);
   const [pageId, setPageId] = useState(0);
   const [students, setStudents] = useState([]);
   const [classes, setClasses] = useState([]);
-  // const [authToken,setAuthToken] = useRecoilState(authTokenAtom);
-  // const authToken = JSON.parse(sessionStorage.getItem("token"));
-  const token = useRecoilValue(authTokenAtom);
-  console.log("token inside dasg", token);
-  // const authToken = useRecoilValue(authTokenAtom);
-  // console.log("token inside dashboard",token);
-
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const navigate = useNavigate();
   const [userData, setUserData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  function removeToken() {
+    // console.log("Inside logout");
+    sessionStorage.clear();
+    enqueueSnackbar("Logout Successfull !", { variant: "success" });
+    // window.location.reload(); // Reload the window
+    setCurrentUser(null);
+    setAuthToken(null);
+    navigate("/login");
+  }
 
   const options = {
     animationData: LoadingLottie,
@@ -41,7 +50,7 @@ function TutorDashboard() {
       url: "http://localhost:3000/tutor/getmystudents",
       method: "GET",
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${authToken}`,
       },
     });
     console.log("clases", response.data.filtered);
@@ -56,7 +65,7 @@ function TutorDashboard() {
       url: "http://localhost:3000/dashboard/userdata",
       method: "GET",
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${authToken}`,
       },
     });
     setUserData(response.data.user);
@@ -214,10 +223,10 @@ function TutorDashboard() {
         <>
           <div className="dashboard-sub-div" id="dashboard-left-sub-div">
             <div id="dashboard-left-sub-container-div">
-              <span className="logoName tracking-wider ">
-                <Link className="flex justify-center items-center py-4" to="/">
-                  <GiBookCover size="3em" color="white" />
-                  <span className="mx-1 text-white text-lg font-bold">
+              <span className="logoName tracking-wider">
+                <Link className="flex justify-center items-center py-6" to="/">
+                  <GiBookCover size="2.4em" color="white" />
+                  <span className="mx-1 text-white text-lg font-semibold">
                     TeachConnect
                   </span>
                 </Link>
@@ -312,7 +321,7 @@ function TutorDashboard() {
                   </button>
                 </div>
                 <div id="dashboard-menu-bottom-div">
-                  <button className="btn-class" id="log-out-btn">
+                  <button className="btn-class" id="log-out-btn" onClick={()=>{removeToken()}}>
                     Log out
                   </button>
                 </div>

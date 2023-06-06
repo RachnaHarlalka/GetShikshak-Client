@@ -7,32 +7,28 @@
     display: flex;
     justify-content: center;
     padding: 30px 0px;
+    /* background-color: lightblue; */
 }
 
 #personal-details-div{
     width: 70%;
 }
 
-.sub-container-div{
-    box-shadow: 0px 0px 2px 0px black;
-    /* border:1px solid black; */
-    border-radius: 6px;
-    
-    /* background-color: brown; */
-}
 
 .account-content-div{
-    padding: 30px 0px;
+    padding: 30px 50px;
     display: block;
-    /* background-color: aqua; */
+    /* background-color: gray; */
 }
 
 #deactivate-account-div{
     margin-bottom: 40px;
 }
 
-.left-align-heading{
-    justify-content: flex-start;
+.deactivate-account-content-div{
+    padding: 30px 0px;
+    display: block;
+    /* background-color: gray; */
 }
 
 .button-div{
@@ -47,6 +43,14 @@
     display: flex;
     align-items: center;
     /* background-color: aqua; */
+}
+
+#account-settings{
+    /* background-color: lightblue; */
+    width: 60%;
+    /* padding: 30px; */
+    /* border: 1px solid lightgray; */
+    /* border-radius: 5px 5px 0px 0px; */
 }
 
 .account-settings-button{

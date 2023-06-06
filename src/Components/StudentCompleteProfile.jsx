@@ -9,6 +9,7 @@ import { authTokenAtom } from "../Atom";
 import { userDataAtom } from "../Atom";
 import axios from "axios";
 import {StudentCompleteProfileSchema} from '../schemas/formValidation'
+import NavComponent from "./Nav/NavComponent";
 
 
 function StudentCompleteProfile() {
@@ -45,13 +46,15 @@ function StudentCompleteProfile() {
           }
         })
         if(response.status===201){
-          console.log("message",response.data.message,response.data.savedStudent);
-          const user=JSON.parse(sessionStorage.getItem("user"));
-          user.isProfileCompleted=true;
-          sessionStorage.setItem("user",JSON.stringify(user))
+          console.log("message",response.data.message,response.data.savedUser);
+          // const user=JSON.parse(sessionStorage.getItem("user"));
+          // user.isProfileCompleted=true;
+          sessionStorage.setItem("user",JSON.stringify(response.data.savedUser))
           setUserData((prev)=>({
             ...prev,
-            isProfileCompleted:true
+            isProfileCompleted:true,
+            phone:response.data.savedUser.phone,
+            address:response.data.savedUser.address
           }))
           // const user = JSON.parse(sessionStorage.getItem("user"));
           // // user.isProfileCompleted=true;
@@ -66,7 +69,12 @@ function StudentCompleteProfile() {
   });
   return (
     <>
-      <div className="flex justify-center items-center">
+    <NavComponent/>
+      <div className="flex justify-start ">
+        <div className="w-1/4 left h-1/6 my-12  rounded-md  flex justify-end" > 
+            <p className="p-8 w-2/3 rounded-md bg-green-200 font-semibold text-gray-600 tracking-wide leading-7">Complete your profile to be able to reserve class !</p>
+        </div>
+        <div className="w-1/2 flex justify-center items-center">
         <form
           onSubmit={Formik.handleSubmit}
           className="min-w-[40vw] shadow-sm rounded-md shadow-emerald-600 p-8 my-4"
@@ -226,6 +234,7 @@ function StudentCompleteProfile() {
             <button className="p-2 bg-primary-color text-white">Submit</button>
           </div>
         </form>
+      </div>
       </div>
     </>
   );
