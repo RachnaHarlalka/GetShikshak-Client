@@ -127,43 +127,43 @@ function TutorProfile() {
                 {tutor && tutor.tutorForm.aboutClass}
               </div>
             </div>
-            {tutorFeedback.length>0 &&
-              <div className=" py-4">
-              <h1 className="font-bold font-[Quicksand]">REVIEWS</h1>
-              {
-                tutorFeedback.map((feedback)=>{
-                  return(
-                    <div className="p-4 rounded-md bg-white my-4 border border-1">
-                      <div className="row1 flex justify-between">
-                          <div className="flex gap-4 items-center">
-                            <img src={`http://localhost:3000/assets/${feedback?.studentProfile}`}
-                                alt={feedback?.studentName?.toString()[0]?.toUpperCase()}
-                                className="rounded-full h-10 w-10 object-cover"
-                            />
-                            <div className="font-semibold">{feedback?.studentName}
-                                <div className="text-gray-600 text-sm font-normal">Subjects :
-                                  {
-                                    feedback?.subjects?.map((sub,index)=>{
-                                      return (
-                                        index==0?<span className="ml-2">{sub}</span>:<span className="ml-1">,{sub}</span>)
-                                    })
-                                  }
-                                </div>
-                            </div>
+           {
+            tutorFeedback.length>0 && <div className=" py-4">
+            <h1 className="font-bold font-[Quicksand]">REVIEWS</h1>
+            {
+              tutorFeedback.map((feedback)=>{
+                return(
+                  <div className="p-4 rounded-md bg-white my-4 border border-1">
+                    <div className="row1 flex justify-between">
+                        <div className="flex gap-4 items-center">
+                          <img src={`http://localhost:3000/assets/${feedback?.studentProfile}`}
+                              alt={feedback?.studentName?.toString()[0]?.toUpperCase()}
+                              className="rounded-full h-10 w-10 object-cover"
+                          />
+                          <div className="font-semibold">{feedback?.studentName}
+                              <div className="text-gray-600 text-sm font-normal">Subjects :
+                                {
+                                  feedback?.subjects?.map((sub,index)=>{
+                                    return (
+                                      index==0?<span className="ml-2">{sub}</span>:<span className="ml-1">,{sub}</span>)
+                                  })
+                                }
+                              </div>
                           </div>
-                          <div className="text-xs">
-                            <Rating name="read-only" value={feedback.rating} readOnly size="small"/>
-                          </div>
-                      </div>
-                      <div className="row2 my-4 ml-14 text-sm">
-                          <p>{feedback?.review}</p>
-                      </div>
+                        </div>
+                        <div className="text-xs">
+                          <Rating name="read-only" value={feedback.rating} readOnly size="small"/>
+                        </div>
                     </div>
-                  )
-                })
-              }
-            </div>
+                    <div className="row2 my-4 ml-14 text-sm">
+                        <p>{feedback?.review}</p>
+                    </div>
+                  </div>
+                )
+              })
             }
+          </div>
+           }
           </div>
         </div>
 

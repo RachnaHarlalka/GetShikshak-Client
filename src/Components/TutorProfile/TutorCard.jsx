@@ -71,10 +71,13 @@ export default function TutorCard({ tutor }) {
             </table>
           </div>
           {userData?.role !== "admin" && userData?.role !== "tutor" && (
-            <div className="text-center my-3 text-white bg-primary-color p-4 rounded-lg">
-              <button onClick={handleClick}>Reserve a Class</button>
-            </div>
+           <div className="text-center">
+           <button onClick={handleClick} className="my-5  text-white bg-primary-color p-4 rounded-lg">
+             <span> Reserve the class</span>
+            </button>
+           </div>
           )}
+          
         </div>
       </div>
     </>

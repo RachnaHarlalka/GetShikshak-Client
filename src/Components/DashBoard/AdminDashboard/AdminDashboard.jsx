@@ -136,9 +136,9 @@ function AdminDashboard() {
         <div id="dashboard-left-sub-container-div">
           {/* <div id="logo"> */}
           <span className="logoName tracking-wider ">
-            <Link className="flex justify-center items-center py-4" to="/">
-              <GiBookCover size="3em" color="white" />
-              <span className="mx-1 text-white text-lg font-bold">
+            <Link className="flex justify-center items-center py-6" to="/">
+              <GiBookCover size="2.4em" color="white" />
+              <span className="mx-1 text-white text-lg font-semibold">
                 TeachConnect
               </span>
             </Link>

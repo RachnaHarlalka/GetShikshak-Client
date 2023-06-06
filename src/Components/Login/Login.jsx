@@ -17,7 +17,7 @@ function Login(){
     return(
       <>
       <NavComponent/>
-     <div className=' h-[100vh]'>
+     <div className=' h-[90vh]'>
         <div className="container mx-auto py-12 lg:w-[70vw]">
          <div className="login flex shadow-xl flex-col items-center justify-around lg:justify-center lg:flex-row">
             <div className='w-2/4 lg:hidden z-[-5]'>{View}</div>
@@ -31,7 +31,7 @@ function Login(){
                 redirectingBtn={<Link to="/register">Register now</Link>}
                 />
             </div>
-            <div className="left w-1/2 bg-[#9fe4da] justify-center items-center rounded-l-lg hidden lg:flex lg:h-[80vh]">
+            <div className="left w-1/2 bg-[#9fe4da] justify-center items-center rounded-l-lg hidden lg:flex lg:h-[100vh]">
                     <img src={RegisterImage} alt="" className='h-2/3'/>
             </div>
         </div>
