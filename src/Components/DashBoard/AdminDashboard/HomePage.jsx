@@ -40,7 +40,6 @@ function HomePage(props) {
     const [revertMsg, setRevertMsg] = useState("");
     const [zoomedImage, setzoomedImage] = useState("none");
     const [currentDoc, setCurrentDoc] = useState(null);
-    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     // React.useEffect(()=>{
     //     setOpen(displayState);
     // },[displayState])
