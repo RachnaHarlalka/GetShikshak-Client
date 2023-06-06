@@ -31,26 +31,7 @@
     justify-content: space-between;
 }
 
-.sub-container-div{
-    /* box-shadow: 0px 2px 5px 0px gray; */
-    /* background-color: red; */
-    border-radius: 3px;
-    padding: 10px;
-    margin: 10px;
-    /* height: 100%; */
-    /* background-color:burlywood; */
-}
 
-.div-heading{
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* background-color: aqua; */
-    /* padding: 0px 0px; */
-    margin-bottom: 10px;
-    /* border-bottom: 1px solid lightgray; */
-}
 
 #student-page-class-request-div-heading{
     font-size: medium;
@@ -100,18 +81,6 @@
     color:rgb(190, 127, 8);
     /* color: rgb(138, 85, 15); */
     transform: rotateY(200deg);
-}
-
-#notification-details-div{
-    position: absolute;
-    top:0px;
-    width: 100%;
-    height: 100%;
-    margin: 0px;
-    /* border: 2px solid red; */
-    background-color: rgb(243 244 246);
-    z-index:1;
-    flex-direction: column;
 }
 
 .margin-buttom-div{
@@ -248,83 +217,6 @@
     width: 100%;
 }
 
-#account-notification-div{
-    display: flex;
-    flex-direction: column;
-    /* align-items: center; */
-    width: 20%;
-    /* display: none; */
-    margin: 0px;
-}
-
-#notification-icon{
-    margin-left: 10px;
-    font-size: large;
-    /* color:rgb(255, 94, 0); */
-    /* color: rgb(247, 168, 20); */
-    color:orangered;
-}
-
-#notification-listing-div{
-    width: 100%;
-    padding: 10px 0px;
-    /* background-color: lightblue; */
-    /* border:1px solid black; */
-}
-
-
-.notification{
-    position: relative;
-    display: flex;
-    align-items: center;
-    padding: 10px 5px;
-    /* border-left: 2px solid rgb(172, 171, 171); */
-    border-left: 1px solid purple;
-    /* background-color: lightpink; */
-    /* background-color: rgb(232, 218, 255); */
-    background-color: rgb(236, 236, 236);
-    margin-bottom: 10px;
-    cursor: pointer;
-    border-radius: 3px;
-}
-
-.notification:hover{
-    box-shadow: 0px 0px 2px 0px purple;
-    background-color: lightgray;
-}
-
-#notification-name{
-    padding: 0px 10px;
-    width:80%;
-    height: 20px;
-    overflow-y:hidden;
-    background-color:transparent;
-}
-
-#show-notification-icon{
-    position: absolute;
-    padding: 0px 6px;
-    font-size:large;
-    border-radius: 50%;
-    /* background-color: lightgray; */
-    right: 5px;
-}
-
-.div-heading{
-    position: relative;
-    text-align: center;
-    /* top: -10px; */
-    font-weight: bold;
-    /* background-color: darkgrey; */
-    padding: 5px;
-    margin-bottom: 0px;
-}
-
-.content-div{
-    /* background-color: aqua; */
-    padding: 5px 10px;
-    display: flex;
-}
 
 .label-span{
     /* font-size: medium; */
@@ -425,11 +317,6 @@
     top:0px;
 }
 
-.medium-content-div{
-    min-height: 100%;
-    overflow-y:auto;
-    /* background-color:cadetblue; */
-}
 
 #language-div{
     width: 200px;
@@ -467,7 +354,7 @@
 
 #home-page-top-sub-div{
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     width: 50%;
     /* background-color: aqua; */
 }

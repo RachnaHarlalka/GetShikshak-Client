@@ -127,7 +127,8 @@ function TutorProfile() {
                 {tutor && tutor.tutorForm.aboutClass}
               </div>
             </div>
-            <div className=" py-4">
+            {tutorFeedback.length>0 &&
+              <div className=" py-4">
               <h1 className="font-bold font-[Quicksand]">REVIEWS</h1>
               {
                 tutorFeedback.map((feedback)=>{
@@ -162,6 +163,7 @@ function TutorProfile() {
                 })
               }
             </div>
+            }
           </div>
         </div>
 

@@ -21,7 +21,7 @@ import ForgotPassword from "./Components/DashBoard/ForgotPassword.jsx";
 
 function AllRoutes() {
 
-  console.log("inside all routes")
+  // console.log("inside all routes")
   // const authToken =useRecoilValue(authTokenAtom);
 
   // const authToken = useRecoilValue(authTokenAtom);

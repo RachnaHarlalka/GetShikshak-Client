@@ -40,9 +40,9 @@
         return(
             <div id="profile-page-root-div">
                 <div id="profile-page-details-div">
-                    <div className='col-div' id="first-col">
-                            <div className='sub-container-div'>
-                                <div className='div-heading'>
+                    <div className='row-div' id="profile-details-first-row">
+                            <div className='sub-container-div' id="personal-details-div">
+                                <div className='div-heading' style={{justifyContent:"flex-start" ,paddingLeft:"10px"}}>
                                     PERSONAL DETAILS
                                     <div className="edit-button-div">
                                         <EditButton inputBoxId=""/>
@@ -72,10 +72,14 @@
                                                 <span className='label-div'>Phone:</span>
                                                 <span>{userData?.phone}</span>
                                             </div>
+                                            <div className='details-item'>
+                                                <span className='label-div'>Qualification:</span>
+                                                <span>{userData?.education}</span>
+                                            </div>
                                         </div>
                                     </div>
                             </div>
-                            <div className='sub-container-div' id="qualification-div">
+                            {/* <div className='sub-container-div' id="qualification-div">
                                 <div className='div-heading'>
                                     QUALIFICATIONS
                                     <div className="edit-button-div">
@@ -84,25 +88,25 @@
                                 </div>
                                 <div className='content-div'>
                                     <div className='qualification-row'>
-                                        <Button variant="contained" size="small" onClick={()=>{console.log("Add")}}>
-                                            Add Qualification
-                                        </Button>
+                                        <div>
+                                            
+                                        </div>
                                     </div>
                                 </div>
 
-                            </div>
+                            </div> */}
                     </div>
-                    <div className='sub-container-div col-div' id='profile-section-second-col'>
-                        <div className='' id="document-div">
-                            <div className='div-heading'>
+                    <div className='row-div' id='profile-details-2nd-row'>
+                        <div className="sub-container-div" id="document-div">
+                            <div className='div-heading' style={{justifyContent:"flex-start",paddingLeft:"10px"}}>
                                     DOCUMENTS
                             </div>
                             <div id='document-content-div'>
                                 <div className='single-document' id='id-proof-div'>
-                                    <div className='div-heading' style={{justifyContent:"flex-start", border:"none"}}>
+                                    <div className='div-heading' style={{border:"none",backgroundColor:"transparent"}}>
                                         ID Proof
                                     </div>
-                                    <div className=''>
+                                    <div className='content-div-sub-part'>
                                         <div className='document-show-div' onMouseOver={(e)=>{handleShowZoom(e)}} onMouseLeave={(e)=>{handleShowZoom(e)}}>
                                             <img className='document' alt="ID PROOF" src={`http://localhost:3000/assets/${userData?.tutorForm?.identity}`}/>
                                             <div className='zoom-icon' onClick={()=>{setzoomedImage("block"), setCurrentDoc("id")}}>
@@ -112,10 +116,10 @@
                                     </div>
                                 </div>
                                 <div className='single-document' id='qualification-proof-div'>
-                                    <div className='div-heading' style={{justifyContent:"flex-start", border:"none"}}>
+                                    <div className='div-heading' style={{border:"none",backgroundColor:"transparent"}}>
                                         Qualification Document
                                         </div>
-                                        <div className=''>
+                                        <div className='content-div-sub-part'>
                                             <div className='document-show-div' onMouseOver={(e)=>{handleShowZoom(e)}} onMouseLeave={(e)=>{handleShowZoom(e)}}>
                                                 <img className='document' alt="ID PROOF" src={`http://localhost:3000/assets/${userData?.tutorForm?.lastEducationalCertificate}`}/>
                                                 <div className='zoom-icon' onClick={()=>{setzoomedImage("block"), setCurrentDoc("qualification")}}>
