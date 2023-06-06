@@ -253,17 +253,17 @@ function HomePage({ fetchedData }) {
                             {userData?.tutorForm?.isProfileVerified==="accepted" 
                             ?
                             <Tooltip title="Account Verified" placement="right" arrow>
-                                <span id="verified-tag"><VscVerifiedFilled color="green" /></span>
+                                <span className="verified-tag"><VscVerifiedFilled color="green" /></span>
                             </Tooltip>
                             :
                             userData?.tutorForm?.isProfileVerified === "pending" || userData?.tutorForm?.isProfileVerified === "reverted"
                             ?
                             <Tooltip title="Account Not Verified" placement="right" arrow>
-                                <span id="verified-tag"><GoUnverified color="rgb(165, 58, 58)"/></span>
+                                <span className="verified-tag"><GoUnverified color="rgb(165, 58, 58)"/></span>
                             </Tooltip>
                             :
                             <Tooltip title="Account Rejected" placement="right" arrow>
-                                <span id="verified-tag"><MdOutlineError color="rgb(165, 58, 58)"/></span>
+                                <span className="verified-tag"><MdOutlineError color="rgb(165, 58, 58)"/></span>
                             </Tooltip>
                             }
                             
@@ -305,7 +305,7 @@ function HomePage({ fetchedData }) {
                     {userData?.tutorForm?.isProfileVerified === "reverted" && (
                         <div class="sub-container-div account-info-div">
                             <span>⚠ Admin has reverted your profile.</span>
-                            <span>Reason: <span className="text-black">{userData?.tutorForm?.revertReason} multiple account exists with the same for the one user</span></span>            
+                            <span>⚠ Reason: <span className="text-black">{userData?.tutorForm?.revertReason}</span></span>            
                         </div>
                         )}
                     {userData?.tutorForm?.isProfileVerified === "rejected" && (
@@ -406,8 +406,8 @@ function HomePage({ fetchedData }) {
                             </div>
                             <div className='content-div flex-wrap-class'>
                                 {
-                                    userData?.tutorForm.subjects.map((subject)=>{
-                                        return <span className='requested-subject-span'>{subject}</span>
+                                    userData?.tutorForm.language.map((item)=>{
+                                        return <span className='requested-subject-span'>{item}</span>
                                     })
                                 }
                             </div>
@@ -421,8 +421,8 @@ function HomePage({ fetchedData }) {
                             </div>
                             <div className='content-div flex-wrap-class'>
                                 {
-                                    userData?.tutorForm.language.map((item)=>{
-                                        return <span className='requested-subject-span'>{item}</span>
+                                    userData?.tutorForm.subjects.map((subject)=>{
+                                        return <span className='requested-subject-span'>{subject}</span>
                                     })
                                 }
                             </div>

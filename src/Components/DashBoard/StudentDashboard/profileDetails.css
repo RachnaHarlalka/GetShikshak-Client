@@ -4,16 +4,19 @@
     height: 100%;
 }
 
-#profile-page-details-div{
+#student-profile-page-details-div{
     /* margin-right: 5px; */
     /* background-color:lightgray; */
     width: 100%;
     height: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 #student-personal-details{
     /* background-color: lightblue; */
-    width: 100%;
+    width: 70%;
+    height: 90%;
 }
 
 

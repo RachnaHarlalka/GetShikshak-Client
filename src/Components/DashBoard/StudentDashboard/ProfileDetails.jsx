@@ -16,7 +16,7 @@
 
         return(
             <div id="profile-page-root-div">
-                <div id="profile-page-details-div">
+                <div id="student-profile-page-details-div">
                     <div className='sub-container-div' id="student-personal-details">
                         <div className='div-heading'>
                             PERSONAL DETAILS
@@ -29,7 +29,7 @@
                                 <div style={{width:"50%",display:"flex",flexDirection:"column",alignItems:"center"}}>
                                     <div className='student-details-item'>
                                         <span className='label-div'>ID:</span>
-                                        <input className="profile-data-div" type="text" value={userData?._id}/>
+                                        <input className="profile-data-div" type="text" value={userData?._id} disabled/>
                                     </div>
                                     <div className='student-details-item'>
                                         <span className='label-div'>Gender:</span>
