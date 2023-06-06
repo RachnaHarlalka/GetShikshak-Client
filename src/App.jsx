@@ -27,11 +27,7 @@ function App() {
   // const[userData,setUserData]=useRecoilState(userDataAtom);
 
   return (
-    <>
-      <NavComponent>
-        <AllRoutes />
-      </NavComponent>
-    </>
+      <AllRoutes />
   );
 }
 

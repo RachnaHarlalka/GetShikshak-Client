@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import TutorCard from "./TutorCard";
 import Rating from '@mui/material/Rating';
+import NavComponent from "../Nav/NavComponent";
 
 function TutorProfile() {
   const [tutor, setTutor] = useState(null);
@@ -54,7 +55,9 @@ function TutorProfile() {
 
   return (
     <>
-      <div className=" w-4/5 container mx-auto flex ">
+    <NavComponent/>
+     <div className="bg-gray-50">
+     <div className=" w-4/5 container mx-auto flex">
         <div className="w-3/5 ">
           <div id="left" className="my-16 mx-10 ">
             <div className="subjects">
@@ -124,7 +127,8 @@ function TutorProfile() {
                 {tutor && tutor.tutorForm.aboutClass}
               </div>
             </div>
-            <div className=" py-4">
+            {tutorFeedback.length>0 &&
+              <div className=" py-4">
               <h1 className="font-bold font-[Quicksand]">REVIEWS</h1>
               {
                 tutorFeedback.map((feedback)=>{
@@ -159,6 +163,7 @@ function TutorProfile() {
                 })
               }
             </div>
+            }
           </div>
         </div>
 
@@ -170,6 +175,7 @@ function TutorProfile() {
           </div>
         </div>
       </div>
+     </div>
     </>
   );
 }

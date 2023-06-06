@@ -12,7 +12,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { authTokenAtom, userDataAtom } from "../../Atom";
 import * as React from "react";
 // import { Box,Avatar,Menu,MenuItem,ListItemIcon,Divider,IconButton,Typography,Tooltip,PersonAdd,Settings,Logout} from "@mui/material";
-import Box from "@mui/material/Box";
+import {Box} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -44,12 +44,25 @@ function NavComponent({children}) {
     setAnchorEl(null);
   };
 
+  const handleMyAccountClick = () => {
+    console.log("clicked")
+    if (currentUser?.role === "student" && currentUser?.isProfileCompleted === false) {
+      enqueueSnackbar("Please complete profile before accessing dashboard",{variant:"warning"})
+      navigate("/studentcompleteprofile");
+    } else if(currentUser?.role === "tutor" && currentUser?.isProfileCompleted === false){
+      enqueueSnackbar("Please complete profile before accessing dashboard",{variant:"warning"})
+      navigate("/tutorcompleteprofile");
+
+    }  else {
+      handleClose(); // Assuming this function closes the menu
+    }
+  };
   // console.log("Having role ",currentUser?.role);
   // console.log("Auth value ",authToken);
   // console.log("isProfileComplete ",currentUser);
 
   function removeToken() {
-    console.log("Inside logout");
+    // console.log("Inside logout");
     sessionStorage.clear();
     enqueueSnackbar("Logout Successfull !", { variant: "success" });
     // window.location.reload(); // Reload the window
@@ -100,7 +113,7 @@ function NavComponent({children}) {
             <Link className="flex justify-center items-center" to="/">
               <GiBookCover size="2em" color="var(--primary-color)" />
               <span className="mx-1 text-primary-color font-bold">
-                GetShiksha
+                TeachConnect
               </span>
             </Link>
           </span>
@@ -223,8 +236,22 @@ function NavComponent({children}) {
                   aria-haspopup="true"
                   aria-expanded={open ? "true" : undefined}
                 >
-                  <Avatar sx={{ width: 32, height: 32, backgroundColor:"var(--primary-color)"}}>
-                    {currentUser?.name.toString()[0].toUpperCase()}
+                  <Avatar
+                    sx={{
+                      width: 46,
+                      height: 46,
+                      bgcolor: "var(--primary-color)",
+                    }}
+                  >
+                    {currentUser?.profilePic ? (
+                      <img
+                        src={`http://localhost:3000/assets/${currentUser?.profilePic}`}
+                        alt=""
+                        className="rounded-full h-10 w-10 object-cover"
+                      />
+                    ) : (
+                      currentUser?.name?.toString()[0]?.toUpperCase()
+                    )}
                   </Avatar>
                 </IconButton>
               </Tooltip>

@@ -134,7 +134,7 @@ function ReserveClass() {
               what you want to learn(optional).
             </label>
             <textarea
-              className="border-2 my-2"
+              className="border-2 my-2 p-2"
               name="intro"
               id=""
               cols="10"

@@ -18,11 +18,11 @@ function HeroSection() {
             <span className="hero-span">SHIKSHAK</span> ke bina{" "}
             <span className="hero-span">SHIKSHA</span> Aadhura
             <br />
-            <span className="hero-span">GETSHIKSHAK</span> ke bina woh Rista
+            <span className="hero-span">TEACHCONNECT</span> ke bina woh Rista
             Aadhura
             <br />
             <br />
-            Use <span className="hero-span">GETSHIKSHAK</span> and get your{" "}
+            Use <span className="hero-span">TEACHCONNECT</span> and get your{" "}
             <span className="hero-span">SHIKSHAK</span>
           </p>
           <SearchBox />
