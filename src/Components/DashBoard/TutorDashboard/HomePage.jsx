@@ -28,7 +28,7 @@ function HomePage({ fetchedData }) {
 
   const authToken = JSON.parse(sessionStorage.getItem("token"));
 
-  console.log("Current ", currentNotification);
+//   console.log("Current ", currentNotification);
 
   const fetchData = async () => {
     let response = await axios({
@@ -38,11 +38,10 @@ function HomePage({ fetchedData }) {
         Authorization: `Bearer ${authToken}`,
       },
     });
-    console.log("hello");
 
-    console.log("In Response ", response.data);
+    // console.log("In Response ", response.data);
     setClassRequests(response.data);
-    console.log("in class requests ", classRequests);
+    // console.log("in class requests ", classRequests);
   };
 
   const userData = fetchedData;
@@ -67,7 +66,7 @@ function HomePage({ fetchedData }) {
           Authorization: `Bearer ${authToken}`,
         },
       });
-      console.log("response", response.data.updatedReservationRequest);
+    //   console.log("response", response.data.updatedReservationRequest);
       closeNotificationDetailsPage();
       const updatedClassRequest = classRequests.filter((classRequest) => {
         return classRequest._id !== currentNotification._id;
@@ -83,11 +82,10 @@ function HomePage({ fetchedData }) {
                 return (
                     <div className="notification" onClick={(e)=>{handleActiveNotification(e,index)}} id={index}>
                             <TiPin/>
-                            <span id='notification-name' className="flex flex-col">
+                            <span className='notification-name'>
                                 {item.studentId.name}
-                                <span>Sub: {item?.mode}</span>
                             </span>
-                            <span id='show-notification-icon'><AiOutlineEye/></span>
+                            {/* <span id='show-notification-icon'><AiOutlineEye/></span> */}
                     </div>
                 )
             })
@@ -314,6 +312,12 @@ function HomePage({ fetchedData }) {
                             <span>⚠ You cannot enroll as teacher. </span>            
                         </div>
                     )}
+                    {userData?.isAccountActive === false && userData?.tutorForm?.isProfileVerified === "accepted" && (
+                        <div class="sub-container-div account-info-div">
+                            <span style={{color:"black"}}>⚠ Account is <span style={{color:"red",textTransform:"uppercase",fontWeight:"bold"}}>In-Active</span></span>
+                            <span style={{color:"black"}}>⚠ Your Ads will not be visible to Others</span>            
+                        </div>
+                    )}
 
                     <div id='home-page-top-sub-div' style={{justifyContent:"flex-end"}}>
                         {
@@ -324,8 +328,8 @@ function HomePage({ fetchedData }) {
                                         Class Rating
                                     </div>
                                     <div id='user-rating-tag'>
-                                        <div className='star'><MdOutlineStar/></div>
                                         <span id="rating">{userData?.tutorForm?.avgRating}</span>
+                                        <div className='star'><MdOutlineStar/></div>
                                     </div>
                                 </div>
                             </div>

@@ -53,11 +53,14 @@ function TutorDashboard() {
         Authorization: `Bearer ${authToken}`,
       },
     });
-    console.log("clases", response.data.filtered);
-    const fetchedStudent = response.data.filteredStudents;
+    const fetchedStudent = response.data.filteredStudents.filter((object, index, array) => {
+      return index === array.findIndex(obj => obj.name=== object.name);
+    })
     const fetchedClass = response.data.filteredClasses;
     setStudents(fetchedStudent);
     setClasses(fetchedClass);
+    console.log("students now", students);
+    console.log("Classes now", classes);
   };
 
   const fetchData = async () => {
@@ -161,7 +164,7 @@ function TutorDashboard() {
         if (userData?.tutorForm?.isProfileVerified === "accepted") {
           return (
             <ListingItems
-              pageheading={"Students List"}
+              pageheading={"Classes List"}
               receivedData={classes}
               listName={"Classes"}
             />

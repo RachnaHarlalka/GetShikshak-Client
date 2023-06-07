@@ -1,4 +1,5 @@
 import './AdminhomePage.css';
+import '../style.css';
 import * as React from 'react';
 import {Box} from '@mui/material';
 import Button from '@mui/material/Button';
@@ -182,10 +183,9 @@ function HomePage(props) {
           }}
           id={index}
         >
-          <TiPin />
-          <span id="notification-name">{item.name}</span>
-          <span id="show-notification-icon">
-            <AiOutlineEye />
+          <TiPin/>
+          <span className='notification-name'>
+              {item.name}
           </span>
         </div>
       );

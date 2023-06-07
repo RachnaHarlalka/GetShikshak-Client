@@ -4,6 +4,7 @@ import { useLocation, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import Card from "./TutorCardSection/Card";
 import NoResultPage from "./NoResultPage";
+import NavComponent from './Nav/NavComponent'
 
 function SearchResult() {
   const [data, setData] = useState([]);
@@ -30,30 +31,33 @@ function SearchResult() {
   }, [location.search]);
 
   return (
-    <div className="container mx-auto " id="main-div">
-      <div className="flex justify-center">
-      <div className="my-12" >
-        <SearchBox />
+    <>
+      <NavComponent/>
+      <div className="container mx-auto " id="main-div">
+        <div className="flex justify-center">
+        <div className="my-12" >
+          <SearchBox />
+        </div>
+        </div>
+        {data ? (<div className="flex justify-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-[80%] gap-y-4">
+          {data?.map((tutor, index) => (
+            <>
+              <Card
+                key={tutor._id}
+                id={tutor._id}
+                city={tutor.tutorForm.city}
+                name={tutor.name}
+                url={`http://localhost:3000/assets/${tutor && tutor.profilePic}`}
+                subjects={tutor.tutorForm.subjects}
+                rate={tutor.tutorForm.rate}
+              />
+            </>
+          ))}
+        </div>
+        </div>):(<NoResultPage/>)}
       </div>
-      </div>
-      {data ? (<div className="flex justify-center">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-[80%] gap-y-4">
-        {data?.map((tutor, index) => (
-          <>
-            <Card
-              key={tutor._id}
-              id={tutor._id}
-              city={tutor.tutorForm.city}
-              name={tutor.name}
-              url={`http://localhost:3000/assets/${tutor && tutor.profilePic}`}
-              subjects={tutor.tutorForm.subjects}
-              rate={tutor.tutorForm.rate}
-            />
-          </>
-        ))}
-      </div>
-      </div>):(<NoResultPage/>)}
-    </div>
+    </>
   );
 }
 

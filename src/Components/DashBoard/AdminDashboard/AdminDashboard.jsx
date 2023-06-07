@@ -50,20 +50,41 @@ function AdminDashboard() {
         method:"GET"
     })
     // console.log("tutor",response.data.filteredTutors);
-    const fetchedTutors=response.data.filteredTutors;
+    const fetchedTutors=response.data.filteredTutors.map((item)=>{
+      return{
+          "profile Pic": item["profile Pic"],
+          id: item.id,
+          name: item.name,
+          email: item.email,
+          phone: item.phone,
+          rating: item.rating,
+          "ad_subjects": item.subjects,
+          "about you": item["about you"],
+          "about class": item["about class"],
+          title: item.title,
+          "ad_rate": item.rate,
+          city: item.city,
+          "account status": item["account status"],
+          "Ad":item["Ad"]
+      }
+    });
+
     setTutors(fetchedTutors);
   }
 
-  // const fetchStudent=async()=>{
-  //   const response = await axios({
-  //       url:"http://localhost:3000/user/getstudents",
-  //       method:"GET"
-  //   })
-  //   // console.log("student",response.data.filteredStudents);
-  //   const fetchedStudent=response.data.filteredStudents;
-  //   setStudents(fetchedStudent);
-
-  // }
+  const fetchAllClasses=async()=>{
+    const response = await axios({
+        url:"http://localhost:3000/admin/getallclasses",
+        method:"GET",
+        headers:{
+          "Authorization":`Bearer ${authToken}`
+        }
+    })
+    // console.log("student",response.data.filteredStudents);
+    const fetchedClasses=response.data.filteredClasses;
+    setClasses(fetchedClasses);
+    console.log("All Classes ",classes);
+  }
 
   console.log("students",students);
   const fetchCurrentUser=async()=>{
@@ -86,9 +107,10 @@ function AdminDashboard() {
   }
 
   useEffect(()=>{
+    fetchCurrentUser();
     fetchStudent();
     fetchTutor();
-    fetchCurrentUser();
+    fetchAllClasses();
   },[])
   function handleClick(id) {
     switch (id) {
@@ -123,7 +145,7 @@ function AdminDashboard() {
       case 2:
         return (<ListingItems pageheading={"Students List"} receivedData={students}/>);
       case 3:
-        return (<><h1>Classes</h1></>);
+        return (<ListingItems pageheading={"Classes List"} receivedData={classes}/>);
       case 4:
         return (<><h1>AdvertiseInfo</h1></>);
       default:

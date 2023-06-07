@@ -107,7 +107,9 @@ function StudentDashboard() {
           phone: classObj.tutorId.phone,
           ["account status"]: classObj.tutorId.isAccountActive,
         };
-      });
+      }).filter((object, index, array) => {
+      return index === array.findIndex(obj => obj["tutor name"] === object["tutor name"]);
+    });
 
     setAllClassRequests(filteredData);
     setMyClasses(acceptedClasses);
