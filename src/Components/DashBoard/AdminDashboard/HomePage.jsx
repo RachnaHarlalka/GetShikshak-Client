@@ -1,4 +1,5 @@
 import './AdminhomePage.css';
+import '../style.css';
 import * as React from 'react';
 import {Box} from '@mui/material';
 import Button from '@mui/material/Button';
@@ -18,7 +19,7 @@ import {RxCrossCircled} from 'react-icons/rx';
 import axios from 'axios';
 import { useRecoilValue } from 'recoil';
 import { authTokenAtom } from '../../../Atom';
-import { useSnackbar } from "notistack";
+import { useSnackbar } from 'notistack';
 // import name from '../../../assets/HeroPic.png'
 
 function HomePage(props) {
@@ -28,6 +29,7 @@ function HomePage(props) {
   const tutorCount = props?.tutors?.length;
   const currentUser = props?.currentUser;
   console.log(currentUser && currentUser[0]?.name);
+  const { enqueueSnackbar } = useSnackbar();
   // console.log("currentUser",props.admin);
   // console.log(props.students.length)
 
@@ -39,7 +41,6 @@ function HomePage(props) {
     const [revertMsg, setRevertMsg] = useState("");
     const [zoomedImage, setzoomedImage] = useState("none");
     const [currentDoc, setCurrentDoc] = useState(null);
-    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     // React.useEffect(()=>{
     //     setOpen(displayState);
     // },[displayState])
@@ -121,6 +122,7 @@ function HomePage(props) {
     }
 
     const sendVerificationUpdate = async (status) =>{
+      console.log("Inisde client");
       try {
         const response = await axios({
           url: "http://localhost:3000/admin/updateverificationrequest",
@@ -142,7 +144,7 @@ function HomePage(props) {
         });
         console.log("Outside console", response);
         if (response.status === 400) {
-          console.log("inside 400");
+          console.log("Inisde client 2");
           enqueueSnackbar(response?.data?.error, { variant: "error" });
         }
         if (response.status === 201) {
@@ -160,7 +162,7 @@ function HomePage(props) {
           setVerificationRequest(updatedVerificationRequest);
         }
       } catch (err) {
-        console.log("inside catch");
+        console.log("err")
         enqueueSnackbar(response?.data?.error, { variant: "error" });
       }
     }
@@ -181,10 +183,9 @@ function HomePage(props) {
           }}
           id={index}
         >
-          <TiPin />
-          <span id="notification-name">{item.name}</span>
-          <span id="show-notification-icon">
-            <AiOutlineEye />
+          <TiPin/>
+          <span className='notification-name'>
+              {item.name}
           </span>
         </div>
       );

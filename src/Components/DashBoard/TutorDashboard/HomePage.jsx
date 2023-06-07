@@ -28,7 +28,7 @@ function HomePage({ fetchedData }) {
 
   const authToken = JSON.parse(sessionStorage.getItem("token"));
 
-  console.log("Current ", currentNotification);
+//   console.log("Current ", currentNotification);
 
   const fetchData = async () => {
     let response = await axios({
@@ -38,11 +38,10 @@ function HomePage({ fetchedData }) {
         Authorization: `Bearer ${authToken}`,
       },
     });
-    console.log("hello");
 
-    console.log("In Response ", response.data);
+    // console.log("In Response ", response.data);
     setClassRequests(response.data);
-    console.log("in class requests ", classRequests);
+    // console.log("in class requests ", classRequests);
   };
 
   const userData = fetchedData;
@@ -67,7 +66,7 @@ function HomePage({ fetchedData }) {
           Authorization: `Bearer ${authToken}`,
         },
       });
-      console.log("response", response.data.updatedReservationRequest);
+    //   console.log("response", response.data.updatedReservationRequest);
       closeNotificationDetailsPage();
       const updatedClassRequest = classRequests.filter((classRequest) => {
         return classRequest._id !== currentNotification._id;
@@ -83,11 +82,10 @@ function HomePage({ fetchedData }) {
                 return (
                     <div className="notification" onClick={(e)=>{handleActiveNotification(e,index)}} id={index}>
                             <TiPin/>
-                            <span id='notification-name' className="flex flex-col">
+                            <span className='notification-name'>
                                 {item.studentId.name}
-                                <span>Sub: {item?.mode}</span>
                             </span>
-                            <span id='show-notification-icon'><AiOutlineEye/></span>
+                            {/* <span id='show-notification-icon'><AiOutlineEye/></span> */}
                     </div>
                 )
             })
@@ -253,17 +251,17 @@ function HomePage({ fetchedData }) {
                             {userData?.tutorForm?.isProfileVerified==="accepted" 
                             ?
                             <Tooltip title="Account Verified" placement="right" arrow>
-                                <span id="verified-tag"><VscVerifiedFilled color="green" /></span>
+                                <span className="verified-tag"><VscVerifiedFilled color="green" /></span>
                             </Tooltip>
                             :
                             userData?.tutorForm?.isProfileVerified === "pending" || userData?.tutorForm?.isProfileVerified === "reverted"
                             ?
                             <Tooltip title="Account Not Verified" placement="right" arrow>
-                                <span id="verified-tag"><GoUnverified color="rgb(165, 58, 58)"/></span>
+                                <span className="verified-tag"><GoUnverified color="rgb(165, 58, 58)"/></span>
                             </Tooltip>
                             :
                             <Tooltip title="Account Rejected" placement="right" arrow>
-                                <span id="verified-tag"><MdOutlineError color="rgb(165, 58, 58)"/></span>
+                                <span className="verified-tag"><MdOutlineError color="rgb(165, 58, 58)"/></span>
                             </Tooltip>
                             }
                             
@@ -305,13 +303,19 @@ function HomePage({ fetchedData }) {
                     {userData?.tutorForm?.isProfileVerified === "reverted" && (
                         <div class="sub-container-div account-info-div">
                             <span>⚠ Admin has reverted your profile.</span>
-                            <span>Reason: <span className="text-black">{userData?.tutorForm?.revertReason} multiple account exists with the same for the one user</span></span>            
+                            <span>⚠ Reason: <span className="text-black">{userData?.tutorForm?.revertReason}</span></span>            
                         </div>
                         )}
                     {userData?.tutorForm?.isProfileVerified === "rejected" && (
                         <div class="sub-container-div account-info-div">
                             <span>⚠ Admin has rejected your profile.</span>
                             <span>⚠ You cannot enroll as teacher. </span>            
+                        </div>
+                    )}
+                    {userData?.isAccountActive === false && userData?.tutorForm?.isProfileVerified === "accepted" && (
+                        <div class="sub-container-div account-info-div">
+                            <span style={{color:"black"}}>⚠ Account is <span style={{color:"red",textTransform:"uppercase",fontWeight:"bold"}}>In-Active</span></span>
+                            <span style={{color:"black"}}>⚠ Your Ads will not be visible to Others</span>            
                         </div>
                     )}
 
@@ -324,8 +328,8 @@ function HomePage({ fetchedData }) {
                                         Class Rating
                                     </div>
                                     <div id='user-rating-tag'>
-                                        <div className='star'><MdOutlineStar/></div>
                                         <span id="rating">{userData?.tutorForm?.avgRating}</span>
+                                        <div className='star'><MdOutlineStar/></div>
                                     </div>
                                 </div>
                             </div>
@@ -406,8 +410,8 @@ function HomePage({ fetchedData }) {
                             </div>
                             <div className='content-div flex-wrap-class'>
                                 {
-                                    userData?.tutorForm.subjects.map((subject)=>{
-                                        return <span className='requested-subject-span'>{subject}</span>
+                                    userData?.tutorForm.language.map((item)=>{
+                                        return <span className='requested-subject-span'>{item}</span>
                                     })
                                 }
                             </div>
@@ -421,8 +425,8 @@ function HomePage({ fetchedData }) {
                             </div>
                             <div className='content-div flex-wrap-class'>
                                 {
-                                    userData?.tutorForm.language.map((item)=>{
-                                        return <span className='requested-subject-span'>{item}</span>
+                                    userData?.tutorForm.subjects.map((subject)=>{
+                                        return <span className='requested-subject-span'>{subject}</span>
                                     })
                                 }
                             </div>

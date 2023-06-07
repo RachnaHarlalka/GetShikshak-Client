@@ -12,7 +12,7 @@ function DateTime(){
     const month = months[currentDateTime.getMonth()];
     const date = currentDateTime.getDate()<10?"0"+currentDateTime.getDate():currentDateTime.getDate();
     const day = days[currentDateTime.getDay()];
-    const hour = Math.ceil(currentDateTime.getHours()<=12?(currentDateTime.getHours()==0)?12:currentDateTime.getHours()%12: currentDateTime.getHours()%12);
+    const hour = currentDateTime.getHours()<=12?currentDateTime.getHours(): (currentDateTime.getHours()%12 === 0?12:currentDateTime.getHours()%12);
     const minute = currentDateTime.getMinutes()<10?"0"+currentDateTime.getMinutes():currentDateTime.getMinutes();
     const timeTag = currentDateTime.getHours()<12? "AM" : "PM";
     

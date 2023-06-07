@@ -2,7 +2,7 @@
     height: 100%;
     /* background-color: lightgray; */
     padding: 0px 10px;
-
+    position: relative;
 }
 
 #list-heading{
@@ -41,3 +41,26 @@
 .listing-page-button:active{
     box-shadow: none;
 }
+
+.ad-span-heading{
+    font-weight: bold;
+    font-size: small;
+    position: absolute;
+    top:-10px;
+    left: 10px;
+    background-color: lightgray;
+    padding: 0px 10px;
+    border-radius: 3px;
+}
+
+.ad-detials{
+    position: relative;
+    font-size: medium;
+    display: flex;
+    margin-bottom: 10px;
+    background-color: rgb(241, 241, 241);
+    border-radius:3px;
+    padding:20px;
+    border: 1px solid gray;
+}
+
