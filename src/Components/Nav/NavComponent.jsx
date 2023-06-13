@@ -44,6 +44,7 @@ function NavComponent({children}) {
     setAnchorEl(null);
   };
 
+  
   const handleMyAccountClick = () => {
     console.log("clicked")
     if (currentUser?.role === "student" && currentUser?.isProfileCompleted === false) {
@@ -296,7 +297,7 @@ function NavComponent({children}) {
                 {currentUser.name.split(" ")[0]}
               </MenuItem>
               <Divider />
-              <MenuItem onClick={handleClose}>
+              <MenuItem onClick={handleMyAccountClick}>
                 <SpaceDashboardIcon sx={{marginRight:"15px",color:"var(--primary-color)"}} fontSize="small"/>
                 {currentUser?.role === "admin" ? (
                   <Link to="/admindashboard">Dashboard</Link>
