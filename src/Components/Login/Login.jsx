@@ -24,7 +24,7 @@ function Login(){
             <div className="right rounded-r-lg flex justify-center my-8 lg:w-1/2">
                <LoginSignUp
                 type="login" 
-                title="Log in to GetShikSha" 
+                title="Log in to TeachConnect" 
                 additionalText="New User ?" 
                 firstBtnText="Log In" 
                 secondBtnText="Log in using Google" 

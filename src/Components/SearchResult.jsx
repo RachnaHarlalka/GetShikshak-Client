@@ -4,6 +4,7 @@ import { useLocation, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import Card from "./TutorCardSection/Card";
 import NoResultPage from "./NoResultPage";
+import NavComponent from "./Nav/NavComponent"
 
 function SearchResult() {
   const [data, setData] = useState([]);
@@ -30,6 +31,8 @@ function SearchResult() {
   }, [location.search]);
 
   return (
+    <>
+    <NavComponent/>
     <div className="container mx-auto " id="main-div">
       <div className="flex justify-center">
       <div className="my-12" >
@@ -54,6 +57,7 @@ function SearchResult() {
       </div>
       </div>):(<NoResultPage/>)}
     </div>
+    </>
   );
 }
 

@@ -25,7 +25,7 @@ function Register() {
             <div className="right rounded-r-lg flex justify-center my-8 lg:w-1/2">
               <LoginSignUp
                 type="register"
-                title="Sign up to GetShikSha"
+                title="Sign up to TeachConnect"
                 additionalText="Already a member ?"
                 firstBtnText="Sign up"
                 secondBtnText="Sign Up using Google"

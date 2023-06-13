@@ -112,7 +112,7 @@ function AdminDashboard() {
     }
   }
 
-  const sidebarOptions = ["Home","Tutors", "Students", "Classes", "AdvertiseInfo"];
+  const sidebarOptions = ["Home","Tutors", "Students", "Classes"];
 
   function renderPage(id) {
     switch (id) {

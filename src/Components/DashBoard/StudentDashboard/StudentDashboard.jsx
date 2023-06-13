@@ -72,6 +72,7 @@ function StudentDashboard() {
     console.log("All class ", response.data);
     const filteredData = response?.data?.map((classObj, index) => {
       return {
+        key:index,
         ["tutor name"]: classObj.tutorId.name,
         subjects: classObj.subjects,
         mode: classObj.mode,
@@ -83,6 +84,7 @@ function StudentDashboard() {
     const acceptedClasses = response?.data
       ?.map((classObj, index) => {
         return {
+          key:index,
           ["class id"]: classObj._id,
           ["tutor name"]: classObj.tutorId.name,
           subjects: classObj.subjects,
