@@ -23,7 +23,7 @@ import Tooltip from "@mui/material/Tooltip";
 import Logout from "@mui/icons-material/Logout";
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import SpaceDashboardIcon from '@mui/icons-material/SpaceDashboard';
-import {FaUser} from 'react-icons/Fa';
+import {FaUser} from 'react-icons/fa';
 
 function NavComponent({children}) {
   const [showHamburger, setShowHamburger] = useState(false);
