@@ -40,8 +40,8 @@ function StudentCompleteProfile() {
           method:"POST",
           data:values,
           headers:{
-            "content-type": "application/json",
-            'content-type': 'multipart/form-data',
+            "content-type": ["application/json",'multipart/form-data'],
+            // 'content-type': 'multipart/form-data',
             "Authorization": `Bearer ${token}`,
           }
         })
