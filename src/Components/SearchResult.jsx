@@ -16,7 +16,7 @@ function SearchResult() {
   const fetchData = async (subject, city) => {
     console.log("search Page");
     // console.log(subject,city,"Subject,city")
-    let url = `http://localhost:3000/user/search`;
+    let url = `${import.meta.env.VITE_API_URL}/user/search`;
     if (subject) url += `?subject=${subject}`;
     if (city) url += `${subject ? "&" : "?"}city=${city}`;
     const response = await axios.get(url);
@@ -48,7 +48,7 @@ function SearchResult() {
               id={tutor._id}
               city={tutor.tutorForm.city}
               name={tutor.name}
-              url={`http://localhost:3000/assets/${tutor && tutor.profilePic}`}
+              url={`${import.meta.env.VITE_API_URL}/assets/${tutor && tutor.profilePic}`}
               subjects={tutor.tutorForm.subjects}
               rate={tutor.tutorForm.rate}
             />

@@ -15,7 +15,7 @@ function PasswordReset() {
    try{
     e.preventDefault();
     const response = await axios({
-      url:"http://localhost:3000/auth/sendpasswordlink",
+      url:`${import.meta.env.VITE_API_URL}/auth/sendpasswordlink`,
       method:"POST",
       data:{email},
       headers:{

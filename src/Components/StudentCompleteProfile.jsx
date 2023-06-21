@@ -36,7 +36,7 @@ function StudentCompleteProfile() {
       try {
         console.log("values", values);
         let response = await axios({
-          url:"http://localhost:3000/auth/studentcompleteprofile",
+          url:`${import.meta.env.VITE_API_URL}/auth/studentcompleteprofile`,
           method:"POST",
           data:values,
           headers:{

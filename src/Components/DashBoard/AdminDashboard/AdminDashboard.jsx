@@ -35,7 +35,7 @@ function AdminDashboard() {
 
   const fetchStudent=async()=>{
     const response = await axios({
-        url:"http://localhost:3000/user/getstudents",
+        url:`${import.meta.env.VITE_API_URL}/user/getstudents`,
         method:"GET"
     })
     // console.log("student",response.data.filteredStudents);
@@ -46,7 +46,7 @@ function AdminDashboard() {
 
   const fetchTutor=async()=>{
     const response = await axios({
-        url:"http://localhost:3000/user/gettutors",
+        url: `${import.meta.env.VITE_API_URL}/user/gettutors`,
         method:"GET"
     })
     // console.log("tutor",response.data.filteredTutors);
@@ -69,7 +69,7 @@ function AdminDashboard() {
   const fetchCurrentUser=async()=>{
     console.log("inside fatch admin")
     const response = await axios({
-        url:"http://localhost:3000/dashboard/userdata",
+        url:`${import.meta.env.VITE_API_URL}/dashboard/userdata`,
         method:"GET",
         headers:{
             "Authorization":`Bearer ${authToken}`

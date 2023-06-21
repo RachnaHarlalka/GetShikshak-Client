@@ -23,7 +23,7 @@ function FeedbackModal({displayState,handleModal,classId}){
 
     const fetchClassFeedback = async()=>{
         let response = await axios({
-            url: `http://localhost:3000/dashboard/getclassfeedback/${classId}`,
+            url: `${import.meta.env.VITE_API_URL}/dashboard/getclassfeedback/${classId}`,
             method: "GET",
             headers:{
                 "Authorization" : `Bearer ${token}`
@@ -64,7 +64,7 @@ function FeedbackModal({displayState,handleModal,classId}){
             return
         }
         const response = await axios({
-            url: `http://localhost:3000/user/givefeedback/${classId}`,
+            url: `${import.meta.env.VITE_API_URL}/user/givefeedback/${classId}`,
             method: "PATCH",
             data: feedback,
             headers :{

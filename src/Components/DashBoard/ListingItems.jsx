@@ -71,7 +71,7 @@ export default function ListingItems({pageheading,receivedData,listName}) {
         for(let item in itemObj){
            if(item==="profilePic"){
                 row.push(<TableCell sx={{display:"flex",justifyContent:"center",alignItems:"center"}} align="center" className=''>
-                    <img src={`http://localhost:3000/assets/${itemObj[item]}`} alt="" style={{objectFit:"cover"}} className='w-16 h-26 '/>
+                    <img src={`${import.meta.env.VITE_API_URL}/assets/${itemObj[item]}`} alt="" style={{objectFit:"cover"}} className='w-16 h-26 '/>
                 </TableCell>)
             }
             // else if(Array.isArray(itemObj[item])){

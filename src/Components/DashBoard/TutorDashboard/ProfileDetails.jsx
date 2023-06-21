@@ -108,7 +108,7 @@
                                     </div>
                                     <div className='content-div-sub-part'>
                                         <div className='document-show-div' onMouseOver={(e)=>{handleShowZoom(e)}} onMouseLeave={(e)=>{handleShowZoom(e)}}>
-                                            <img className='document' alt="ID PROOF" src={`http://localhost:3000/assets/${userData?.tutorForm?.identity}`}/>
+                                            <img className='document' alt="ID PROOF" src={`${import.meta.env.VITE_API_URL}/assets/${userData?.tutorForm?.identity}`}/>
                                             <div className='zoom-icon' onClick={()=>{setzoomedImage("block"), setCurrentDoc("id")}}>
                                                     <MdZoomOutMap size="2rem" style={{display:"none"}}/>
                                             </div>
@@ -121,7 +121,7 @@
                                         </div>
                                         <div className='content-div-sub-part'>
                                             <div className='document-show-div' onMouseOver={(e)=>{handleShowZoom(e)}} onMouseLeave={(e)=>{handleShowZoom(e)}}>
-                                                <img className='document' alt="ID PROOF" src={`http://localhost:3000/assets/${userData?.tutorForm?.lastEducationalCertificate}`}/>
+                                                <img className='document' alt="ID PROOF" src={`${import.meta.env.VITE_API_URL}/assets/${userData?.tutorForm?.lastEducationalCertificate}`}/>
                                                 <div className='zoom-icon' onClick={()=>{setzoomedImage("block"), setCurrentDoc("qualification")}}>
                                                     <MdZoomOutMap size="2rem" style={{display:"none"}}/>
                                                 </div>
@@ -137,7 +137,7 @@
                             <RxCrossCircled size="2rem" color="red" className="cursor-type-pointer" onClick={()=>{setzoomedImage("none")}}/>
                         </div>
                         <div className='row-div flex justify-center items-center' id="zoomed-image-div">
-                            <img className='w-[50%] h-full object-contain' alt="ID PROOF" src={`http://localhost:3000/assets/${currentDoc === "id" ? userData?.tutorForm?.identity:userData?.tutorForm?.lastEducationalCertificate}`}/>
+                            <img className='w-[50%] h-full object-contain' alt="ID PROOF" src={`${import.meta.env.VITE_API_URL}/assets/${currentDoc === "id" ? userData?.tutorForm?.identity:userData?.tutorForm?.lastEducationalCertificate}`}/>
                         </div>
                     </div>
             </div>

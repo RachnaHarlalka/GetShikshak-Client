@@ -12,7 +12,7 @@ function ChooseSubject(props) {
   useEffect(()=>{
     const fetchData = async()=>{
       let response = await axios({
-        url:"http://localhost:3000/advertise/subjects",
+        url:`${import.meta.env.VITE_API_URL}/advertise/subjects`,
         method:"GET"
       })
       // console.log("Response Subject ",response);

@@ -79,7 +79,7 @@ function HomePage(props) {
     const fetchData= async()=>{
         let response = await axios(
             {
-                url:"http://localhost:3000/dashboard/verificationrequest",
+                url:`${import.meta.env.VITE_API_URL}/dashboard/verificationrequest`,
                 method:"GET",
                 headers:{
                     "Authorization": `Bearer ${authToken}`
@@ -124,7 +124,7 @@ function HomePage(props) {
       console.log("Inisde client");
       try {
         const response = await axios({
-          url: "http://localhost:3000/admin/updateverificationrequest",
+          url: `${import.meta.env.VITE_API_URL}/admin/updateverificationrequest`,
           method: "PATCH",
           data:status === "reverted"?
           {
@@ -262,7 +262,7 @@ function HomePage(props) {
                                 <div className='' id="tutor-profile-div">
                                     <div id='profile-pic-section'>
                                         <div id='profile-pic' style={{width:"100%"}}>
-                                            <img id="profile-image" alt="image" src={`http://localhost:3000/assets/${currentNotification?.profilePic}`}/>
+                                            <img id="profile-image" alt="image" src={`${import.meta.env.VITE_API_URL}/assets/${currentNotification?.profilePic}`}/>
                                         </div>
                                     </div>
                                 </div>
@@ -385,7 +385,7 @@ function HomePage(props) {
                                     </div>
                                     <div className=''>
                                         <div className='tutor-request-document-show-div' onMouseOver={(e)=>{handleShowZoom(e)}} onMouseLeave={(e)=>{handleShowZoom(e)}}>
-                                            <img className='w-64 h-[20rem] object-cover' alt="ID PROOF" src={`http://localhost:3000/assets/${currentNotification?.tutorForm?.identity}`}/>
+                                            <img className='w-64 h-[20rem] object-cover' alt="ID PROOF" src={`${import.meta.env.VITE_API_URL}/assets/${currentNotification?.tutorForm?.identity}`}/>
                                             <div className='zoom-icon' onClick={()=>{setzoomedImage("block"), setCurrentDoc("id")}}>
                                                     <MdZoomOutMap size="2rem" style={{display:"none"}}/>
                                             </div>
@@ -398,7 +398,7 @@ function HomePage(props) {
                                         </div>
                                         <div className=''>
                                             <div className='tutor-request-document-show-div' onMouseOver={(e)=>{handleShowZoom(e)}} onMouseLeave={(e)=>{handleShowZoom(e)}}>
-                                                <img className='w-64 h-[20rem] object-cover' alt="ID PROOF" src={`http://localhost:3000/assets/${currentNotification?.tutorForm?.lastEducationalCertificate}`}/>
+                                                <img className='w-64 h-[20rem] object-cover' alt="ID PROOF" src={`${import.meta.env.VITE_API_URL}/assets/${currentNotification?.tutorForm?.lastEducationalCertificate}`}/>
                                                 <div className='zoom-icon' onClick={()=>{setzoomedImage("block"), setCurrentDoc("qualification")}}>
                                                     <MdZoomOutMap size="2rem" style={{display:"none"}}/>
                                                 </div>
@@ -515,7 +515,7 @@ console.log("cirrentUser",currentUser?.name);
                             <RxCrossCircled size="2rem" color="red" className="cursor-type-pointer" onClick={()=>{setzoomedImage("none")}}/>
                         </div>
                         <div className='row-div flex justify-center items-center' id="zoomed-image-div">
-                            <img className='w-[50%] h-full object-contain' alt="ID PROOF" src={`http://localhost:3000/assets/${currentDoc === "id" ? currentNotification?.tutorForm?.identity:currentNotification?.tutorForm?.lastEducationalCertificate}`}/>
+                            <img className='w-[50%] h-full object-contain' alt="ID PROOF" src={`${import.meta.env.VITE_API_URL}/assets/${currentDoc === "id" ? currentNotification?.tutorForm?.identity:currentNotification?.tutorForm?.lastEducationalCertificate}`}/>
                         </div>
               </div>
       </div>

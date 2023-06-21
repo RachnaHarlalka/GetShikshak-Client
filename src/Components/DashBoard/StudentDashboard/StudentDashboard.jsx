@@ -52,7 +52,7 @@ function StudentDashboard() {
 
   const fetchData = async () => {
     let response = await axios({
-      url: "http://localhost:3000/dashboard/userdata",
+      url: `${import.meta.env.VITE_API_URL}/dashboard/userdata`,
       method: "GET",
       headers: {
         Authorization: `Bearer ${authToken}`,
@@ -63,7 +63,7 @@ function StudentDashboard() {
 
   const fetchAllClassRequest = async () => {
     let response = await axios({
-      url: "http://localhost:3000/dashboard/classrequest",
+      url: `${import.meta.env.VITE_API_URL}/dashboard/classrequest`,
       method: "GET",
       headers: {
         Authorization: `Bearer ${authToken}`,
@@ -204,7 +204,7 @@ function StudentDashboard() {
                     <img
                       id="profile-image"
                       alt="image"
-                      src={`http://localhost:3000/assets/${userData?.profilePic}`}
+                      src={`${import.meta.env.VITE_API_URL}/assets/${userData?.profilePic}`}
                     />
                     <div id="edit-profile-button">
                       <EditButton bgcolor="lightgray" />

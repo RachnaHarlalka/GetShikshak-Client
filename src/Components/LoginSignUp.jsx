@@ -41,7 +41,7 @@ function LoginSignUp(props) {
       onSubmit: async (values, action) => {
         try {
           let response = await axios({
-            url: "http://localhost:3000/auth/register",
+            url: `${import.meta.env.VITE_API_URL}/auth/register`,
             method: "POST",
             data: values,
             headers: {
@@ -64,7 +64,7 @@ function LoginSignUp(props) {
       onSubmit: async (values, action) => {
         try {
           let response = await axios({
-            url: "http://localhost:3000/auth/login",
+            url: `${import.meta.env.VITE_API_URL}/auth/login`,
             method: "POST",
             data: values,
             headers: {
