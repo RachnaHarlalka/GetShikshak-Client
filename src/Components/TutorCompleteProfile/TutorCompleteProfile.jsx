@@ -93,7 +93,7 @@ function TutorCompleteProfile() {
 
     try {
       let response = await axios({
-        url: "http://localhost:3000/auth/tutorcompleteprofile",
+        url: `${import.meta.env.VITE_API_URL}/auth/tutorcompleteprofile`,
         method: "POST",
         data: tutorFormData,
         headers: {

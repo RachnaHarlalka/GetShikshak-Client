@@ -27,7 +27,7 @@ function EditButton({inputBoxId,path,newData}){
         console.log("Updated value ter clicking sve btn",newData);
         let response = await axios(
             {
-                url:`http://localhost:3000/dashboard/${path}`,
+                url:`${import.meta.env.VITE_API_URL}/dashboard/${path}`,
                 method:"PATCH",
                 data : {
                     newData

@@ -22,7 +22,7 @@ console.log("token",token);
   const userValid = async () => {
     try{
       const response = await axios({
-        url: `http://localhost:3000/auth/forgotpassword/${userId}/${token}`,
+        url: `${import.meta.env.VITE_API_URL}/auth/forgotpassword/${userId}/${token}`,
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -45,7 +45,7 @@ console.log("token",token);
     try{
       console.log("passwid",newPassword);
     const response = await axios({
-      url:`http://localhost:3000/auth/passwordreset/${userId}/${token}`,
+      url:`${import.meta.env.VITE_API_URL}/auth/passwordreset/${userId}/${token}`,
       method:"PATCH",
       headers:{
         "Content-Type":"application/json"

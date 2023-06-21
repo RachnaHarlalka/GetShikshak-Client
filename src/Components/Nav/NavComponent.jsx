@@ -173,7 +173,7 @@ function NavComponent({children}) {
             <div id="navbar-profile-pic" className="text-white">
               {(currentUser?.profilePic)?(
                 <div>
-                  <img src={`http://localhost:3000/assets/${currentUser?.profilePic}`} alt="" className="rounded-full h-10 w-10 object-cover"/>
+                  <img src={`localhost:3000/assets/${currentUser?.profilePic}`} alt="" className="rounded-full h-10 w-10 object-cover"/>
                 </div>
               ):(
                 <div>{currentUser?.name.toString()[0].toUpperCase()}</div>
@@ -246,7 +246,7 @@ function NavComponent({children}) {
                   >
                     {currentUser?.profilePic ? (
                       <img
-                        src={`http://localhost:3000/assets/${currentUser?.profilePic}`}
+                        src={`${import.meta.env.VITE_API_URL}/assets/${currentUser?.profilePic}`}
                         alt=""
                         className="rounded-full h-10 w-10 object-cover"
                       />

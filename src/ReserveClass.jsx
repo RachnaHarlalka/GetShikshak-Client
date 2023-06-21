@@ -21,7 +21,7 @@ function ReserveClass() {
 
   const fetchData = async () => {
     const response = await axios({
-      url: `http://localhost:3000/user/${id}`,
+      url: `${import.meta.env.VITE_API_URL}/user/${id}`,
       method: "GET",
     });
     console.log("response", response.data.user);
@@ -45,7 +45,7 @@ function ReserveClass() {
       console.log("clicked")
       try {
         const response = await axios({
-          url: `http://localhost:3000/user/reserveclass/${tutor?._id}`,
+          url: `${import.meta.env.VITE_API_URL}/user/reserveclass/${tutor?._id}`,
           method: "POST",
           data: values,
           headers: {
@@ -112,7 +112,7 @@ function ReserveClass() {
           <div className="bg-white w-2/3 shadow-xl p-12 rounded-xl flex flex-col items-center">
             <div className="">
               <img
-                src={`http://localhost:3000/assets/${tutor?.profilePic}`}
+                src={`${import.meta.env.VITE_API_URL}/assets/${tutor?.profilePic}`}
                 alt=""
                 className="rounded-xl w-42 object-cover"
               />

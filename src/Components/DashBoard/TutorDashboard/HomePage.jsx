@@ -32,7 +32,7 @@ function HomePage({ fetchedData }) {
 
   const fetchData = async () => {
     let response = await axios({
-      url: "http://localhost:3000/dashboard/classrequest",
+      url: `${import.meta.env.VITE_API_URL}/dashboard/classrequest`,
       method: "GET",
       headers: {
         Authorization: `Bearer ${authToken}`,
@@ -57,7 +57,7 @@ function HomePage({ fetchedData }) {
   const handleRequestStatus = async (status) => {
     try {
       const response = await axios({
-        url: "http://localhost:3000/tutor/updatereservationrequest",
+        url: `${import.meta.env.VITE_API_URL}/tutor/updatereservationrequest`,
         method: "PATCH",
         data: {
           updatedStatus: status,
@@ -124,7 +124,7 @@ function HomePage({ fetchedData }) {
                                 <div className='sub-container-div' id="student-profile-div">
                                     <div id='profile-pic-section'>
                                         <div id='profile-pic' style={{width:"100%"}}>
-                                            <img id="profile-image" alt="image" src={`http://localhost:3000/assets/${currentNotification?.studentId?.profilePic}`}/>
+                                            <img id="profile-image" alt="image" src={`${import.meta.env.VITE_API_URL}/assets/${currentNotification?.studentId?.profilePic}`}/>
                                         </div>
                                     </div>
                                 </div>

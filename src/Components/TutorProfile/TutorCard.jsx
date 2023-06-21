@@ -31,7 +31,7 @@ export default function TutorCard({ tutor }) {
       <div className="bg-white shadow-xl p-8 rounded-xl">
         <div className="flex justify-center p-4">
           <img
-            src={`http://localhost:3000/assets/${tutor?.profilePic}`}
+            src={`${import.meta.env.VITE_API_URL}/assets/${tutor?.profilePic}`}
             alt=""
             className="rounded-full w-36 h-36 object-cover"
           />

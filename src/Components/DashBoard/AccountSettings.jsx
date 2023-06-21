@@ -11,7 +11,7 @@ function AccountSettings({status,userRole}){
     const handleClick=async()=>{
         try{
             const response = await axios({
-                url:"http://localhost:3000/dashboard/updateactivestatus",
+                url:`${import.meta.env.VITE_API_URL}/dashboard/updateactivestatus`,
                 method:"PATCH",
                 data:{
                     updatedStatus:!activeStatus

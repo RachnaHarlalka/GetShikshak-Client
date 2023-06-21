@@ -47,7 +47,7 @@ function TutorDashboard() {
 
   const fetchStudents = async () => {
     const response = await axios({
-      url: "http://localhost:3000/tutor/getmystudents",
+      url: `${import.meta.env.VITE_API_URL}/tutor/getmystudents`,
       method: "GET",
       headers: {
         Authorization: `Bearer ${authToken}`,
@@ -62,7 +62,7 @@ function TutorDashboard() {
 
   const fetchData = async () => {
     let response = await axios({
-      url: "http://localhost:3000/dashboard/userdata",
+      url: `${import.meta.env.VITE_API_URL}/dashboard/userdata`,
       method: "GET",
       headers: {
         Authorization: `Bearer ${authToken}`,
@@ -239,7 +239,7 @@ function TutorDashboard() {
                     <img
                       id="profile-image"
                       alt="image"
-                      src={`http://localhost:3000/assets/${userData?.profilePic}`}
+                      src={`${import.meta.env.VITE_API_URL}/assets/${userData?.profilePic}`}
                     />
                     <div id="edit-profile-button">
                       <EditButton bgcolor="lightgray" />

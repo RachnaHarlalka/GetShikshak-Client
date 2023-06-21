@@ -13,7 +13,7 @@ export default function TutorCarousal({tutors}) {
       city={tutor?.city}
       name={tutor?.name}
       subjects={tutor?.subjects}
-      url= {`http://localhost:3000/assets/${tutor?.profilePic}`}
+      url= {`${import.meta.env.VITE_API_URL}/assets/${tutor?.profilePic}`}
       id={tutor?.id}
       // price={tutor.tutorForm.city}
       rating={tutor?.rating}

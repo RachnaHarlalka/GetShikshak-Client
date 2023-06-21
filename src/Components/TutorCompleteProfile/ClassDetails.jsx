@@ -14,12 +14,12 @@ function ClassDetails(props) {
   useEffect(()=>{
     const fetchData = async()=>{
       let modeResponse = await axios({
-        url:"http://localhost:3000/advertise/modes",
+        url:`${import.meta.env.VITE_API_URL}/advertise/modes`,
         method:"GET"
       });
       
       let languageResponse = await axios({
-        url:"http://localhost:3000/advertise/languages",
+        url:`${import.meta.env.VITE_API_URL}/advertise/languages`,
         method:"GET"
       });
       console.log(languageResponse.data);

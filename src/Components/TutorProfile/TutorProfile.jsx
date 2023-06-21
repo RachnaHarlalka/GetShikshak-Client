@@ -13,7 +13,7 @@ function TutorProfile() {
   const { id } = useParams();
   const fetchData = async () => {
     const response = await axios({
-      url: `http://localhost:3000/user/${id}`,
+      url: `${import.meta.env.VITE_API_URL}/user/${id}`,
       method: "GET",
     });
     console.log("response", response?.data?.user);
@@ -23,7 +23,7 @@ function TutorProfile() {
   const fetchReviews=async(req,res)=>{
     try{
       const response = await axios({
-        url:`http://localhost:3000/user/fetchfeedback/${id}`,
+        url:`${import.meta.env.VITE_API_URL}/user/fetchfeedback/${id}`,
         method:"GET"
       })
       console.log("rerponse",response?.data?.feedback);
@@ -136,7 +136,7 @@ function TutorProfile() {
                   <div className="p-4 rounded-md bg-white my-4 border border-1">
                     <div className="row1 flex justify-between">
                         <div className="flex gap-4 items-center">
-                          <img src={`http://localhost:3000/assets/${feedback?.studentProfile}`}
+                          <img src={`${import.meta.env.VITE_API_URL}/assets/${feedback?.studentProfile}`}
                               alt={feedback?.studentName?.toString()[0]?.toUpperCase()}
                               className="rounded-full h-10 w-10 object-cover"
                           />
